@@ -1,0 +1,91 @@
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  user-select: none;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: none;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  color: #333;
+  position: absolute;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+.publication {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  clear: both;
+  -webkit-transform-origin: top left;
+  -moz-transform-origin: top left;
+  -o-transform-origin: top left;
+  -ms-transform-origin: top left;
+  transform-origin: top left;
+  line-height: 1;
+  text-align: center;
+}
+
+.reader {
+  filter: none;
+}
+
+.content {
+  border-radius: 3px;
+  -webkit-box-shadow: -1px 0 20px rgba(0, 0, 0, 0.07), -1px 0 1px #d2d2d2;
+  box-shadow: -1px 0 20px rgba(0, 0, 0, 0.07), -1px 0 1px #d2d2d2;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  overflow: visible;
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.tns-outer, .tns-ovh, .tns-inner, .slider {
+  height: 100%;
+}
+
+.innerContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.innerContent img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.imageHolder {
+  width: 100%;
+  height: 100%;
+}
