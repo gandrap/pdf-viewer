@@ -276,29 +276,3 @@ function MobileL({windowSize, device}) {
         </div>
     )
 }
-
-// <div className="publication" style={{height: windowSize.height}}>
-//     <div className="reader">
-//         <div className="content">
-
-{/*<div className="slider">*/
-}
-{/*    {images.map((image) =>*/
-}
-{/*        <div className="innerContent" style={getStyle(image)}>*/
-}
-{/*            /!*<img ref={divRef}   src={`/pdf/${image.url}`}/>*!/*/
-}
-
-{/*        </div>*/
-}
-{/*    )}*/
-}
-
-{/*</div>*/
-}
-
-//         </div>
-//     </div>
-// </div>
-
