@@ -1,20 +1,40 @@
 import { isMobile, isDesktop, isTablet, mobileModel } from 'react-device-detect';
 import {useEffect, useRef, useState} from "react";
-import {tns} from "tiny-slider";
-import '../src/assets/css/tiny-slider.css';
+import Swiper from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import {FreeMode, Navigation, Pagination} from 'swiper/modules';
+
 import { useImageSize } from 'react-image-size';
 
 const images = [
     {
         'url': 'NF1_11_page-0001.jpg',
         'width': 1240,
-        'height': 1755
+        'height': 1755,
+        'html_elements': [
+            {
+                left: '1060px',
+                top: '403px',
+                width: '140px',
+                height: '49px',
+                position: "absolute",
+                background: 'black',
+            }
+        ]
     },
     {
         'url': 'NF1_11_page-0002.jpg',
         'width': 1240,
-        'height': 1755
+        'height': 1755,
+        'html_elements': []
     },
+    {
+        'url': 'NF1_11_page-0001.jpg',
+        'width': 1240,
+        'height': 1755,
+        'html_elements': []
+    }
 ]
 
 export default function App() {
@@ -113,73 +133,172 @@ function MobileL({windowSize, device}) {
 
         const dimensions = { width: image.width, height: image.height };
 
+        console.log('dimensions',dimensions);
+
         if(windowSize.width > 425 && windowSize.width <= 768) {
-            console.log(111);
-            return {width: '100%', height: 'auto', objectFit: 'contain'};
+            return {width: '100%', height: 'auto'};
         } else {
-            if (dimensions.width > (windowSize.width + 80)) {
+            if (dimensions.width > windowSize.width ) {
                 // If the image width is larger than the window, limit the width to 100% with auto height
-                return {maxWidth: '100%', height: 'auto', objectFit: 'contain'};
+                return {width: '100%', height: 'auto'};
             } else {
                 // Otherwise, limit the height to 100% with auto width
-                return {maxHeight: '100%', width: 'auto', objectFit: 'contain'};
+                return {height: '100%', width: 'auto'};
             }
         }
     }
 
-    let slider = useRef(null);
-    useEffect(() => {
-        if (slider.current) {
-            slider.current.destroy();
-            slider.current = null;
-        }
+    const img = document.querySelector('.swiper-slide img'); // Slika unutar slajda
+    const overlay = document.querySelector('.overlay'); // Tvoj div element koji je preko slike
 
-
-        function getImageWidth() {
-            if(windowSize.width > 425 && windowSize.width < 768) {
-                return (images[0].width / images[0].height) * windowSize.height;
-            } else if(windowSize.width > 768) {
-                return windowSize.width / 2;
-            } else {
-                return false;
+    const swiper = new Swiper('.swiper', {
+        // configure Swiper to use modules
+        modules: [Pagination, Navigation],
+        freeMode: true,
+        slidesPerView: 'auto',
+        spaceBetween: 0,
+        pagination: {
+            clickable: true,
+            el: '.swiper-pagination',
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            '@0.75': {
+                slidesPerView: 2,
+                    spaceBetween: 0,
+            },
+            '@1.00': {
+                slidesPerView: 2,
+                    spaceBetween: 0,
+            },
+            '@1.50': {
+                slidesPerView: 2,
+                    spaceBetween: 0,
             }
-        }
+        },
+        on: {
+            init: function () {
+                adjustSlideWidths();
+                adjustOverlayPosition(img, overlay);
+              
+            },
+            resize: function () {
+                adjustSlideWidths();
+                adjustOverlayPosition(img, overlay);
+             
+            }
+        },
+});
 
 
-        slider = tns({
-            container: '.slider',
-            items: windowSize.width > 425 ? 2 : 1,
-            slideBy: 'page',
-            autoplay: false,
-            mouseDrag: true,
-            controls: false,
-            nav: false,
-            autoplayButtonOutput: false,
-            loop: false,
-            // fixedWidth: getImageWidth(),
+  
+
+// Funkcija za podešavanje pozicije i dimenzija overlay-a
+    function adjustOverlayPosition(img, overlay) {
+        // Realne dimenzije slike
+        const realWidth = img.naturalWidth;
+        const realHeight = img.naturalHeight;
+
+        // Renderovane dimenzije slike
+        const renderedWidth = img.clientWidth;
+        const renderedHeight = img.clientHeight;
+
+        // Originalne dimenzije i pozicija overlay-a
+        const originalLeft = 1060;
+        const originalTop = 403;
+        const originalWidth = 140;
+        const originalHeight = 49;
+
+        // Izračunaj proporcionalne dimenzije i poziciju
+        const proportionalLeft = (originalLeft * renderedWidth) / realWidth;
+        const proportionalTop = (originalTop * renderedHeight) / realHeight;
+        const proportionalWidth = (originalWidth * renderedWidth) / realWidth;
+        const proportionalHeight = (originalHeight * renderedHeight) / realHeight;
+
+        // Primeni dimenzije i poziciju na overlay
+        overlay.style.left = `${proportionalLeft}px`;
+        overlay.style.top = `${proportionalTop}px`;
+        overlay.style.width = `${proportionalWidth}px`;
+        overlay.style.height = `${proportionalHeight}px`;
+    }
+
+    function adjustSlideWidths() {
+        const slides = document.querySelectorAll('.swiper-slide img');
+        slides.forEach((img) => {
+            const slide = img.closest('.swiper-slide');
+
+            const realHeight = img.naturalHeight;
+            const realWidth = img.naturalWidth;
+
+            const renderedHeight = img.clientHeight;
+
+            const renderedWidth = (renderedHeight * realWidth) / realHeight;
+
+            slide.style.width = `${renderedWidth}px`;
         });
+    }
+    
 
-    }, []);
+    console.log('width',windowSize)
 
 
 
     return (
-        <div className="publication" style={{height: windowSize.height}}>
-            <div className="reader">
-                <div className="content">
-                    <div className="slider">
-                        {images.map((image) =>
-                            <div className="innerContent">
-                                <img ref={divRef} style={getStyle(image)} src={`/pdf/${image.url}`}/>
+        <div style={getStyle(images[0])}>
+            <div className="swiper">
 
+                <div className="swiper-wrapper">
+                    {images.map((image) =>
+                        <div className="swiper-slide" style={{
+                            width: '100px !important'
+                        }}>
+                            <img ref={divRef} src={`/pdf/${image.url}`}/>
+                            <div className="htmlContent">
+                                {image['html_elements'].map(htmlContent =>
+                                    <div className='overlay' style={htmlContent} ></div>
+                                )}
                             </div>
-                        )}
-
-                    </div>
-
+                        </div>
+                    )}
                 </div>
+
+                <div className="swiper-pagination"></div>
+
+                <div className="swiper-button-prev"></div>
+                <div className="swiper-button-next"></div>
+
+
+                <div className="swiper-scrollbar"></div>
             </div>
         </div>
     )
 }
+
+// <div className="publication" style={{height: windowSize.height}}>
+//     <div className="reader">
+//         <div className="content">
+
+{/*<div className="slider">*/
+}
+{/*    {images.map((image) =>*/
+}
+{/*        <div className="innerContent" style={getStyle(image)}>*/
+}
+{/*            /!*<img ref={divRef}   src={`/pdf/${image.url}`}/>*!/*/
+}
+
+{/*        </div>*/
+}
+{/*    )}*/
+}
+
+{/*</div>*/
+}
+
+//         </div>
+//     </div>
+// </div>
 
