@@ -29,6 +29,15 @@ const images = [
                 position: "absolute",
                 background: 'url(/pdf/idea-krug3.gif)',
                 backgroundSize: 'contain',
+            },
+            {
+                top: '1597px',
+                left: '0',
+                width: '1172px',
+                height: '118px',
+                position: "absolute",
+                background: 'url(/pdf/brojcanik.gif) no-repeat',
+                backgroundSize: 'contain',
             }
         ]
     },
