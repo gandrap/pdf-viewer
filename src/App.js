@@ -19,7 +19,7 @@ const images = [
                 width: '140px',
                 height: '49px',
                 position: "absolute",
-                background: 'black',
+                // background: 'black',
             }
         ]
     },
