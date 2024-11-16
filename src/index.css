@@ -133,7 +133,7 @@ body {
   height: 100%;
 }
 
-.overlay {
+.overlay.element_0 {
   position: relative;
   display: inline-block;
   color: white;
@@ -142,7 +142,7 @@ body {
   overflow: hidden;
 }
 
-.overlay::before {
+.overlay.element_0::before {
   content: "";
   position: absolute;
   top: 0;

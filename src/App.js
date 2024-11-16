@@ -20,6 +20,15 @@ const images = [
                 height: '49px',
                 position: "absolute",
                 // background: 'black',
+            },
+            {
+                top: '529px',
+                left: '56px',
+                width: '319px',
+                height: '319px',
+                position: "absolute",
+                background: 'url(/pdf/idea-krug3.gif)',
+                backgroundSize: 'contain',
             }
         ]
     },
@@ -104,6 +113,7 @@ function MobileL({windowSize, device}) {
 
     const divRef = useRef(null); // Referenca na `div` element
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
     useEffect(() => {
         // Funkcija za ažuriranje dimenzija
         const updateDimensions = () => {
@@ -133,7 +143,7 @@ function MobileL({windowSize, device}) {
 
         const dimensions = { width: image.width, height: image.height };
 
-        console.log('dimensions',dimensions);
+     //   console.log('dimensions',dimensions);
 
         if(windowSize.width > 425 && windowSize.width <= 768) {
             return {width: '100%', height: 'auto'};
@@ -148,8 +158,8 @@ function MobileL({windowSize, device}) {
         }
     }
 
-    const img = document.querySelector('.swiper-slide img'); // Slika unutar slajda
-    const overlay = document.querySelector('.overlay'); // Tvoj div element koji je preko slike
+    const swiperContainer = document.querySelector('.swiper-container');
+
 
     const swiper = new Swiper('.swiper', {
         // configure Swiper to use modules
@@ -181,24 +191,55 @@ function MobileL({windowSize, device}) {
         },
         on: {
             init: function () {
+                //setSwiperWidth();
                 adjustSlideWidths();
-                adjustOverlayPosition(img, overlay);
+                adjustAllOverlayPositions();
               
             },
             resize: function () {
+               // setSwiperWidth();
                 adjustSlideWidths();
-                adjustOverlayPosition(img, overlay);
+                adjustAllOverlayPositions();
              
             }
         },
 });
 
 
+    function setSwiperWidth() {
+        // Selektuj prve dva slajda
+        const firstSlide = document.querySelector('.swiper-slide:nth-child(1)');
+        const secondSlide = document.querySelector('.swiper-slide:nth-child(2)');
+
+        // Dobij širinu renderovanih slajdova
+        const firstSlideWidth = firstSlide.clientWidth;
+        const secondSlideWidth = secondSlide.clientWidth;
+
+        // Postavi širinu Swiper kontejnera na zbir dve širine
+        swiperContainer.style.width = `${firstSlideWidth + secondSlideWidth}px`;
+    }
+
+    function adjustAllOverlayPositions() {
+        const slides = document.querySelectorAll('.swiper-slide');
+
+        slides.forEach((slide) => {
+            const img = slide.querySelector('img'); // Pronađi sliku u slajdu
+            const overlays = slide.querySelectorAll('.overlay'); // Pronađi sve overlay elemente u slajdu
+
+            if (img) {
+                overlays.forEach((overlay) => {
+
+                    adjustOverlayPosition(img, overlay);
+                });
+            }
+        });
+    }
   
 
 // Funkcija za podešavanje pozicije i dimenzija overlay-a
     function adjustOverlayPosition(img, overlay) {
         // Realne dimenzije slike
+
         const realWidth = img.naturalWidth;
         const realHeight = img.naturalHeight;
 
@@ -207,10 +248,11 @@ function MobileL({windowSize, device}) {
         const renderedHeight = img.clientHeight;
 
         // Originalne dimenzije i pozicija overlay-a
-        const originalLeft = 1060;
-        const originalTop = 403;
-        const originalWidth = 140;
-        const originalHeight = 49;
+        const overlayStyle = JSON.parse(overlay.dataset.style);
+        const originalLeft = parseFloat(overlayStyle.left) || 0;
+        const originalTop = parseFloat(overlayStyle.top) || 0;
+        const originalWidth = parseFloat(overlayStyle.width) || overlay.clientWidth;
+        const originalHeight = parseFloat(overlayStyle.height) || overlay.clientHeight;
 
         // Izračunaj proporcionalne dimenzije i poziciju
         const proportionalLeft = (originalLeft * renderedWidth) / realWidth;
@@ -242,13 +284,9 @@ function MobileL({windowSize, device}) {
     }
     
 
-    console.log('width',windowSize)
-
-
-
     return (
         <div style={getStyle(images[0])}>
-            <div className="swiper">
+            <div className="swiper" >
 
                 <div className="swiper-wrapper">
                     {images.map((image) =>
@@ -257,8 +295,8 @@ function MobileL({windowSize, device}) {
                         }}>
                             <img ref={divRef} src={`/pdf/${image.url}`}/>
                             <div className="htmlContent">
-                                {image['html_elements'].map(htmlContent =>
-                                    <div className='overlay' style={htmlContent} ></div>
+                                {image['html_elements'].map((htmlContent, index) =>
+                                    <div data-style={JSON.stringify(htmlContent)} className={'overlay element_'+index} style={htmlContent} ></div>
                                 )}
                             </div>
                         </div>
