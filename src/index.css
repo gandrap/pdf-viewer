@@ -102,9 +102,47 @@ body {
 /*}*/
 
 .swiper {
-  width: 100%;
-  height: 100%;
+  width: 70%;
 }
+
+
+@media (max-width: 2560px) {
+  .swiper {
+    width: 65%;
+  }
+}
+
+
+@media (max-width: 1440px) {
+  .swiper {
+    width: 80%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .swiper {
+    width: 90%;
+  }
+
+  .swiperMainHolder {
+    height: 100vh !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .swiper {
+    width: 75%;
+  }
+}
+
+
+@media (max-width: 425px) {
+  .swiper {
+    width: 100%;
+  }
+}
+
+
 
 .swiper-slide {
   display: flex;
@@ -161,6 +199,13 @@ body {
   100% {
     left: 100%; /* Kraj animacije s desne strane */
   }
+}
+
+.swiperMainHolder {
+  display: flex;
+  align-items: center; /* Vertikalno centriranje */
+  justify-content: center; /* Horizontalno centriranje, ako je potrebno */
+  height: 100vh;
 }
 
 /*.swiper-slide{*/

@@ -3,7 +3,8 @@ import {useEffect, useRef, useState} from "react";
 import Swiper from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import {FreeMode, Navigation, Pagination} from 'swiper/modules';
+import 'swiper/css/zoom';
+import {FreeMode, Navigation, Pagination, Zoom} from 'swiper/modules';
 
 import { useImageSize } from 'react-image-size';
 
@@ -167,15 +168,21 @@ function MobileL({windowSize, device}) {
         }
     }
 
-    const swiperContainer = document.querySelector('.swiper-container');
+    const swiperContainer = document.querySelector('.swiper');
 
 
     const swiper = new Swiper('.swiper', {
         // configure Swiper to use modules
-        modules: [Pagination, Navigation],
+        modules: [Pagination, Navigation, Zoom],
         freeMode: true,
-        slidesPerView: 'auto',
+        slidesPerView:2,
         spaceBetween: 0,
+        // zoom: {
+        //     enabled: false,
+        //     maxRatio: 3,
+        //     minRatio: 3,
+        //     toggle: false
+        // },
         pagination: {
             clickable: true,
             el: '.swiper-pagination',
@@ -185,8 +192,12 @@ function MobileL({windowSize, device}) {
             prevEl: '.swiper-button-prev',
         },
         breakpoints: {
+            '@0.25': {
+                slidesPerView: 1,
+                spaceBetween: 0,
+            },
             '@0.75': {
-                slidesPerView: 2,
+                slidesPerView: 1,
                     spaceBetween: 0,
             },
             '@1.00': {
@@ -200,17 +211,28 @@ function MobileL({windowSize, device}) {
         },
         on: {
             init: function () {
-                //setSwiperWidth();
+                setSwiperWidth();
                 adjustSlideWidths();
                 adjustAllOverlayPositions();
               
             },
             resize: function () {
-               // setSwiperWidth();
+                setSwiperWidth();
                 adjustSlideWidths();
                 adjustAllOverlayPositions();
              
-            }
+            },
+            click: function (swiper, event) {
+                // // Ako je trenutni slajd zumiran, resetuj zumiranje
+                // if (swiper.zoom.scale !== 1) {
+                //     swiper.zoom.out();
+                // } else {
+                //     swiper.zoom.in();
+                // }
+                //
+                // adjustSlideWidths();
+                // adjustAllOverlayPositions();
+            },
         },
 });
 
@@ -222,14 +244,16 @@ function MobileL({windowSize, device}) {
 
         // Dobij širinu renderovanih slajdova
         const firstSlideWidth = firstSlide.clientWidth;
-        const secondSlideWidth = secondSlide.clientWidth;
+        const secondSlideWidth = secondSlide.naturalWidth;
 
+        console.log(swiperContainer );
         // Postavi širinu Swiper kontejnera na zbir dve širine
-        swiperContainer.style.width = `${firstSlideWidth + secondSlideWidth}px`;
+        swiperContainer.style.width = `${firstSlideWidth + secondSlideWidth}px !important`;
     }
 
     function adjustAllOverlayPositions() {
         const slides = document.querySelectorAll('.swiper-slide');
+
 
         slides.forEach((slide) => {
             const img = slide.querySelector('img'); // Pronađi sliku u slajdu
@@ -248,6 +272,8 @@ function MobileL({windowSize, device}) {
 // Funkcija za podešavanje pozicije i dimenzija overlay-a
     function adjustOverlayPosition(img, overlay) {
         // Realne dimenzije slike
+
+        //console.log(img.clientWidth);
 
         const realWidth = img.naturalWidth;
         const realHeight = img.naturalHeight;
@@ -294,19 +320,21 @@ function MobileL({windowSize, device}) {
     
 
     return (
-        <div style={getStyle(images[0])}>
-            <div className="swiper" >
+        <div style={getStyle(images[0])} className="swiperMainHolder">
+            <div className="swiper">
 
                 <div className="swiper-wrapper">
                     {images.map((image) =>
                         <div className="swiper-slide" style={{
                             width: '100px !important'
                         }}>
-                            <img ref={divRef} src={`/pdf/${image.url}`}/>
-                            <div className="htmlContent">
-                                {image['html_elements'].map((htmlContent, index) =>
-                                    <div data-style={JSON.stringify(htmlContent)} className={'overlay element_'+index} style={htmlContent} ></div>
-                                )}
+                            <div class="swiper-zoom-container">
+                                <img ref={divRef} src={`/pdf/${image.url}`}/>
+                                <div className="htmlContent">
+                                    {image['html_elements'].map((htmlContent, index) =>
+                                        <div data-style={JSON.stringify(htmlContent)} className={'overlay element_'+index} style={htmlContent} ></div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     )}
