@@ -56,9 +56,19 @@ const images = [
     },
     {
         'url': '2.jpg',
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
+        'width': 1080,
+        'height': 1906,
+        'html_elements': [
+            {
+                left: '0px',
+                top: '0px',
+                width: '1200px',
+                height: '2118px',
+                position: "absolute",
+                background: 'none',
+                backgroundSize: 'contain',
+            }
+        ]
     },
     {
         'url': '3.jpg',
@@ -473,12 +483,22 @@ function MobileL({windowSize, device}) {
                             }}>
                                 <img ref={divRef} src={`/pdf/${image.url}`}/>
                                 <div className="htmlContent">
-                                    {image['html_elements'].map((htmlContent, index) =>
-                                        <div data-style={JSON.stringify(htmlContent)} className={'overlay element_'+index} style={htmlContent} ></div>
-                                    )}
+                                    {image['html_elements'].map((htmlContent, index2) =>
+                                        <div data-style={JSON.stringify(htmlContent)} className={'overlay element_'+index2} style={htmlContent} >
+                                            {index === 1 && (
+                                                <video style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                }} autoPlay loop muted>
+                                                    <source src="/pdf/video1.mp4" type="video/mp4" />
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            )}
+                                        </div>
+                                        )}
                                 </div>
                             </div>
-                        )}
+                            )}
                     </div>
 
                     <div className="swiper-pagination"></div>
