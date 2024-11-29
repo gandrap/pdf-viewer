@@ -5,53 +5,134 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/zoom';
 import {FreeMode, Navigation, Pagination, Zoom} from 'swiper/modules';
+import { gsap } from "gsap";
+import { Draggable } from "gsap/Draggable";
 
-import { useImageSize } from 'react-image-size';
+
+gsap.registerPlugin(Draggable);
 
 const images = [
     {
-        'url': 'NF1_11_page-0001.jpg',
-        'width': 1240,
-        'height': 1755,
+        'url': '1.jpg',
+        'width': 1200,
+        'height': 2118,
         'html_elements': [
-            {
-                left: '1060px',
-                top: '403px',
-                width: '140px',
-                height: '49px',
-                position: "absolute",
-                // background: 'black',
-            },
-            {
-                top: '529px',
-                left: '56px',
-                width: '319px',
-                height: '319px',
-                position: "absolute",
-                background: 'url(/pdf/idea-krug3.gif)',
-                backgroundSize: 'contain',
-            },
-            {
-                top: '1597px',
-                left: '0',
-                width: '1172px',
-                height: '118px',
-                position: "absolute",
-                background: 'url(/pdf/brojcanik.gif) no-repeat',
-                backgroundSize: 'contain',
-            }
+            // {
+            //     left: '1060px',
+            //     top: '403px',
+            //     width: '140px',
+            //     height: '49px',
+            //     position: "absolute",
+            //     // background: 'black',
+            // },
+            // {
+            //     top: '529px',
+            //     left: '56px',
+            //     width: '319px',
+            //     height: '319px',
+            //     position: "absolute",
+            //     background: 'url(/pdf/idea-krug3.gif)',
+            //     backgroundSize: 'contain',
+            // },
+            // {
+            //     top: '1597px',
+            //     left: '0',
+            //     width: '1172px',
+            //     height: '118px',
+            //     position: "absolute",
+            //     background: 'url(/pdf/brojcanik.gif) no-repeat',
+            //     backgroundSize: 'contain',
+            // }
         ]
     },
     {
-        'url': 'NF1_11_page-0002.jpg',
-        'width': 1240,
-        'height': 1755,
+        'url': '2.jpg',
+        'width': 1200,
+        'height': 2118,
         'html_elements': []
     },
     {
-        'url': 'NF1_11_page-0001.jpg',
-        'width': 1240,
-        'height': 1755,
+        'url': '3.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '4.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '5.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '6.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '7.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '8.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '9.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '10.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '11.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '12.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '13.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '14.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '15.jpg',
+        'width': 1200,
+        'height': 2118,
+        'html_elements': []
+    },
+    {
+        'url': '16.jpg',
+        'width': 1200,
+        'height': 2118,
         'html_elements': []
     }
 ]
@@ -119,10 +200,10 @@ export default function App() {
 
 
 function MobileL({windowSize, device}) {
-    //const image = images[0]
 
     const divRef = useRef(null); // Referenca na `div` element
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const [isZoomed, setIsZoomed] = useState(false);
 
     useEffect(() => {
         // Funkcija za ažuriranje dimenzija
@@ -170,34 +251,24 @@ function MobileL({windowSize, device}) {
 
     const swiperContainer = document.querySelector('.swiper');
 
-
     const swiper = new Swiper('.swiper', {
         // configure Swiper to use modules
         modules: [Pagination, Navigation, Zoom],
         freeMode: true,
         slidesPerView:2,
         spaceBetween: 0,
-        // zoom: {
-        //     enabled: false,
-        //     maxRatio: 3,
-        //     minRatio: 3,
-        //     toggle: false
-        // },
-        pagination: {
-            clickable: true,
-            el: '.swiper-pagination',
-        },
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
+        watchSlidesVisibility: true,
         breakpoints: {
             '@0.25': {
                 slidesPerView: 1,
                 spaceBetween: 0,
             },
             '@0.75': {
-                slidesPerView: 1,
+                slidesPerView: 2,
                     spaceBetween: 0,
             },
             '@1.00': {
@@ -211,45 +282,17 @@ function MobileL({windowSize, device}) {
         },
         on: {
             init: function () {
-                setSwiperWidth();
                 adjustSlideWidths();
                 adjustAllOverlayPositions();
-              
+
             },
             resize: function () {
-                setSwiperWidth();
                 adjustSlideWidths();
                 adjustAllOverlayPositions();
-             
-            },
-            click: function (swiper, event) {
-                // // Ako je trenutni slajd zumiran, resetuj zumiranje
-                // if (swiper.zoom.scale !== 1) {
-                //     swiper.zoom.out();
-                // } else {
-                //     swiper.zoom.in();
-                // }
-                //
-                // adjustSlideWidths();
-                // adjustAllOverlayPositions();
+
             },
         },
-});
-
-
-    function setSwiperWidth() {
-        // Selektuj prve dva slajda
-        const firstSlide = document.querySelector('.swiper-slide:nth-child(1)');
-        const secondSlide = document.querySelector('.swiper-slide:nth-child(2)');
-
-        // Dobij širinu renderovanih slajdova
-        const firstSlideWidth = firstSlide.clientWidth;
-        const secondSlideWidth = secondSlide.naturalWidth;
-
-        console.log(swiperContainer );
-        // Postavi širinu Swiper kontejnera na zbir dve širine
-        swiperContainer.style.width = `${firstSlideWidth + secondSlideWidth}px !important`;
-    }
+    });
 
     function adjustAllOverlayPositions() {
         const slides = document.querySelectorAll('.swiper-slide');
@@ -267,9 +310,7 @@ function MobileL({windowSize, device}) {
             }
         });
     }
-  
 
-// Funkcija za podešavanje pozicije i dimenzija overlay-a
     function adjustOverlayPosition(img, overlay) {
         // Realne dimenzije slike
 
@@ -317,18 +358,86 @@ function MobileL({windowSize, device}) {
             slide.style.width = `${renderedWidth}px`;
         });
     }
-    
+
+    function zoomWindow(e) {
+        const zoomedWindow =  document.querySelector('.zoomedWindow');
+        const zoomedContent = document.querySelector('.zoomedContent');
+        zoomedWindow.classList.add('active');
+        setIsZoomed(true)
+
+       // console.log(swiper.slides);
+
+        const images = swiper.slides
+            .filter(slide =>
+                slide.classList.contains('swiper-slide-active') || slide.classList.contains('swiper-slide-next')
+            )
+            .map(slide => slide.querySelector('img').src);
+
+        zoomedContent.innerHTML = images.map(src => `<img src="${src}" alt="Zoomed Image">`).join('');
+
+        const zoomedWindowRect = zoomedWindow.getBoundingClientRect();
+
+
+
+        // Relativne pozicije klika unutar `zoomedWindow`
+        const clickX = e.clientX - zoomedWindowRect.left;
+        const clickY = e.clientY - zoomedWindowRect.top;
+
+        // Prilagođavanje pozicije `zoomedContent`
+        const centerX = zoomedWindowRect.width / 2;
+        const centerY = zoomedWindowRect.height / 2;
+
+        const offsetX = centerX - clickX;
+        const offsetY = centerY + clickY;
+
+        gsap.set(zoomedContent, {
+            x: offsetX,
+            y: -offsetY
+        });
+
+        let isDragging = false;
+
+        Draggable.create(zoomedContent, {
+            bounds: zoomedWindow,
+            type: 'x,y',
+            inertia: true,
+            onDragStart: function () {
+                // Postavljamo da je element u stanju dragovanja
+                isDragging = true;
+            },
+            onDragEnd: function () {
+                // Kada se drag završi, postavljamo na false
+                setTimeout(() => isDragging = false, 0); // Koristimo setTimeout da bi smo obezbedili da se `click` desi nakon `dragEnd`
+            },
+            onPress: function() {
+                // Ništa ne radimo sa klasom ovde, samo pratimo drag događaje
+            }
+        });
+    }
+
+    function closeZoomedWindow(e) {
+        setIsZoomed(false);
+        document.querySelector('.zoomedWindow').classList.remove('active');
+       // swiper.slideTo(swiper.activeIndex, 0, false); // Zaključaj na trenutni aktivni slajd
+    }
 
     return (
-        <div style={getStyle(images[0])} className="swiperMainHolder">
-            <div className="swiper">
+        <>
+        <div className="zoomedWindow">
+            <div className="zoomedContent" onClick={(e) => closeZoomedWindow(e)}>
+            </div>
+        </div>
+        <div style={getStyle(images[0])} className="swiperMainHolder"
+        >
+                <div className="swiper"
+                     onClick={(e) => zoomWindow(e)}
+                >
 
-                <div className="swiper-wrapper">
-                    {images.map((image) =>
-                        <div className="swiper-slide" style={{
-                            width: '100px !important'
-                        }}>
-                            <div class="swiper-zoom-container">
+                    <div className="swiper-wrapper">
+                        {images.map((image, index) =>
+                            <div key={index} className="swiper-slide" style={{
+                                width: '100px !important'
+                            }}>
                                 <img ref={divRef} src={`/pdf/${image.url}`}/>
                                 <div className="htmlContent">
                                     {image['html_elements'].map((htmlContent, index) =>
@@ -336,18 +445,19 @@ function MobileL({windowSize, device}) {
                                     )}
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
+
+                    <div className="swiper-pagination"></div>
+
+                    <div className="swiper-button-prev"></div>
+                    <div className="swiper-button-next"></div>
+
+
+                    <div className="swiper-scrollbar"></div>
                 </div>
 
-                <div className="swiper-pagination"></div>
-
-                <div className="swiper-button-prev"></div>
-                <div className="swiper-button-next"></div>
-
-
-                <div className="swiper-scrollbar"></div>
-            </div>
         </div>
+        </>
     )
 }
