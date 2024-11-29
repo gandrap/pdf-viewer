@@ -17,6 +17,15 @@ const images = [
         'width': 1200,
         'height': 2118,
         'html_elements': [
+            {
+                left: '271.271px',
+                top: '513.235px',
+                width: '164.333px',
+                height: '182.436px',
+                position: "absolute",
+                background: 'url(/pdf/meso.gif) no-repeat',
+                backgroundSize: 'contain',
+            },
             // {
             //     left: '1060px',
             //     top: '403px',
@@ -55,7 +64,26 @@ const images = [
         'url': '3.jpg',
         'width': 1200,
         'height': 2118,
-        'html_elements': []
+        'html_elements': [
+            {
+                left: '780.271px',
+                top: '567.235px',
+                width: '336.917px',
+                height: '316.045px',
+                position: "absolute",
+                background: 'url(/pdf/naj-naj.gif) no-repeat',
+                backgroundSize: 'contain',
+            },
+            {
+                left: '776.674px',
+                top: '1513.711px',
+                width: '329.578px',
+                height: '256.145px',
+                position: "absolute",
+                background: 'url(/pdf/100-domace-meso.gif) no-repeat',
+                backgroundSize: 'contain',
+            },
+        ]
     },
     {
         'url': '4.jpg',
@@ -389,6 +417,7 @@ function MobileL({windowSize, device}) {
 
         const offsetX = centerX - clickX;
         const offsetY = centerY + clickY;
+        console.log(offsetX, offsetY)
 
         gsap.set(zoomedContent, {
             x: offsetX,

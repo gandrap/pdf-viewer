@@ -172,26 +172,26 @@ body {
   height: 100%;
 }
 
-.overlay.element_0 {
-  position: relative;
-  display: inline-block;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-  overflow: hidden;
-}
+/*.overlay.element_0 {*/
+/*  position: relative;*/
+/*  display: inline-block;*/
+/*  color: white;*/
+/*  font-weight: bold;*/
+/*  border-radius: 5px;*/
+/*  overflow: hidden;*/
+/*}*/
 
-.overlay.element_0::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%; /* Početna pozicija van leve strane */
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.3); /* Bela senka sa transparentnošću */
-  transform: skewX(-20deg); /* Nagni efekat */
-  animation: slide 2s infinite; /* Animacija beskonačno */
-}
+/*.overlay.element_0::before {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  left: -100%; !* Početna pozicija van leve strane *!*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*  background: rgba(255, 255, 255, 0.3); !* Bela senka sa transparentnošću *!*/
+/*  transform: skewX(-20deg); !* Nagni efekat *!*/
+/*  animation: slide 2s infinite; !* Animacija beskonačno *!*/
+/*}*/
 
 @keyframes slide {
   0% {
@@ -219,7 +219,6 @@ body {
   justify-content: center;
   display: none;
   overflow: hidden;
-  border: solid 5px red;
 }
 
 .zoomedContent {
