@@ -412,27 +412,14 @@ function MobileL({windowSize, device}) {
             onPress: function() {
                 // Ništa ne radimo sa klasom ovde, samo pratimo drag događaje
             }
+
         });
     }
 
-    let isDragging = false;
-    let touchStartX = 0;
-    let touchStartY = 0;
-
     function closeZoomedWindow(e) {
-        if (!isDragging) {
-            setIsZoomed(false);
-            document.querySelector('.zoomedWindow').classList.remove('active');
-        }
-        isDragging = false;
+        setIsZoomed(false);
+        document.querySelector('.zoomedWindow').classList.remove('active');
        // swiper.slideTo(swiper.activeIndex, 0, false); // Zaključaj na trenutni aktivni slajd
-    }
-
-    function touchStart(e) {
-        const touch = e.touches[0];
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
-        isDragging = false;
     }
 
     return (
@@ -441,8 +428,6 @@ function MobileL({windowSize, device}) {
             <div className="zoomedContent"
                  onClick={(e) => closeZoomedWindow(e)}
                  onTouchEnd={(e) => closeZoomedWindow(e)}
-                 onTouchStart={(e) => touchStart(e)}
-                 onTouchMove={(e) => isDragging = true}
             >
             </div>
         </div>
