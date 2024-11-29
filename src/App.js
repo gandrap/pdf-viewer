@@ -424,7 +424,10 @@ function MobileL({windowSize, device}) {
     return (
         <>
         <div className="zoomedWindow">
-            <div className="zoomedContent" onClick={(e) => closeZoomedWindow(e)}>
+            <div className="zoomedContent"
+                 onClick={(e) => closeZoomedWindow(e)}
+                 onTouchEnd={(e) => closeZoomedWindow(e)}
+            >
             </div>
         </div>
         <div style={getStyle(images[0])} className="swiperMainHolder"
