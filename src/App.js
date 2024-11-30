@@ -175,7 +175,8 @@ const pages = [
                 background: 'none',
                 backgroundSize: 'contain',
                 borderEndEndRadius: '14px',
-                borderEndStartRadius: '14px'
+                borderEndStartRadius: '14px',
+                overflow: 'hidden',
             }
         ]
     },
