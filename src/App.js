@@ -62,6 +62,7 @@ const pages = [
         'video': {
             'url': '/pdf/video1.mp4',
             'type': 'video/mp4',
+            'attributes': 'autoPlay loop muted'
         },
         'html_elements': [
             {
@@ -162,6 +163,7 @@ const pages = [
         'video': {
             'url': '/pdf/video2.mp4',
             'type': 'video/mp4',
+            'attributes': 'autoPlay muted'
         },
         'width': 1200,
         'height': 2118,
@@ -497,6 +499,15 @@ function MobileL({windowSize, device}) {
        // swiper.slideTo(swiper.activeIndex, 0, false); // Zaključaj na trenutni aktivni slajd
     }
 
+
+    function parseAttributes(attributeString) {
+        if (!attributeString) return {}; // Ako je prazno, vraćamo prazan objekt
+        return attributeString.split(' ').reduce((acc, attr) => {
+            acc[attr] = true;
+            return acc;
+        }, {});
+    }
+
     return (
         <>
         <div className="zoomedWindow">
@@ -522,7 +533,7 @@ function MobileL({windowSize, device}) {
                                     {page['html_elements'].map((htmlContent, index2) =>
                                         <div data-style={JSON.stringify(htmlContent)} className={'overlay element_'+index2} style={htmlContent} >
                                             {page.video && (
-                                                <video autoPlay loop muted>
+                                                <video {...parseAttributes(page.video.attributes)}>
                                                     <source src={page.video.url} type={page.video.type} />
                                                     Your browser does not support the video tag.
                                                 </video>
