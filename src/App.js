@@ -11,11 +11,12 @@ import { Draggable } from "gsap/Draggable";
 
 gsap.registerPlugin(Draggable);
 
-const images = [
+const pages = [
     {
-        'url': '1.jpg',
+        'image': '1.jpg',
         'width': 1200,
         'height': 2118,
+        'video': [],
         'html_elements': [
             {
                 left: '271.271px',
@@ -55,9 +56,13 @@ const images = [
         ]
     },
     {
-        'url': '2.jpg',
+        'image': '2.jpg',
         'width': 1080,
         'height': 1906,
+        'video': {
+            'url': '/pdf/video1.mp4',
+            'type': 'video/mp4',
+        },
         'html_elements': [
             {
                 left: '0px',
@@ -71,9 +76,10 @@ const images = [
         ]
     },
     {
-        'url': '3.jpg',
+        'image': '3.jpg',
         'width': 1200,
         'height': 2118,
+        'video': [],
         'html_elements': [
             {
                 left: '780.271px',
@@ -96,79 +102,107 @@ const images = [
         ]
     },
     {
-        'url': '4.jpg',
+        'image': '4.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '5.jpg',
+        'image': '5.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '6.jpg',
+        'image': '6.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '7.jpg',
+        'image': '7.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '8.jpg',
+        'image': '8.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '9.jpg',
+        'image': '9.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '10.jpg',
+        'image': '10.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '11.jpg',
+        'image': '11.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '12.jpg',
+        'image': '12.jpg',
+        'video': {
+            'url': '/pdf/video2.mp4',
+            'type': 'video/mp4',
+        },
+        'width': 1200,
+        'height': 2118,
+        'html_elements': [
+            {
+                left: '35px',
+                top: '0px',
+                width: '1128px',
+                height: '658px',
+                position: "absolute",
+                background: 'none',
+                backgroundSize: 'contain',
+                borderEndEndRadius: '14px',
+                borderEndStartRadius: '14px'
+            }
+        ]
+    },
+    {
+        'image': '13.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '13.jpg',
+        'image': '14.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '14.jpg',
+        'image': '15.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
     },
     {
-        'url': '15.jpg',
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'url': '16.jpg',
+        'image': '16.jpg',
+        'video': [],
         'width': 1200,
         'height': 2118,
         'html_elements': []
@@ -269,6 +303,7 @@ function MobileL({windowSize, device}) {
     }, []);
 
     function getStyle(image) {
+
 
         const dimensions = { width: image.width, height: image.height };
 
@@ -470,27 +505,24 @@ function MobileL({windowSize, device}) {
             >
             </div>
         </div>
-        <div style={getStyle(images[0])} className="swiperMainHolder"
+        <div style={getStyle(pages[0])} className="swiperMainHolder"
         >
                 <div className="swiper"
                      onClick={(e) => zoomWindow(e)}
                 >
 
                     <div className="swiper-wrapper">
-                        {images.map((image, index) =>
+                        {pages.map((page, index) =>
                             <div key={index} className="swiper-slide" style={{
                                 width: '100px !important'
                             }}>
-                                <img ref={divRef} src={`/pdf/${image.url}`}/>
+                                <img ref={divRef} src={`/pdf/${page.image}`}/>
                                 <div className="htmlContent">
-                                    {image['html_elements'].map((htmlContent, index2) =>
+                                    {page['html_elements'].map((htmlContent, index2) =>
                                         <div data-style={JSON.stringify(htmlContent)} className={'overlay element_'+index2} style={htmlContent} >
-                                            {index === 1 && (
-                                                <video style={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                }} autoPlay loop muted>
-                                                    <source src="/pdf/video1.mp4" type="video/mp4" />
+                                            {page.video && (
+                                                <video autoPlay loop muted>
+                                                    <source src={page.video.url} type={page.video.type} />
                                                     Your browser does not support the video tag.
                                                 </video>
                                             )}
