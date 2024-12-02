@@ -239,7 +239,11 @@ body {
 
 .zoomedWindow.active {
   display: block;
-  transform: scale(1) !important;
+
+}
+
+.zoomedWindow.active .zoomFrame {
+  transform: scale(0.7) !important;
 }
 
 
