@@ -357,9 +357,12 @@ function MobileL({windowSize, device}) {
             }
         },
         on: {
-            init: function () {
+            init: function (swiper) {
                 adjustSlideWidths();
                 adjustAllOverlayPositions();
+
+                const activeSlide = parseInt(window.location.hash.split('_')[1]) || 0;
+                swiper.slideTo(activeSlide, 0, false);
 
             },
             resize: function () {
@@ -367,6 +370,9 @@ function MobileL({windowSize, device}) {
                 adjustAllOverlayPositions();
 
             },
+            slideChange: function (swiper, index) {
+                window.location.hash = 'page_'+swiper.activeIndex;
+            }
         },
     });
 
@@ -436,9 +442,11 @@ function MobileL({windowSize, device}) {
     }
 
     function zoomWindow(e) {
+        const activeSlide = document.querySelector('.swiper-slide-active').id;
         const zoomedWindow =  document.querySelector('.zoomedWindow');
         const zoomedContent = document.querySelector('.zoomedContent');
         zoomedWindow.classList.add('active');
+        zoomedWindow.id = 'activeSlide-'+activeSlide;
         setIsZoomed(true)
 
        // console.log(swiper.slides);
@@ -465,7 +473,6 @@ function MobileL({windowSize, device}) {
 
         const offsetX = centerX - clickX;
         const offsetY = centerY + clickY;
-        console.log(offsetX, offsetY)
 
         gsap.set(zoomedContent, {
             x: offsetX,
@@ -496,7 +503,10 @@ function MobileL({windowSize, device}) {
     function closeZoomedWindow(e) {
         setIsZoomed(false);
         document.querySelector('.zoomedWindow').classList.remove('active');
-       // swiper.slideTo(swiper.activeIndex, 0, false); // Zaključaj na trenutni aktivni slajd
+        const activeSlideId = document.querySelector('.zoomedWindow').id;
+        const activeSlide = parseInt(activeSlideId.split('_').slice(-1)[0]);
+
+        swiper.slideTo(activeSlide, 0, false); // Zaključaj na trenutni aktivni slajd
     }
 
 
@@ -527,7 +537,7 @@ function MobileL({windowSize, device}) {
 
                     <div className="swiper-wrapper">
                         {pages.map((page, index) =>
-                            <div key={index} className="swiper-slide" style={{
+                            <div key={index} id={'slide_'+index} className="swiper-slide" style={{
                                 width: '100px !important'
                             }}>
                                 <img ref={divRef} src={`/pdf/${page.image}`}/>
