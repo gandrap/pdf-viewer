@@ -466,14 +466,24 @@ function MobileL({windowSize, device}) {
         zoomedContent.innerHTML = images.map(src => `<img src="${src}" alt="Zoomed Image">`).join('');
 
         const rect1 = document.querySelector('.swiper').getBoundingClientRect();
+        const rect2 =  document.querySelector('.zoomedContent').getBoundingClientRect();
+
+        const actualWidth1 = rect1.width;
+        const actualHeight1 = rect1.height;
+
+        const actualWidth2 = rect2.width;
+        const actualHeight2 = rect2.height;
+
+
         const clickX = e.clientX - rect1.left;
         const clickY = e.clientY - rect1.top;
 
         // Skaliranje pozicije na dimenzije drugog diva
-        const scaleX = zoomedWindow.clientWidth / swiperContainer.clientWidth;
-        const scaleY = zoomedWindow.clientHeight / swiperContainer.clientHeight;
+        const scaleX = actualWidth2 / actualWidth1;
+        const scaleY = actualHeight2 / actualHeight1;
 
-        const newPosX = clickX * scaleX;
+
+        const newPosX = (clickX * scaleX)/2;
         const newPosY = clickY * scaleY;
 
         let isDragging = false;
