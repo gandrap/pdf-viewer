@@ -4,9 +4,10 @@ import Swiper from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/zoom';
-import {FreeMode, Navigation, Pagination, Zoom} from 'swiper/modules';
+import {FreeMode, Navigation, Pagination, Zoom, Keyboard} from 'swiper/modules';
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
+// import {getDevice} from "react-native-device-info";
 
 
 gsap.registerPlugin(Draggable);
@@ -329,13 +330,16 @@ function MobileL({windowSize, device}) {
 
     const swiper = new Swiper('.swiper', {
         // configure Swiper to use modules
-        modules: [Pagination, Navigation, Zoom],
+        modules: [Pagination, Navigation, Keyboard],
         freeMode: true,
         slidesPerView:2,
         spaceBetween: 0,
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
+        },
+        keyboard: {
+            enabled: true,
         },
         watchSlidesVisibility: true,
         breakpoints: {
@@ -442,9 +446,11 @@ function MobileL({windowSize, device}) {
     }
 
     function zoomWindow(e) {
+
         const activeSlide = document.querySelector('.swiper-slide-active').id;
         const zoomedWindow =  document.querySelector('.zoomedWindow');
         const zoomedContent = document.querySelector('.zoomedContent');
+        const swiperContainer = document.querySelector('.swiper');
         zoomedWindow.classList.add('active');
         zoomedWindow.id = 'activeSlide-'+activeSlide;
         setIsZoomed(true)
@@ -459,30 +465,27 @@ function MobileL({windowSize, device}) {
 
         zoomedContent.innerHTML = images.map(src => `<img src="${src}" alt="Zoomed Image">`).join('');
 
-        const zoomedWindowRect = zoomedWindow.getBoundingClientRect();
+        const rect1 = document.querySelector('.swiper').getBoundingClientRect();
+        const clickX = e.clientX - rect1.left;
+        const clickY = e.clientY - rect1.top;
 
+        // Skaliranje pozicije na dimenzije drugog diva
+        const scaleX = zoomedWindow.clientWidth / swiperContainer.clientWidth;
+        const scaleY = zoomedWindow.clientHeight / swiperContainer.clientHeight;
 
-
-        // Relativne pozicije klika unutar `zoomedWindow`
-        const clickX = e.clientX - zoomedWindowRect.left;
-        const clickY = e.clientY - zoomedWindowRect.top;
-
-        // Prilagođavanje pozicije `zoomedContent`
-        const centerX = zoomedWindowRect.width / 2;
-        const centerY = zoomedWindowRect.height / 2;
-
-        const offsetX = centerX - clickX;
-        const offsetY = centerY + clickY;
-
-        gsap.set(zoomedContent, {
-            x: offsetX,
-            y: -offsetY
-        });
+        const newPosX = clickX * scaleX;
+        const newPosY = clickY * scaleY;
 
         let isDragging = false;
 
-        Draggable.create(zoomedContent, {
-            bounds: zoomedWindow,
+
+        gsap.set('.zoomedContent', {
+            x: -newPosX,
+            y: -newPosY
+        });
+
+        Draggable.create('.zoomedContent', {
+            bounds: '.zoomedWindow',
             type: 'x,y',
             inertia: true,
             onDragStart: function () {
