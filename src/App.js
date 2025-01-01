@@ -568,6 +568,28 @@ function MobileL({windowSize, device}) {
         }, {});
     }
 
+    let lastTap = 0; // Vreme poslednjeg tap-a
+    const doubleTapDelay = 300; // Maksimalni interval između dva tap-a (u milisekundama)
+
+   function onTap(event) {
+        const currentTime = new Date().getTime(); // Trenutno vreme
+        const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
+
+        if (tapInterval < doubleTapDelay && tapInterval > 0) {
+            // Dupli tap detektovan
+            alert("Double tap detected!");
+            // Ovde možete dodati logiku koja se izvršava na dupli tap
+        }
+
+        lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
+    }
+
+    function onClick(e) {
+       if(device == 'laptop' || device == 'laptop-l' || device == 'desktop') {
+           zoomWindow(e)
+       }
+    }
+
     return (
         <>
         <div className="zoomedWindow">
@@ -582,7 +604,8 @@ function MobileL({windowSize, device}) {
         <div style={getStyle(pages[0])} className="swiperMainHolder"
         >
                 <div className="swiper"
-                     onClick={(e) => zoomWindow(e)}
+                     onClick={(e) => onClick(e)}
+                     onTouchEnd={(e) => onTap(e)}
                 >
 
                     <div className="swiper-wrapper">
