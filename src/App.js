@@ -508,19 +508,27 @@ function MobileL({windowSize, device}) {
         const actualWidth2 = rect2.width;
         const actualHeight2 = rect2.height;
 
-
-        const clickX = e.clientX - rect1.left;
-        const clickY = e.clientY - rect1.top;
+        let clickX = 0;
+        let clickY = 0;
+        if (device == 'mobile-s' || device == 'mobile-l' || device == 'mobile-m') {
+            const touch = e.changedTouches[0];
+            clickX = touch.clientX - rect1.left;
+            clickY = touch.clientY - rect1.top;
+        } else {
+            clickX = e.clientX - rect1.left;
+            clickY = e.clientY - rect1.top;
+        }
 
         // Skaliranje pozicije na dimenzije drugog diva
         const scaleX = actualWidth2 / actualWidth1;
         const scaleY = actualHeight2 / actualHeight1;
 
 
+
         const newPosX = (clickX * scaleX)/2;
         const newPosY = clickY * scaleY;
 
-
+        console.log(e);
 
         let isDragging = false;
 
