@@ -110,7 +110,7 @@ body {
   height: 100%;
 }
 
-.htmlContent video {
+.htmlContent video, .html-content-zoomed video {
   width: 100%;
   height: 100%;
   object-fit: fill;
@@ -186,4 +186,6 @@ body {
   position: absolute;
 }
 
-
+.zoomed-slide {
+  position: relative;
+}

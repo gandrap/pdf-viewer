@@ -397,6 +397,24 @@ function MobileL({windowSize, device}) {
         });
     }
 
+    function adjustAllOverlayPositionsZoomed() {
+        const slides = document.querySelectorAll('.zoomed-slide');
+
+
+        slides.forEach((slide) => {
+            const img = slide.querySelector('img'); // Pronađi sliku u slajdu
+            const overlays = slide.querySelectorAll('.overlay'); // Pronađi sve overlay elemente u slajdu
+
+            if (img) {
+
+                overlays.forEach((overlay) => {
+                    console.log(overlay);
+                    adjustOverlayPosition(img, overlay);
+                });
+            }
+        });
+    }
+
     function adjustOverlayPosition(img, overlay) {
         // Realne dimenzije slike
 
@@ -427,6 +445,7 @@ function MobileL({windowSize, device}) {
         overlay.style.top = `${proportionalTop}px`;
         overlay.style.width = `${proportionalWidth}px`;
         overlay.style.height = `${proportionalHeight}px`;
+
     }
 
     function adjustSlideWidths() {
@@ -447,23 +466,39 @@ function MobileL({windowSize, device}) {
 
     function zoomWindow(e) {
 
-        const activeSlide = document.querySelector('.swiper-slide-active').id;
+        const activeSlide = document.querySelector('.swiper-slide-active');
         const zoomedWindow =  document.querySelector('.zoomedWindow');
         const zoomedContent = document.querySelector('.zoomedContent');
         const swiperContainer = document.querySelector('.swiper');
         zoomedWindow.classList.add('active');
-        zoomedWindow.id = 'activeSlide-'+activeSlide;
+        zoomedWindow.id = 'activeSlide-'+activeSlide.id;
         setIsZoomed(true)
 
-       // console.log(swiper.slides);
 
-        const images = swiper.slides
+
+        const slidesData = swiper.slides
             .filter(slide =>
                 slide.classList.contains('swiper-slide-active') || slide.classList.contains('swiper-slide-next')
             )
-            .map(slide => slide.querySelector('img').src);
+            .map(slide => {
+                const imageSrc = slide.querySelector('img')?.src || null;
+                const htmlContent = slide.querySelector('.htmlContent')?.innerHTML || '';
 
-        zoomedContent.innerHTML = images.map(src => `<img src="${src}" alt="Zoomed Image">`).join('');
+                return {
+                    image: imageSrc,
+                    htmlContent: htmlContent
+                };
+            });
+
+        zoomedContent.innerHTML = slidesData
+            .map(data => `
+        <div class="zoomed-slide">
+            ${data.image ? `<img src="${data.image}" alt="Zoomed Image">` : ''}
+            ${data.htmlContent ? `<div class="html-content-zoomed">${data.htmlContent}</div>` : ''}
+        </div>
+    `).join('');
+
+
 
         const rect1 = document.querySelector('.swiper').getBoundingClientRect();
         const rect2 =  document.querySelector('.zoomedContent').getBoundingClientRect();
@@ -485,6 +520,8 @@ function MobileL({windowSize, device}) {
 
         const newPosX = (clickX * scaleX)/2;
         const newPosY = clickY * scaleY;
+
+        adjustAllOverlayPositionsZoomed()
 
         let isDragging = false;
 
