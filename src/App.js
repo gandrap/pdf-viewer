@@ -497,7 +497,7 @@ function MobileL({windowSize, device}) {
         </div>
     `).join('');
 
-
+        adjustAllOverlayPositionsZoomed()
 
         const rect1 = document.querySelector('.swiper').getBoundingClientRect();
         const rect2 =  document.querySelector('.zoomedContent').getBoundingClientRect();
@@ -520,7 +520,7 @@ function MobileL({windowSize, device}) {
         const newPosX = (clickX * scaleX)/2;
         const newPosY = clickY * scaleY;
 
-        adjustAllOverlayPositionsZoomed()
+
 
         let isDragging = false;
 
