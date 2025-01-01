@@ -408,7 +408,6 @@ function MobileL({windowSize, device}) {
             if (img) {
 
                 overlays.forEach((overlay) => {
-                    console.log(overlay);
                     adjustOverlayPosition(img, overlay);
                 });
             }
@@ -571,21 +570,42 @@ function MobileL({windowSize, device}) {
     let lastTap = 0; // Vreme poslednjeg tap-a
     const doubleTapDelay = 300; // Maksimalni interval između dva tap-a (u milisekundama)
 
-   function onTap(e) {
-        const currentTime = new Date().getTime(); // Trenutno vreme
-        const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
+   function onTapOpen(e) {
+       if (device == 'mobile-s' || device == 'mobile-l' || device == 'mobile-m') {
+           const currentTime = new Date().getTime(); // Trenutno vreme
+           const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
-        if (tapInterval < doubleTapDelay && tapInterval > 0) {
-            zoomWindow(e)
-        }
+           if (tapInterval < doubleTapDelay && tapInterval > 0) {
+               zoomWindow(e)
+           }
 
-        lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
+           lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
+       }
     }
 
-    function onClick(e) {
+    function onTapClose(e) {
+        if (device == 'mobile-s' || device == 'mobile-l' || device == 'mobile-m') {
+            const currentTime = new Date().getTime(); // Trenutno vreme
+            const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
+
+            if (tapInterval < doubleTapDelay && tapInterval > 0) {
+                closeZoomedWindow(e)
+            }
+
+            lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
+        }
+    }
+
+    function onClickOpen(e) {
        if(device == 'laptop' || device == 'laptop-l' || device == 'desktop') {
            zoomWindow(e)
        }
+    }
+
+    function onClickClose(e) {
+        if(device == 'laptop' || device == 'laptop-l' || device == 'desktop') {
+            closeZoomedWindow(e)
+        }
     }
 
     return (
@@ -593,8 +613,8 @@ function MobileL({windowSize, device}) {
         <div className="zoomedWindow">
             <div className="zoomFrame">
                 <div className="zoomedContent"
-                     onClick={(e) => closeZoomedWindow(e)}
-                     onTouchEnd={(e) => closeZoomedWindow(e)}
+                     onClick={(e) => onClickClose(e)}
+                     onTouchEnd={(e) => onTapClose(e)}
                 >
             </div>
             </div>
@@ -602,8 +622,8 @@ function MobileL({windowSize, device}) {
         <div style={getStyle(pages[0])} className="swiperMainHolder"
         >
                 <div className="swiper"
-                     onClick={(e) => onClick(e)}
-                     onTouchEnd={(e) => onTap(e)}
+                     onClick={(e) => onClickOpen(e)}
+                     onTouchEnd={(e) => onTapOpen(e)}
                 >
 
                     <div className="swiper-wrapper">
