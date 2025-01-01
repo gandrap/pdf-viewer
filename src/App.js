@@ -576,9 +576,7 @@ function MobileL({windowSize, device}) {
         const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
         if (tapInterval < doubleTapDelay && tapInterval > 0) {
-            // Dupli tap detektovan
-            alert("Double tap detected!");
-            // Ovde možete dodati logiku koja se izvršava na dupli tap
+            zoomWindow(e)
         }
 
         lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
