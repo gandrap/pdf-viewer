@@ -571,7 +571,7 @@ function MobileL({windowSize, device}) {
     let lastTap = 0; // Vreme poslednjeg tap-a
     const doubleTapDelay = 300; // Maksimalni interval između dva tap-a (u milisekundama)
 
-   function onTap(event) {
+   function onTap(e) {
         const currentTime = new Date().getTime(); // Trenutno vreme
         const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
