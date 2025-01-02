@@ -525,7 +525,7 @@ function MobileL({windowSize, device}) {
 
 
 
-        const newPosX = (clickX * scaleX)/2.4;
+        const newPosX = (clickX * scaleX)/2.6;
         const newPosY = (clickY * scaleY)/1.2;
 
         console.log(e);
