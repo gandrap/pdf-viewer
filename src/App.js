@@ -20,13 +20,15 @@ const pages = [
         'video': [],
         'html_elements': [
             {
-                left: '271.271px',
-                top: '513.235px',
-                width: '164.333px',
-                height: '182.436px',
-                position: "absolute",
-                background: 'url(/pdf/meso.gif) no-repeat',
-                backgroundSize: 'contain',
+                'css': {
+                    left: '271.271px',
+                    top: '513.235px',
+                    width: '164.333px',
+                    height: '182.436px',
+                    position: "absolute",
+                    background: 'url(/pdf/meso.gif) no-repeat',
+                    backgroundSize: 'contain'
+                }
             },
             // {
             //     left: '1060px',
@@ -60,21 +62,24 @@ const pages = [
         'image': '2.jpg',
         'width': 1080,
         'height': 1906,
-        'video': {
-            'url': '/pdf/video1.mp4',
-            'type': 'video/mp4',
-            'attributes': 'autoPlay loop muted'
-        },
         'html_elements': [
             {
-                left: '0px',
-                top: '0px',
-                width: '1200px',
-                height: '2118px',
-                position: "absolute",
-                background: 'none',
-                backgroundSize: 'contain',
+                'css': {
+                    left: '0px',
+                    top: '0px',
+                    width: '1200px',
+                    height: '2118px',
+                    position: "absolute",
+                    background: 'none',
+                    backgroundSize: 'contain',
+                },
+                'video': {
+                    'url': '/pdf/video1.mp4',
+                    'type': 'video/mp4',
+                    'attributes': 'autoPlay loop muted'
+                },
             }
+
         ]
     },
     {
@@ -84,38 +89,104 @@ const pages = [
         'video': [],
         'html_elements': [
             {
-                left: '780.271px',
-                top: '567.235px',
-                width: '336.917px',
-                height: '316.045px',
-                position: "absolute",
-                background: 'url(/pdf/naj-naj.gif) no-repeat',
-                backgroundSize: 'contain',
+                'css': {
+                    left: '780.271px',
+                    top: '567.235px',
+                    width: '336.917px',
+                    height: '316.045px',
+                    position: "absolute",
+                    background: 'url(/pdf/naj-naj.gif) no-repeat',
+                    backgroundSize: 'contain'
+                }
             },
             {
-                left: '776.674px',
-                top: '1513.711px',
-                width: '329.578px',
-                height: '256.145px',
-                position: "absolute",
-                background: 'url(/pdf/100-domace-meso.gif) no-repeat',
-                backgroundSize: 'contain',
+                'css': {
+                    left: '776.674px',
+                    top: '1513.711px',
+                    width: '329.578px',
+                    height: '256.145px',
+                    position: "absolute",
+                    background: 'url(/pdf/100-domace-meso.gif) no-repeat',
+                    backgroundSize: 'contain'
+                }
             },
         ]
-    },
-    {
-        'image': '4.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
     },
     {
         'image': '5.jpg',
         'video': [],
         'width': 1200,
         'height': 2118,
-        'html_elements': []
+        'html_elements': [
+            {
+                'css': {
+                    left: '60.271px',
+                    top: '500px',
+                    width: '400px',
+                    height: '105px',
+                    position: "absolute",
+                    backgroundSize: 'contain',
+                },
+                'button': {
+                    'css': {
+                        width: '100%',
+                        height: '100%',
+                        background: 'url(/pdf/recipe_btn.gif) no-repeat',
+                        backgroundSize: 'contain',
+                        border: 'none',
+                    },
+                    'type': 'popup',
+                    'popup': {
+                        'images': [
+                            '/pdf/popup1.jpg'
+                        ],
+                        'title': 'Curry-Fischtopf mit Gurkenrelish',
+                        'button': {
+                            'url': 'https://google.com',
+                            'label': 'otvori recept',
+                            'css': {
+                                display: 'block',
+                                padding: '10px 30px',
+                                textAlign: 'center',
+                                background: 'blue',
+                                width: '70%',
+                                margin: 'auto',
+                                borderRadius: '20px',
+                                color: '#fff',
+                                textDecoration: 'none',
+                                fontSize: '20px'
+                            }
+                        },
+                        'content': 'Das herzhafte Curry-Fischtopf mit Gurkenrelish ist ein leckeres Gericht mit einfacher Zubereitung mit der Schritt-für-Schritt-Anleitung. Mit Basmatiereis als Beilage schmeckt es am Besten.\n' +
+                            '\n' +
+                            '                            Für das Relish:\n' +
+                            '                            0,5 Salatgurke\n' +
+                            '                            0,5 gelbe Paprika\n' +
+                            '                            50 g KING’S CROWN Feinwürzige Gurken, Sorte: süß-sauer oder feurig-pikant\n' +
+                            '                            1 Zwiebel\n' +
+                            '                            1 Knoblauchzehe\n' +
+                            '                            2 TL CANTINELLE Natives Olivenöl extra\n' +
+                            '                            40 g Zucker\n' +
+                            '                            70 ml CUCINA® Italienischer Essig (z.B. Condimento Bianco)\n' +
+                            '                            0,5 EL Senfkörner\n' +
+                            '                            Salz\n' +
+                            '                            LE GUSTO Pfeffer\n' +
+                            '                            300 g Für den Fischtopf:\n' +
+                            '                            300 g Golden Seafood Kabeljaufilet\n' +
+                            '                            300 g Norwegisches Lachsfilet\n' +
+                            '                            4 TL Bellasan® Sonnenblumenöl\n' +
+                            '                            1 g Schalotte\n' +
+                            '                            10 g Ingwer, frisch\n' +
+                            '                            1 ml Knoblauchzehe\n' +
+                            '                            400 ml Fischfond\n' +
+                            '                            400 ml MILSANI Schlagsahne\n' +
+                            '                            3 Kaffir-Limettenblätter, getrocknet\n' +
+                            '                            2 TL LE GUSTO Curry\n' +
+                            '                            Salz'
+                    }
+                }
+            },
+        ]
     },
     {
         'image': '6.jpg',
@@ -170,16 +241,18 @@ const pages = [
         'height': 2118,
         'html_elements': [
             {
-                left: '35px',
-                top: '0px',
-                width: '1128px',
-                height: '658px',
-                position: "absolute",
-                background: 'none',
-                backgroundSize: 'contain',
-                borderEndEndRadius: '14px',
-                borderEndStartRadius: '14px',
-                overflow: 'hidden',
+                'css': {
+                    left: '35px',
+                    top: '0px',
+                    width: '1128px',
+                    height: '658px',
+                    position: "absolute",
+                    background: 'none',
+                    backgroundSize: 'contain',
+                    borderEndEndRadius: '14px',
+                    borderEndStartRadius: '14px',
+                    overflow: 'hidden',
+                }
             }
         ]
     },
@@ -428,6 +501,7 @@ function MobileL({windowSize, device}) {
 
         // Originalne dimenzije i pozicija overlay-a
         const overlayStyle = JSON.parse(overlay.dataset.style);
+        //console.log(overlayStyle);
         const originalLeft = parseFloat(overlayStyle.left) || 0;
         const originalTop = parseFloat(overlayStyle.top) || 0;
         const originalWidth = parseFloat(overlayStyle.width) || overlay.clientWidth;
@@ -616,56 +690,98 @@ function MobileL({windowSize, device}) {
         }
     }
 
+    function handleClickButton(e, buttonContent) {
+       e.stopPropagation();
+       const buttonType = buttonContent.type
+        if(buttonType === 'popup') {
+            document.querySelector('.popupMask').classList.add('active');
+            const img = document.createElement('img');
+            img.src = buttonContent.popup.images[0];
+            document.querySelector('.popupImage').replaceChildren(img);
+            document.querySelector('.popupTitle').innerHTML = buttonContent.popup.title;
+            document.querySelector('.popupContent').innerHTML = buttonContent.popup.content;
+            document.querySelector('.popupLink').href = buttonContent.popup.button.url;
+            document.querySelector('.popupLink').innerHTML =  buttonContent.popup.button.label;
+
+            const popupLink = document.querySelector('.popupLink');
+
+            Object.entries(buttonContent.popup.button.css).forEach(([key, value]) => {
+                popupLink.style[key] = value;
+            });
+        }
+
+    }
+
+    function closePopup(e) {
+       e.stopPropagation();
+        document.querySelector('.popupMask').classList.remove('active');
+    }
+
     return (
         <>
-        <div className="zoomedWindow">
-            <div className="zoomFrame">
-                <div className="zoomedContent"
-                     onClick={(e) => onClickClose(e)}
-                     onTouchEnd={(e) => onTapClose(e)}
-                >
+            <div className="popupMask" onClick={(e) => closePopup(e)}>
+                <div className="popup">
+                    <button className="closeBtn" onClick={(e) => closePopup(e)}></button>
+                    <div className="popupLeft">
+                        <div className="popupImage"></div>
+                    </div>
+                    <div className="popupRight">
+                        <span className="popupTitle"></span>
+                        <div className="popupContent"></div>
+                        <a className="popupLink" href=""></a>
+                    </div>
+                </div>
             </div>
+            <div className="zoomedWindow">
+                <div className="zoomFrame">
+                    <div className="zoomedContent"
+                         onClick={(e) => onClickClose(e)}
+                         onTouchEnd={(e) => onTapClose(e)}
+                    >
+                </div>
+                </div>
             </div>
-        </div>
-        <div style={getStyle(pages[0])} className="swiperMainHolder"
-        >
-                <div className="swiper"
-                     onClick={(e) => onClickOpen(e)}
-                     onTouchEnd={(e) => onTapOpen(e)}
-                >
+            <div style={getStyle(pages[0])} className="swiperMainHolder"
+            >
+                    <div className="swiper"
+                         onClick={(e) => onClickOpen(e)}
+                         onTouchEnd={(e) => onTapOpen(e)}
+                    >
 
-                    <div className="swiper-wrapper">
-                        {pages.map((page, index) =>
-                            <div key={index} id={'slide_'+index} className="swiper-slide" style={{
-                                width: '100px !important'
-                            }}>
-                                <img ref={divRef} src={`/pdf/${page.image}`}/>
-                                <div className="htmlContent">
-                                    {page['html_elements'].map((htmlContent, index2) =>
-                                        <div data-style={JSON.stringify(htmlContent)} className={'overlay element_'+index2} style={htmlContent} >
-                                            {page.video && (
-                                                <video {...parseAttributes(page.video.attributes)}>
-                                                    <source src={page.video.url} type={page.video.type} />
-                                                    Your browser does not support the video tag.
-                                                </video>
+                        <div className="swiper-wrapper">
+                            {pages.map((page, index) =>
+                                <div key={index} id={'slide_'+index} className="swiper-slide" style={{
+                                    width: '100px !important'
+                                }}>
+                                    <img ref={divRef} src={`/pdf/${page.image}`}/>
+                                    <div className="htmlContent">
+                                        {page['html_elements'].map((htmlContent, index2) =>
+                                            <div data-style={JSON.stringify(htmlContent.css)} className={'overlay element_'+index2} style={htmlContent.css} >
+                                                {htmlContent.video && (
+                                                    <video {...parseAttributes(htmlContent.video.attributes)}>
+                                                        <source src={htmlContent.video.url} type={htmlContent.video.type} />
+                                                    </video>
+                                                )}
+                                                {htmlContent.button && (
+                                                   <button style={htmlContent.button.css} onClick={(e) => handleClickButton(e, htmlContent.button)}></button>
+                                                )}
+                                            </div>
                                             )}
-                                        </div>
-                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            )}
+                                )}
+                        </div>
+
+                        <div className="swiper-pagination"></div>
+
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-button-next"></div>
+
+
+                        <div className="swiper-scrollbar"></div>
                     </div>
 
-                    <div className="swiper-pagination"></div>
-
-                    <div className="swiper-button-prev"></div>
-                    <div className="swiper-button-next"></div>
-
-
-                    <div className="swiper-scrollbar"></div>
-                </div>
-
-        </div>
+            </div>
         </>
     )
 }
