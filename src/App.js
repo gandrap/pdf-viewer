@@ -234,11 +234,7 @@ const pages = [
     },
     {
         'image': '12.jpg',
-        'video': {
-            'url': '/pdf/video2.mp4',
-            'type': 'video/mp4',
-            'attributes': 'autoPlay muted'
-        },
+
         'width': 1200,
         'height': 2118,
         'html_elements': [
@@ -254,7 +250,12 @@ const pages = [
                     borderEndEndRadius: '14px',
                     borderEndStartRadius: '14px',
                     overflow: 'hidden',
-                }
+                },
+                'video': {
+                    'url': '/pdf/video2.mp4',
+                    'type': 'video/mp4',
+                    'attributes': 'autoPlay muted'
+                },
             }
         ]
     },
