@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'robotoCondensedBold';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../src/assets/fonts/RobotoCondensed-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'robotoCondensedRegular';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../src/assets/fonts/RobotoCondensed-Regular.ttf') format('truetype');
+}
+
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   user-select: none;
@@ -50,38 +64,6 @@ body {
     width: 90%;
   }
 }
-
-@media (max-width: 1024px) {
-  .swiper {
-    width: 95%;
-  }
-
-  .swiperMainHolder {
-    height: 100vh !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .swiper {
-    width: 95%;
-  }
-
-  .zoomedWindow.active .zoomFrame {
-    transform: scale(0.5) !important;
-  }
-}
-
-
-@media (max-width: 425px) {
-  .swiper {
-    width: 100%;
-  }
-
-  .zoomedWindow.active .zoomFrame {
-    transform: scale(0.5) !important;
-  }
-}
-
 
 
 .swiper-slide {
@@ -255,15 +237,86 @@ body {
 }
 
 .popupTitle {
+  font-family: 'robotoCondensedBold';
   display: block;
   margin-left: 20px;
-  font-size: 20px;
+  font-size: 28px;
+  color: #EE2F36;
 }
 
 .popupContent {
+  font-family: 'robotoCondensedRegular';
   height: 350px;
   overflow-x: hidden;
   overflow-y: auto;
   margin-top: 30px;
   padding: 20px;
+  font-size: 15px;
+}
+
+.popupContent b {
+  font-family: 'robotoCondensedBold';
+}
+
+.popupContent ul {
+  padding-left: 20px;
+}
+
+@media (max-width: 1024px) {
+  .swiper {
+    width: 95%;
+  }
+
+  .swiperMainHolder {
+    height: 100vh !important;
+  }
+
+  .popup {
+    width: 70%;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .swiper {
+    width: 95%;
+  }
+
+  .zoomedWindow.active .zoomFrame {
+    transform: scale(0.5) !important;
+  }
+
+  .popup {
+    width: 90%;
+  }
+}
+
+@media (max-width: 425px) {
+  .swiper {
+    width: 100%;
+  }
+
+  .zoomedWindow.active .zoomFrame {
+    transform: scale(0.5) !important;
+  }
+
+  .popup {
+    width: 100%;
+    display: block;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .popupLeft {
+    width: 100%;
+    height: 30%;
+  }
+
+  .popupRight {
+    width: 100%;
+  }
+
+  .popupContent {
+    height: 100%;
+  }
 }

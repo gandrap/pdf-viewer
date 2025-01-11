@@ -140,49 +140,37 @@ const pages = [
                         'images': [
                             '/pdf/popup1.jpg'
                         ],
-                        'title': 'Curry-Fischtopf mit Gurkenrelish',
+                        'title': 'Drpano prase u domaćoj lepinji',
                         'button': {
                             'url': 'https://google.com',
-                            'label': 'otvori recept',
+                            'label': 'POGLEDAJTE RECEPT',
                             'css': {
                                 display: 'block',
-                                padding: '10px 30px',
+                                padding: '20px 30px',
                                 textAlign: 'center',
-                                background: 'blue',
-                                width: '70%',
+                                background: '#EE2F36',
+                                width: '80%',
                                 margin: 'auto',
-                                borderRadius: '20px',
+                                borderRadius: '35px',
                                 color: '#fff',
                                 textDecoration: 'none',
-                                fontSize: '20px'
+                                fontSize: '17px',
+                                fontFamily: 'robotoCondensedBold'
                             }
                         },
-                        'content': 'Das herzhafte Curry-Fischtopf mit Gurkenrelish ist ein leckeres Gericht mit einfacher Zubereitung mit der Schritt-für-Schritt-Anleitung. Mit Basmatiereis als Beilage schmeckt es am Besten.\n' +
-                            '\n' +
-                            '                            Für das Relish:\n' +
-                            '                            0,5 Salatgurke\n' +
-                            '                            0,5 gelbe Paprika\n' +
-                            '                            50 g KING’S CROWN Feinwürzige Gurken, Sorte: süß-sauer oder feurig-pikant\n' +
-                            '                            1 Zwiebel\n' +
-                            '                            1 Knoblauchzehe\n' +
-                            '                            2 TL CANTINELLE Natives Olivenöl extra\n' +
-                            '                            40 g Zucker\n' +
-                            '                            70 ml CUCINA® Italienischer Essig (z.B. Condimento Bianco)\n' +
-                            '                            0,5 EL Senfkörner\n' +
-                            '                            Salz\n' +
-                            '                            LE GUSTO Pfeffer\n' +
-                            '                            300 g Für den Fischtopf:\n' +
-                            '                            300 g Golden Seafood Kabeljaufilet\n' +
-                            '                            300 g Norwegisches Lachsfilet\n' +
-                            '                            4 TL Bellasan® Sonnenblumenöl\n' +
-                            '                            1 g Schalotte\n' +
-                            '                            10 g Ingwer, frisch\n' +
-                            '                            1 ml Knoblauchzehe\n' +
-                            '                            400 ml Fischfond\n' +
-                            '                            400 ml MILSANI Schlagsahne\n' +
-                            '                            3 Kaffir-Limettenblätter, getrocknet\n' +
-                            '                            2 TL LE GUSTO Curry\n' +
-                            '                            Salz'
+                        'content':
+                            '<p>Ako do sada niste imali priliku da napravite drpano prase ili cepaknu prasetinu, preporučujemo vam da isprobate ovaj sjajan recept.</p>'+
+                            '<b>Sastojci za svinjetinu:</b>'+
+                            '<ul>'+
+                            '<li>1 kg 800 g svinjske plećke bez kostiju</li>'+
+                            '<li>3 kašike smeđeg šećera</li>'+
+                            '<li>1 kašike soli</li>'+
+                            '<li>1 kašike začinske paprike</li>'+
+                            '<li>1 kašičica belog luka u prahu</li>'+
+                            '<li>1 kašičica crnog luka u prahu</li>'+
+                            '<li>1 kašičica mlevenog kumina</li>' +
+                            '<li>sveže mleveni crni biber po ukusu</li>'+
+                            '<li>2 kašike ulja 355 ml piva (lager)</li>'
                     }
                 }
             },
