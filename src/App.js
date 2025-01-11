@@ -170,7 +170,20 @@ const pages = [
                             '<li>1 kašičica crnog luka u prahu</li>'+
                             '<li>1 kašičica mlevenog kumina</li>' +
                             '<li>sveže mleveni crni biber po ukusu</li>'+
-                            '<li>2 kašike ulja 355 ml piva (lager)</li>'
+                            '<li>2 kašike ulja 355 ml piva (lager)</li>'+
+                            '</ul>'+
+                            '<b>Sastojci za BBQ sos:</b>'+
+                            '<ul>'+
+                            '<li>1 1/2 šolja kečapa</li>'+
+                            '<li>1/3 šolje jabukovog sirćeta</li>'+
+                            '<li>1/2 šolje Dižon senfa</li>'+
+                            '<li>1/4 šolje braon šećera</li>'+
+                            '<li>2 kašike vorčester sosa</li>'+
+                            '</ul>'+
+                            '<b>Dodatni sastojci za služenje:</b>'+
+                            '<ul>'+
+                            '<li>Lepinje</li'+
+                            '</ul>'
                     }
                 }
             },
