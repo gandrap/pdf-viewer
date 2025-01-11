@@ -262,6 +262,16 @@ body {
   padding-left: 20px;
 }
 
+.popupLogo {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+
+.popupLogo img {
+  width: 70%;
+}
+
 @media (max-width: 1024px) {
   .swiper {
     width: 95%;
@@ -273,6 +283,10 @@ body {
 
   .popup {
     width: 70%;
+  }
+
+  .popupLogo img {
+    width: 50%;
   }
 }
 
@@ -318,5 +332,9 @@ body {
 
   .popupContent {
     height: 40vh;
+  }
+
+  .popupLogo img {
+    width: 30%;
   }
 }

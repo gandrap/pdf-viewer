@@ -183,7 +183,8 @@ const pages = [
                             '<b>Dodatni sastojci za služenje:</b>'+
                             '<ul>'+
                             '<li>Lepinje</li'+
-                            '</ul>'
+                            '</ul>',
+                        'logo': '/pdf/popupLogo.png'
                     }
                 }
             },
@@ -699,6 +700,9 @@ function MobileL({windowSize, device}) {
             const img = document.createElement('img');
             img.src = buttonContent.popup.images[0];
             document.querySelector('.popupImage').replaceChildren(img);
+            const logo = document.createElement('img');
+            logo.src = buttonContent.popup.logo;
+            document.querySelector('.popupLogo').replaceChildren(logo);
             document.querySelector('.popupTitle').innerHTML = buttonContent.popup.title;
             document.querySelector('.popupContent').innerHTML = buttonContent.popup.content;
             document.querySelector('.popupLink').href = buttonContent.popup.button.url;
@@ -724,6 +728,7 @@ function MobileL({windowSize, device}) {
                 <div className="popup">
                     <button className="closeBtn" onClick={(e) => closePopup(e)}></button>
                     <div className="popupLeft">
+                        <div className="popupLogo"></div>
                         <div className="popupImage"></div>
                     </div>
                     <div className="popupRight">
