@@ -278,6 +278,11 @@ body {
   height: 100%
 }
 
+.htmlContentLink:hover {
+  background: rgba(265, 265, 265, 0.2);
+  border-radius: 10px;
+}
+
 @media (max-width: 1024px) {
   .swiper {
     width: 95%;

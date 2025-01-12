@@ -809,7 +809,7 @@ function MobileL({windowSize, device}) {
                                                    <button style={htmlContent.button.css} onClick={(e) => handleClickButton(e, htmlContent.button)}></button>
                                                 )}
                                                 {htmlContent.link && (
-                                                    <a class="htmlContentLink" href={htmlContent.link} />
+                                                    <a className="htmlContentLink" onClick={(e) => e.stopPropagation()} href={htmlContent.link} />
                                                 )}
                                             </div>
                                             )}
