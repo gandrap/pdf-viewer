@@ -285,7 +285,43 @@ const pages = [
         'video': [],
         'width': 1200,
         'height': 2118,
-        'html_elements': []
+        'html_elements': [
+            {
+                'css': {
+                    left: '600px',
+                    top: '370px',
+                    width: '302px',
+                    height: '302px',
+                    position: "absolute",
+                    background: 'url(/pdf/meso.gif) no-repeat',
+                    backgroundSize: '100%',
+                    zIndex: '1',
+                },
+            },
+            {
+                'css': {
+                    left: '428px',
+                    top: '423px',
+                    width: '213px',
+                    height: '165px',
+                    position: "absolute",
+                    background: 'url(/pdf/100-domace-meso.gif) no-repeat',
+                    backgroundSize: 'contain',
+                    zIndex: '2'
+                }
+            },
+            {
+                'css': {
+                    left: '83px',
+                    top: '397px',
+                    width: '1077px',
+                    height: '571px',
+                    position: "absolute",
+                    zIndex: '3'
+                },
+                'link': 'https://google.rs/'
+            },
+        ]
     }
 ]
 
@@ -771,6 +807,9 @@ function MobileL({windowSize, device}) {
                                                 )}
                                                 {htmlContent.button && (
                                                    <button style={htmlContent.button.css} onClick={(e) => handleClickButton(e, htmlContent.button)}></button>
+                                                )}
+                                                {htmlContent.link && (
+                                                    <a class="htmlContentLink" href={htmlContent.link} />
                                                 )}
                                             </div>
                                             )}
