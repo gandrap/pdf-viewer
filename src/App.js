@@ -359,6 +359,14 @@ export default function App() {
     }
 
     useEffect(() => {
+        const updateHeaderHeight = () => {
+            const header = document.querySelector('.header');
+            if (header) {
+                const headerHeight = header.offsetHeight;
+                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+            }
+        };
+
         const handleResize = () => {
             setWindowSize({
                 width: window.innerWidth,
@@ -366,9 +374,14 @@ export default function App() {
             });
             setWindowSize({width: window.innerWidth, height: window.innerHeight});
 
-            getDevice(true)
+            getDevice(true);
 
+            // Update header height when window is resized
+            updateHeaderHeight();
         };
+
+        // Initial header height calculation
+        updateHeaderHeight();
 
         window.addEventListener('resize', handleResize);
 
@@ -392,6 +405,7 @@ function MobileL({windowSize, device}) {
     const divRef = useRef(null); // Referenca na `div` element
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [isZoomed, setIsZoomed] = useState(false);
+    const [isZoomTransitioning, setIsZoomTransitioning] = useState(false);
 
     useEffect(() => {
         // Funkcija za ažuriranje dimenzija
@@ -419,23 +433,10 @@ function MobileL({windowSize, device}) {
     }, []);
 
     function getStyle(image) {
-
-
-        const dimensions = { width: image.width, height: image.height };
-
-     //   console.log('dimensions',dimensions);
-
-        if(windowSize.width > 425 && windowSize.width <= 768) {
-            return {width: '100%', height: 'auto'};
-        } else {
-            if (dimensions.width > windowSize.width ) {
-                // If the image width is larger than the window, limit the width to 100% with auto height
-                return {width: '100%', height: 'auto'};
-            } else {
-                // Otherwise, limit the height to 100% with auto width
-                return {height: '100%', width: 'auto'};
-            }
-        }
+        // We don't need to set the height here anymore as it's handled by CSS
+        // The swiperMainHolder height is dynamically calculated as calc(100% - var(--header-height))
+        // where --header-height is updated by JavaScript to match the actual header height
+        return {};
     }
 
     const swiperContainer = document.querySelector('.swiper');
@@ -493,38 +494,25 @@ function MobileL({windowSize, device}) {
     });
 
     function adjustAllOverlayPositions() {
+        // Skip this function if a zoom transition is in progress
+        if (isZoomTransitioning) {
+            return;
+        }
+
         const slides = document.querySelectorAll('.swiper-slide');
 
-
         slides.forEach((slide) => {
             const img = slide.querySelector('img'); // Pronađi sliku u slajdu
             const overlays = slide.querySelectorAll('.overlay'); // Pronađi sve overlay elemente u slajdu
 
             if (img) {
                 overlays.forEach((overlay) => {
-
                     adjustOverlayPosition(img, overlay);
                 });
             }
         });
     }
 
-    function adjustAllOverlayPositionsZoomed() {
-        const slides = document.querySelectorAll('.zoomed-slide');
-
-
-        slides.forEach((slide) => {
-            const img = slide.querySelector('img'); // Pronađi sliku u slajdu
-            const overlays = slide.querySelectorAll('.overlay'); // Pronađi sve overlay elemente u slajdu
-
-            if (img) {
-
-                overlays.forEach((overlay) => {
-                    adjustOverlayPosition(img, overlay);
-                });
-            }
-        });
-    }
 
     function adjustOverlayPosition(img, overlay) {
         // Realne dimenzije slike
@@ -561,7 +549,15 @@ function MobileL({windowSize, device}) {
     }
 
     function adjustSlideWidths() {
+        // Skip this function if a zoom transition is in progress
+        if (isZoomTransitioning) {
+            return;
+        }
+
         const slides = document.querySelectorAll('.swiper-slide img');
+        let totalWidth = 0;
+        let slideCount = 0;
+
         slides.forEach((img) => {
             const slide = img.closest('.swiper-slide');
 
@@ -573,110 +569,133 @@ function MobileL({windowSize, device}) {
             const renderedWidth = (renderedHeight * realWidth) / realHeight;
 
             slide.style.width = `${renderedWidth}px`;
+
+            // Only count the first two slides for width calculation
+            if (slideCount < 2) {
+                totalWidth += renderedWidth;
+                slideCount++;
+            }
         });
+
+        // If we have at least two slides, set the swiper container width
+        if (slideCount === 2) {
+            // Add a small margin between slides (spaceBetween value from swiper config)
+            const spaceBetween = 0; // This should match the spaceBetween value in swiper config
+            const containerWidth = totalWidth + spaceBetween;
+
+            // Get the mainHolder width to calculate percentage
+            const mainHolderWidth = document.querySelector('.mainHolder').offsetWidth;
+            const widthPercentage = (containerWidth / mainHolderWidth) * 100;
+
+            // Set the swiper container width as a percentage of the mainHolder width
+            // No buffer added to ensure exactly two slides are visible
+            document.querySelector('.swiper').style.width = `${widthPercentage}%`;
+        }
     }
 
     function zoomWindow(e) {
-
-        const activeSlide = document.querySelector('.swiper-slide-active');
-        const zoomedWindow =  document.querySelector('.zoomedWindow');
-        const zoomedContent = document.querySelector('.zoomedContent');
         const swiperContainer = document.querySelector('.swiper');
-        zoomedWindow.classList.add('active');
-        zoomedWindow.id = 'activeSlide-'+activeSlide.id;
-        setIsZoomed(true)
+        const activeSlide = document.querySelector('.swiper-slide-active');
 
+        // Set the flag to indicate that a zoom transition is in progress
+        setIsZoomTransitioning(true);
 
-
-        const slidesData = swiper.slides
-            .filter(slide =>
-                slide.classList.contains('swiper-slide-active') || slide.classList.contains('swiper-slide-next')
-            )
-            .map(slide => {
-                const imageSrc = slide.querySelector('img')?.src || null;
-                const htmlContent = slide.querySelector('.htmlContent')?.innerHTML || '';
-
-                return {
-                    image: imageSrc,
-                    htmlContent: htmlContent
-                };
-            });
-
-        zoomedContent.innerHTML = slidesData
-            .map(data => `
-        <div class="zoomed-slide">
-            ${data.image ? `<img src="${data.image}" alt="Zoomed Image">` : ''}
-            ${data.htmlContent ? `<div class="html-content-zoomed">${data.htmlContent}</div>` : ''}
-        </div>
-    `).join('');
-
-        adjustAllOverlayPositionsZoomed()
-
-        const rect1 = document.querySelector('.swiper').getBoundingClientRect();
-        const rect2 =  document.querySelector('.zoomedContent').getBoundingClientRect();
-
-        const actualWidth1 = rect1.width;
-        const actualHeight1 = rect1.height;
-
-        const actualWidth2 = rect2.width;
-        const actualHeight2 = rect2.height;
-
+        // Get click position for initial zoom point
         let clickX = 0;
         let clickY = 0;
         if (device == 'mobile-s' || device == 'mobile-l' || device == 'mobile-m') {
             const touch = e.changedTouches[0];
-            clickX = touch.clientX - rect1.left;
-            clickY = touch.clientY - rect1.top;
+            clickX = touch.clientX;
+            clickY = touch.clientY;
         } else {
-            clickX = e.clientX - rect1.left;
-            clickY = e.clientY - rect1.top;
+            clickX = e.clientX;
+            clickY = e.clientY;
         }
 
-        // Skaliranje pozicije na dimenzije drugog diva
-        const scaleX = actualWidth2 / actualWidth1;
-        const scaleY = actualHeight2 / actualHeight1;
+        // Store the original position and dimensions of the swiper container
+        const originalRect = swiperContainer.getBoundingClientRect();
 
+        // Store the scroll position
+        const scrollX = window.scrollX || window.pageXOffset;
+        const scrollY = window.scrollY || window.pageYOffset;
 
+        // Temporarily remove the CSS transition to avoid conflict with GSAP
+        swiperContainer.style.transition = 'none';
 
-        const newPosX = (clickX * scaleX)/2.5;
-        const newPosY = (clickY * scaleY)/1.3;
+        // Add active class to show the zoomed state
+        swiperContainer.classList.add('zoomed');
+        setIsZoomed(true);
 
-        console.log(e);
+        // Calculate the position that will center the clicked point
+        // We use the click position relative to the container
+        const relativeX = clickX - originalRect.left;
+        const relativeY = clickY - originalRect.top;
 
-        let isDragging = false;
+        // Set the transform origin to the clicked point
+        swiperContainer.style.transformOrigin = `${relativeX}px ${relativeY}px`;
 
+        // Calculate the scale factor (1.5 is the zoom scale for 1.5x magnification)
+        const scale = 1.5;
 
-        gsap.set('.zoomedContent', {
-            x: -newPosX,
-            y: -newPosY
-        });
+        // Apply the transformation
+        // We keep the container in its original position and just scale it
+        gsap.to(swiperContainer, {
+            scale: 1.5,
+            duration: 0.5, // Match duration with closeZoomedWindow for consistency
+            ease: "power1.inOut", // Match easing with closeZoomedWindow for consistency
+            onComplete: function() {
+                // Restore the CSS transition immediately after animation completes
+                swiperContainer.style.transition = '';
 
-        Draggable.create('.zoomedContent', {
-            bounds: '.zoomedWindow',
-            type: 'x,y',
-            inertia: true,
-            onDragStart: function () {
-                // Postavljamo da je element u stanju dragovanja
-                isDragging = true;
-            },
-            onDragEnd: function () {
-                // Kada se drag završi, postavljamo na false
-                setTimeout(() => isDragging = false, 0); // Koristimo setTimeout da bi smo obezbedili da se `click` desi nakon `dragEnd`
-            },
-            onPress: function() {
-                // Ništa ne radimo sa klasom ovde, samo pratimo drag događaje
+                // Reset the flag to indicate that the zoom transition is complete
+                setIsZoomTransitioning(false);
             }
-
         });
     }
 
     function closeZoomedWindow(e) {
-        setIsZoomed(false);
-        document.querySelector('.zoomedWindow').classList.remove('active');
-        const activeSlideId = document.querySelector('.zoomedWindow').id;
-        const activeSlide = parseInt(activeSlideId.split('_').slice(-1)[0]);
+        const swiperContainer = document.querySelector('.swiper');
 
-        swiper.slideTo(activeSlide, 0, false); // Zaključaj na trenutni aktivni slajd
+        // Set the flag to indicate that a zoom transition is in progress
+        setIsZoomTransitioning(true);
+
+        // Temporarily remove the CSS transition to avoid conflict with GSAP
+        swiperContainer.style.transition = 'none';
+
+        // Apply the zoom-out animation
+        // Just scale back to 1 without changing position or dimensions
+        gsap.to(swiperContainer, {
+            scale: 1,
+            duration: 0.5, // Slightly longer duration for smoother animation
+            ease: "power1.inOut", // Different easing function for smoother transition
+            onComplete: function() {
+                // First, restore the CSS transition
+                swiperContainer.style.transition = '';
+
+                // Use a small delay before resetting styles to ensure the animation is fully complete
+                setTimeout(() => {
+                    // Reset the state after animation completes
+                    setIsZoomed(false);
+                    swiperContainer.classList.remove('zoomed');
+
+                    // Reset the inline styles that were set during the zoom
+                    // Use requestAnimationFrame to ensure this happens in the next paint cycle
+                    requestAnimationFrame(() => {
+                        swiperContainer.style.width = '';
+                        swiperContainer.style.height = '';
+                        swiperContainer.style.transform = '';
+                        swiperContainer.style.transformOrigin = '';
+                        swiperContainer.style.x = '';
+                        swiperContainer.style.y = '';
+
+                        // Reset the flag to indicate that the zoom transition is complete
+                        // We do this after all styles have been reset to ensure no resize events
+                        // are processed during the style reset
+                        setIsZoomTransitioning(false);
+                    });
+                }, 100); // Increased delay to ensure animation is fully complete
+            }
+        });
     }
 
 
@@ -697,7 +716,7 @@ function MobileL({windowSize, device}) {
            const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
            if (tapInterval < doubleTapDelay && tapInterval > 0) {
-               zoomWindow(e)
+               zoomWindow(e);
            }
 
            lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
@@ -710,7 +729,7 @@ function MobileL({windowSize, device}) {
             const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
             if (tapInterval < doubleTapDelay && tapInterval > 0) {
-                closeZoomedWindow(e)
+                closeZoomedWindow(e);
             }
 
             lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
@@ -719,13 +738,13 @@ function MobileL({windowSize, device}) {
 
     function onClickOpen(e) {
        if(device == 'laptop' || device == 'laptop-l' || device == 'desktop') {
-           zoomWindow(e)
+           zoomWindow(e);
        }
     }
 
     function onClickClose(e) {
         if(device == 'laptop' || device == 'laptop-l' || device == 'desktop') {
-            closeZoomedWindow(e)
+            closeZoomedWindow(e);
         }
     }
 
@@ -775,58 +794,54 @@ function MobileL({windowSize, device}) {
                     </div>
                 </div>
             </div>
-            <div className="zoomedWindow">
-                <div className="zoomFrame">
-                    <div className="zoomedContent"
-                         onClick={(e) => onClickClose(e)}
-                         onTouchEnd={(e) => onTapClose(e)}
-                    >
+            <div className="mainHolder">
+                <div className="header">
+                    <img className="logo" src={require('./assets/images/logo.jpg')} alt="Logo" />
                 </div>
-                </div>
-            </div>
-            <div style={getStyle(pages[0])} className="swiperMainHolder"
-            >
-                    <div className="swiper"
-                         onClick={(e) => onClickOpen(e)}
-                         onTouchEnd={(e) => onTapOpen(e)}
-                    >
+                <div style={getStyle(pages[0])} className="swiperMainHolder"
+                >
+                        <div className="swiper"
+                             onClick={(e) => {
+                                 isZoomed ? onClickClose(e) : onClickOpen(e);
+                             }}
+                             onTouchEnd={(e) => isZoomed ? onTapClose(e) : onTapOpen(e)}
+                        >
 
-                        <div className="swiper-wrapper">
-                            {pages.map((page, index) =>
-                                <div key={index} id={'slide_'+index} className="swiper-slide" style={{
-                                    width: '100px !important'
-                                }}>
-                                    <img ref={divRef} src={`/pdf/${page.image}`}/>
-                                    <div className="htmlContent">
-                                        {page['html_elements'].map((htmlContent, index2) =>
-                                            <div data-style={JSON.stringify(htmlContent.css)} className={'overlay element_'+index2} style={htmlContent.css} >
-                                                {htmlContent.video && (
-                                                    <video {...parseAttributes(htmlContent.video.attributes)}>
-                                                        <source src={htmlContent.video.url} type={htmlContent.video.type} />
-                                                    </video>
+                            <div className="swiper-wrapper">
+                                {pages.map((page, index) =>
+                                    <div key={index} id={'slide_'+index} className="swiper-slide">
+                                        <img ref={divRef} src={`/pdf/${page.image}`}/>
+                                        <div className="htmlContent">
+                                            {page['html_elements'].map((htmlContent, index2) =>
+                                                <div data-style={JSON.stringify(htmlContent.css)} className={'overlay element_'+index2} style={htmlContent.css} >
+                                                    {htmlContent.video && (
+                                                        <video {...parseAttributes(htmlContent.video.attributes)}>
+                                                            <source src={htmlContent.video.url} type={htmlContent.video.type} />
+                                                        </video>
+                                                    )}
+                                                    {htmlContent.button && (
+                                                       <button style={htmlContent.button.css} onClick={(e) => handleClickButton(e, htmlContent.button)}></button>
+                                                    )}
+                                                    {htmlContent.link && (
+                                                        <a className="htmlContentLink" onClick={(e) => e.stopPropagation()} href={htmlContent.link} />
+                                                    )}
+                                                </div>
                                                 )}
-                                                {htmlContent.button && (
-                                                   <button style={htmlContent.button.css} onClick={(e) => handleClickButton(e, htmlContent.button)}></button>
-                                                )}
-                                                {htmlContent.link && (
-                                                    <a className="htmlContentLink" onClick={(e) => e.stopPropagation()} href={htmlContent.link} />
-                                                )}
-                                            </div>
-                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                                )}
+                                    )}
+                            </div>
+
+                            <div className="swiper-pagination"></div>
+
+                            <div className="swiper-button-prev"></div>
+                            <div className="swiper-button-next"></div>
+
+
+                            <div className="swiper-scrollbar"></div>
                         </div>
 
-                        <div className="swiper-pagination"></div>
-
-                        <div className="swiper-button-prev"></div>
-                        <div className="swiper-button-next"></div>
-
-
-                        <div className="swiper-scrollbar"></div>
-                    </div>
-
+                </div>
             </div>
         </>
     )
