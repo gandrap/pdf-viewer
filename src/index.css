@@ -54,14 +54,23 @@ body {
 .swiper {
   width: 70%;
   height: 100%;
-  overflow: hidden !important; /* Force hidden overflow */
+  overflow: hidden; /* Keep overflow hidden on the container */
   position: relative; /* Ensure absolute positioning works relative to this container */
+  scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
 }
 
 .swiper-wrapper {
   display: flex;
   flex-wrap: nowrap;
-  overflow: hidden !important; /* Force hidden overflow */
+  overflow: auto; /* Allow scrolling in CSS Mode */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
+  /* width is now set dynamically by JavaScript to accommodate all slides */
+  justify-content: flex-start; /* Align slides to the start of the container */
+}
+
+.swiper-wrapper::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome/Safari */
 }
 
 
@@ -69,8 +78,9 @@ body {
   .swiper {
     /* Width will be set dynamically by JavaScript */
     height: 100%;
-    overflow: hidden !important; /* Force hidden overflow */
+    overflow: hidden;
     position: relative; /* Ensure absolute positioning works relative to this container */
+    scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
 }
 
@@ -79,8 +89,9 @@ body {
   .swiper {
     width: 90%;
     height: 100%;
-    overflow: hidden !important; /* Force hidden overflow */
+    overflow: hidden;
     position: relative; /* Ensure absolute positioning works relative to this container */
+    scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
 }
 
@@ -89,6 +100,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: auto !important; /* Let the width be determined by the content */
+  scroll-snap-align: start; /* Ensure slides snap to position in CSS Mode */
+  scroll-snap-stop: always; /* Prevent skipping slides when scrolling quickly */
 }
 
 .swiper-slide img {
@@ -172,7 +186,7 @@ body {
 
 .mainHolder {
   position: relative;
-  overflow: hidden !important; /* Force hidden overflow */
+  overflow: hidden;
   height: 100%;
   width: 100%; /* Ensure it takes full width */
 }
@@ -195,7 +209,7 @@ body {
   justify-content: center; /* Horizontalno centriranje, ako je potrebno */
   height: calc(100% - var(--header-height)); /* Use CSS variable for header height */
   max-width: 100%;
-  overflow: hidden !important;
+  overflow: hidden;
   position: relative; /* Ensure absolute positioning works relative to this container */
 }
 
@@ -206,7 +220,7 @@ body {
   right: 0;
   bottom: 0;
   z-index: 1000; /* High z-index to ensure it's above other elements */
-  overflow: hidden !important; /* Force hidden overflow */
+  overflow: hidden;
   cursor: grab;
   /* Removed transition to avoid conflict with GSAP animations */
   max-width: 100%;
@@ -333,8 +347,9 @@ body {
   .swiper {
     width: 95%;
     height: 100%;
-    overflow: hidden !important; /* Force hidden overflow */
+    overflow: hidden;
     position: relative; /* Ensure absolute positioning works relative to this container */
+    scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
 
   .swiperMainHolder {
@@ -355,8 +370,9 @@ body {
   .swiper {
     width: 95%;
     height: 100%;
-    overflow: hidden !important; /* Force hidden overflow */
+    overflow: hidden;
     position: relative; /* Ensure absolute positioning works relative to this container */
+    scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
 
   .popup {
@@ -368,8 +384,9 @@ body {
   .swiper {
     width: 100%;
     height: 100%;
-    overflow: hidden !important; /* Force hidden overflow */
+    overflow: hidden;
     position: relative; /* Ensure absolute positioning works relative to this container */
+    scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
 
   .popup {

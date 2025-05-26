@@ -3,8 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import Swiper from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/zoom';
-import {FreeMode, Navigation, Pagination, Zoom, Keyboard} from 'swiper/modules';
+import {FreeMode, Navigation, Pagination, Keyboard, Mousewheel} from 'swiper/modules';
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 // import {getDevice} from "react-native-device-info";
@@ -406,6 +405,8 @@ function MobileL({windowSize, device}) {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [isZoomed, setIsZoomed] = useState(false);
     const [isZoomTransitioning, setIsZoomTransitioning] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
+    const [lastInteractionTime, setLastInteractionTime] = useState(0);
 
     useEffect(() => {
         // Funkcija za ažuriranje dimenzija
@@ -432,6 +433,137 @@ function MobileL({windowSize, device}) {
         };
     }, []);
 
+    // Add event listeners to detect drag operations
+    useEffect(() => {
+        // Get a reference to the swiper container and wrapper
+        const swiperContainer = document.querySelector('.swiper');
+        const swiperWrapper = document.querySelector('.swiper-wrapper');
+        if (!swiperContainer || !swiperWrapper) return;
+
+        // Track drag distance to distinguish between clicks and drags
+        let dragStartX = 0;
+        let dragStartY = 0;
+        const dragThreshold = 5; // Minimum distance to consider it a drag
+        let isDraggingInternal = false; // Internal flag to track dragging state
+
+        const handleMouseDown = (e) => {
+            console.log('Mouse down: Resetting isDragging to false');
+            console.log('Mouse down target:', e.target.tagName, e.target.className);
+            setIsDragging(false); // Reset drag state on mouse down
+            isDraggingInternal = false;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+
+            // Record the time of the mouse down event
+            setLastInteractionTime(Date.now());
+            console.log('Mouse down time:', Date.now());
+        };
+
+        const handleMouseMove = (e) => {
+            // Only consider it a drag if the mouse has moved more than the threshold
+            if (e.buttons === 1) { // Left mouse button is pressed
+                const dragDistanceX = Math.abs(e.clientX - dragStartX);
+                const dragDistanceY = Math.abs(e.clientY - dragStartY);
+
+                // Consider it a drag if the mouse has moved enough
+                if (dragDistanceX > dragThreshold || dragDistanceY > dragThreshold) {
+                    console.log('Mouse drag detected, distances:', { dragDistanceX, dragDistanceY });
+                    isDraggingInternal = true;
+                    setIsDragging(true);
+                }
+            }
+        };
+
+        const handleMouseUp = (e) => {
+            // If we detected dragging during mouse move, keep the isDragging state
+            if (isDraggingInternal) {
+                console.log('Mouse up: Drag operation detected');
+
+                // Reset drag state after a delay to ensure click event fires first
+                setTimeout(() => {
+                    console.log('Mouse up: Resetting isDragging to false');
+                    setIsDragging(false);
+                    isDraggingInternal = false;
+                }, 100);
+            } else {
+                // No drag was detected, reset immediately
+                setIsDragging(false);
+                isDraggingInternal = false;
+            }
+        };
+
+        // Handle touch events for mobile devices
+        const handleTouchStart = (e) => {
+            console.log('Touch start: Resetting isDragging to false');
+            console.log('Touch start target:', e.target.tagName, e.target.className);
+            setIsDragging(false); // Reset drag state on touch start
+            isDraggingInternal = false;
+            if (e.touches.length > 0) {
+                dragStartX = e.touches[0].clientX;
+                dragStartY = e.touches[0].clientY;
+
+                // Record the time of the touch start event
+                setLastInteractionTime(Date.now());
+                console.log('Touch start time:', Date.now());
+            }
+        };
+
+        const handleTouchMove = (e) => {
+            // Only consider it a drag if the touch has moved more than the threshold
+            if (e.touches.length > 0) {
+                const dragDistanceX = Math.abs(e.touches[0].clientX - dragStartX);
+                const dragDistanceY = Math.abs(e.touches[0].clientY - dragStartY);
+
+                // Consider it a drag if the touch has moved enough
+                if (dragDistanceX > dragThreshold || dragDistanceY > dragThreshold) {
+                    console.log('Touch drag detected, distances:', { dragDistanceX, dragDistanceY });
+                    isDraggingInternal = true;
+                    setIsDragging(true);
+                }
+            }
+        };
+
+        const handleTouchEnd = (e) => {
+            // If we detected dragging during touch move, keep the isDragging state
+            if (isDraggingInternal) {
+                console.log('Touch end: Drag operation detected');
+
+                // Reset drag state after a delay to ensure tap event fires first
+                setTimeout(() => {
+                    console.log('Touch end: Resetting isDragging to false');
+                    setIsDragging(false);
+                    isDraggingInternal = false;
+                }, 100);
+            } else {
+                // No drag was detected, reset immediately
+                setIsDragging(false);
+                isDraggingInternal = false;
+            }
+        };
+
+        // Add event listeners to the swiper container
+        swiperContainer.addEventListener('mousedown', handleMouseDown);
+        swiperContainer.addEventListener('mousemove', handleMouseMove);
+        swiperContainer.addEventListener('mouseup', handleMouseUp);
+        swiperContainer.addEventListener('touchstart', handleTouchStart);
+        swiperContainer.addEventListener('touchmove', handleTouchMove);
+        swiperContainer.addEventListener('touchend', handleTouchEnd);
+
+        // Add event listener to document to catch mouse up events outside the container
+        document.addEventListener('mouseup', handleMouseUp);
+
+        // Clean up event listeners when component unmounts
+        return () => {
+            swiperContainer.removeEventListener('mousedown', handleMouseDown);
+            swiperContainer.removeEventListener('mousemove', handleMouseMove);
+            swiperContainer.removeEventListener('mouseup', handleMouseUp);
+            swiperContainer.removeEventListener('touchstart', handleTouchStart);
+            swiperContainer.removeEventListener('touchmove', handleTouchMove);
+            swiperContainer.removeEventListener('touchend', handleTouchEnd);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, []);
+
     function getStyle(image) {
         // We don't need to set the height here anymore as it's handled by CSS
         // The swiperMainHolder height is dynamically calculated as calc(100% - var(--header-height))
@@ -443,10 +575,35 @@ function MobileL({windowSize, device}) {
 
     const swiper = new Swiper('.swiper', {
         // configure Swiper to use modules
-        modules: [Pagination, Navigation, Keyboard],
-        freeMode: true,
-        slidesPerView:2,
+        modules: [Pagination, Navigation, Keyboard, FreeMode, Mousewheel],
+        cssMode: false, // Disable CSS Mode to allow mouse dragging
+        freeMode: {
+            enabled: false, // Disable freeMode to respect slidesPerGroup during dragging
+            momentum: true,
+            momentumRatio: 0.8,
+            momentumBounce: true,
+            momentumBounceRatio: 0.8,
+            minimumVelocity: 0.02,
+        }, // Disable free mode to respect slidesPerGroup during dragging
+        threshold: 5, // Minimum distance for a swipe (in px) - reduced to make slider more sensitive to small drags
+        touchReleaseOnEdges: true, // Release touch events on slider edge
+        followFinger: true, // Slider will follow the finger during swipes
+        longSwipes: true, // Enable long swipes
+        longSwipesRatio: 0.1, // Reduced ratio to trigger long swipe (only 10% of slider width needed)
+        touchRatio: 1.5, // Increased touch ratio for more responsive slides
+        slidesPerView: 2,
         spaceBetween: 0,
+        slideToClickedSlide: true,
+        centeredSlides: false,
+        slidesPerGroup: 2,
+        grabCursor: true, // Show grab cursor when hovering over the slider
+        resistance: true, // Add resistance when reaching the end of the slider
+        resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
+        mousewheel: {
+            enabled: true,
+            sensitivity: 1,
+            forceToAxis: true,
+        }, // Enable mouse wheel navigation
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
@@ -459,18 +616,22 @@ function MobileL({windowSize, device}) {
             '@0.25': {
                 slidesPerView: 1,
                 spaceBetween: 0,
+                slidesPerGroup: 2,
             },
             '@0.75': {
                 slidesPerView: 2,
-                    spaceBetween: 0,
+                spaceBetween: 0,
+                slidesPerGroup: 2,
             },
             '@1.00': {
                 slidesPerView: 2,
-                    spaceBetween: 0,
+                spaceBetween: 0,
+                slidesPerGroup: 2,
             },
             '@1.50': {
                 slidesPerView: 2,
-                    spaceBetween: 0,
+                spaceBetween: 0,
+                slidesPerGroup: 2,
             }
         },
         on: {
@@ -556,6 +717,7 @@ function MobileL({windowSize, device}) {
 
         const slides = document.querySelectorAll('.swiper-slide img');
         let totalWidth = 0;
+        let visibleWidth = 0;
         let slideCount = 0;
 
         slides.forEach((img) => {
@@ -570,26 +732,29 @@ function MobileL({windowSize, device}) {
 
             slide.style.width = `${renderedWidth}px`;
 
-            // Only count the first two slides for width calculation
+            // Calculate total width of all slides
+            totalWidth += renderedWidth;
+
+            // Only count the first two slides for visible width calculation
             if (slideCount < 2) {
-                totalWidth += renderedWidth;
+                visibleWidth += renderedWidth;
                 slideCount++;
             }
         });
 
-        // If we have at least two slides, set the swiper container width
-        if (slideCount === 2) {
+        // Set the swiper wrapper width to accommodate all slides
+        if (slides.length > 0) {
             // Add a small margin between slides (spaceBetween value from swiper config)
             const spaceBetween = 0; // This should match the spaceBetween value in swiper config
-            const containerWidth = totalWidth + spaceBetween;
+            const wrapperWidth = totalWidth + (spaceBetween * (slides.length - 1));
 
-            // Get the mainHolder width to calculate percentage
-            const mainHolderWidth = document.querySelector('.mainHolder').offsetWidth;
-            const widthPercentage = (containerWidth / mainHolderWidth) * 100;
+            // Set the swiper wrapper width to accommodate all slides
+            document.querySelector('.swiper-wrapper').style.width = `${wrapperWidth}px`;
 
-            // Set the swiper container width as a percentage of the mainHolder width
-            // No buffer added to ensure exactly two slides are visible
-            document.querySelector('.swiper').style.width = `${widthPercentage}%`;
+            // Set the swiper container width to show exactly 2 slides
+            if (slideCount === 2) {
+                document.querySelector('.swiper').style.width = `${visibleWidth + spaceBetween}px`;
+            }
         }
     }
 
@@ -641,14 +806,17 @@ function MobileL({windowSize, device}) {
         // We keep the container in its original position and just scale it
         gsap.to(swiperContainer, {
             scale: 1.5,
-            duration: 0.5, // Match duration with closeZoomedWindow for consistency
-            ease: "power1.inOut", // Match easing with closeZoomedWindow for consistency
+            duration: 0.5,
+            ease: "power1.inOut",
             onComplete: function() {
-                // Restore the CSS transition immediately after animation completes
-                swiperContainer.style.transition = '';
+                // Use requestAnimationFrame for consistency with closeZoomedWindow
+                requestAnimationFrame(() => {
+                    // Restore the CSS transition
+                    swiperContainer.style.transition = '';
 
-                // Reset the flag to indicate that the zoom transition is complete
-                setIsZoomTransitioning(false);
+                    // Reset the flag to indicate that the zoom transition is complete
+                    setIsZoomTransitioning(false);
+                });
             }
         });
     }
@@ -666,34 +834,41 @@ function MobileL({windowSize, device}) {
         // Just scale back to 1 without changing position or dimensions
         gsap.to(swiperContainer, {
             scale: 1,
-            duration: 0.5, // Slightly longer duration for smoother animation
-            ease: "power1.inOut", // Different easing function for smoother transition
+            duration: 0.5,
+            ease: "power1.inOut",
             onComplete: function() {
-                // First, restore the CSS transition
-                swiperContainer.style.transition = '';
+                // Reset all styles in a single animation frame to prevent flickering
+                requestAnimationFrame(() => {
+                    // First restore the CSS transition
+                    swiperContainer.style.transition = '';
 
-                // Use a small delay before resetting styles to ensure the animation is fully complete
-                setTimeout(() => {
-                    // Reset the state after animation completes
+                    // Reset the state
                     setIsZoomed(false);
                     swiperContainer.classList.remove('zoomed');
 
-                    // Reset the inline styles that were set during the zoom
-                    // Use requestAnimationFrame to ensure this happens in the next paint cycle
-                    requestAnimationFrame(() => {
-                        swiperContainer.style.width = '';
-                        swiperContainer.style.height = '';
-                        swiperContainer.style.transform = '';
-                        swiperContainer.style.transformOrigin = '';
-                        swiperContainer.style.x = '';
-                        swiperContainer.style.y = '';
-
-                        // Reset the flag to indicate that the zoom transition is complete
-                        // We do this after all styles have been reset to ensure no resize events
-                        // are processed during the style reset
-                        setIsZoomTransitioning(false);
-                    });
-                }, 100); // Increased delay to ensure animation is fully complete
+                    // // Reset all inline styles in one go
+                    // swiperContainer.style.width = '';
+                    // swiperContainer.style.height = '';
+                    // swiperContainer.style.transform = '';
+                    // swiperContainer.style.transformOrigin = '';
+                    // swiperContainer.style.x = '';
+                    // swiperContainer.style.y = '';
+                    //
+                    // // Also reset the swiper-wrapper width to prevent jumping
+                    // const swiperWrapper = document.querySelector('.swiper-wrapper');
+                    // if (swiperWrapper) {
+                    //     swiperWrapper.style.width = '';
+                    // }
+                    //
+                    // // Reset the transition flag after all styles are reset
+                    // setIsZoomTransitioning(false);
+                    //
+                    // // Recalculate slide widths after the transition is complete
+                    // // We need to temporarily set isZoomTransitioning to false to allow adjustSlideWidths to run
+                    // setTimeout(() => {
+                    //     adjustSlideWidths();
+                    // }, 0);
+                });
             }
         });
     }
@@ -802,9 +977,128 @@ function MobileL({windowSize, device}) {
                 >
                         <div className="swiper"
                              onClick={(e) => {
-                                 isZoomed ? onClickClose(e) : onClickOpen(e);
+                                 // Only handle click if not dragging
+                                 console.log('onClick handler called, isDragging:', isDragging, 'isZoomed:', isZoomed);
+
+                                 // Check the event object
+                                 console.log('Click event:', {
+                                     type: e.type,
+                                     target: e.target.tagName,
+                                     currentTarget: e.currentTarget.tagName,
+                                     clientX: e.clientX,
+                                     clientY: e.clientY,
+                                     buttons: e.buttons,
+                                     detail: e.detail,
+                                     isTrusted: e.isTrusted
+                                 });
+
+                                 // Check the time elapsed since the last mouse down event
+                                 const timeElapsed = Date.now() - lastInteractionTime;
+                                 console.log('Time elapsed since last interaction:', timeElapsed, 'ms');
+
+                                 // If the time elapsed is very short, it might be a drag operation
+                                 if (timeElapsed < 50) {
+                                     console.log('Click happened too quickly after mouse down, might be a drag');
+                                     setIsDragging(true);
+                                 }
+
+                                 // Check if the click is on a slide element
+                                 const isSlideClick = e.target.closest('.swiper-slide') !== null;
+                                 console.log('Click is on a slide:', isSlideClick);
+
+                                 // Check if the wrapper has scrolled
+                                 const swiperWrapper = document.querySelector('.swiper-wrapper');
+                                 if (swiperWrapper) {
+                                     console.log('Wrapper scroll position:', swiperWrapper.scrollLeft);
+                                 }
+
+                                 // Check the current state of the swiper container
+                                 const swiperContainer = document.querySelector('.swiper');
+                                 if (swiperContainer) {
+                                     console.log('Swiper container classes:', swiperContainer.className);
+                                     console.log('Swiper container has zoomed class:', swiperContainer.classList.contains('zoomed'));
+                                     console.log('Swiper container style:', swiperContainer.getAttribute('style'));
+                                 }
+
+                                 // Check the current state of the swiper instance
+                                 if (swiper) {
+                                     console.log('Swiper instance:', {
+                                         activeIndex: swiper.activeIndex,
+                                         isBeginning: swiper.isBeginning,
+                                         isEnd: swiper.isEnd,
+                                         params: {
+                                             cssMode: swiper.params.cssMode,
+                                             freeMode: swiper.params.freeMode,
+                                             slidesPerView: swiper.params.slidesPerView
+                                         }
+                                     });
+                                 }
+
+                                 if (!isDragging) {
+                                     isZoomed ? onClickClose(e) : onClickOpen(e);
+                                 } else {
+                                     console.log('Ignoring click because isDragging is true');
+                                 }
                              }}
-                             onTouchEnd={(e) => isZoomed ? onTapClose(e) : onTapOpen(e)}
+                             onTouchEnd={(e) => {
+                                 // Only handle touch end if not dragging
+                                 console.log('onTouchEnd handler called, isDragging:', isDragging, 'isZoomed:', isZoomed);
+
+                                 // Check the event object
+                                 console.log('Touch end event:', {
+                                     type: e.type,
+                                     target: e.target.tagName,
+                                     currentTarget: e.currentTarget.tagName,
+                                     touches: e.touches.length,
+                                     changedTouches: e.changedTouches.length,
+                                     isTrusted: e.isTrusted
+                                 });
+
+                                 if (e.changedTouches.length > 0) {
+                                     console.log('Touch end position:', {
+                                         clientX: e.changedTouches[0].clientX,
+                                         clientY: e.changedTouches[0].clientY
+                                     });
+                                 }
+
+                                 // Check if the touch end is on a slide element
+                                 const isSlideTouchEnd = e.target.closest('.swiper-slide') !== null;
+                                 console.log('Touch end is on a slide:', isSlideTouchEnd);
+
+                                 // Check if the wrapper has scrolled
+                                 const swiperWrapper = document.querySelector('.swiper-wrapper');
+                                 if (swiperWrapper) {
+                                     console.log('Wrapper scroll position:', swiperWrapper.scrollLeft);
+                                 }
+
+                                 // Check the current state of the swiper container
+                                 const swiperContainer = document.querySelector('.swiper');
+                                 if (swiperContainer) {
+                                     console.log('Swiper container classes:', swiperContainer.className);
+                                     console.log('Swiper container has zoomed class:', swiperContainer.classList.contains('zoomed'));
+                                     console.log('Swiper container style:', swiperContainer.getAttribute('style'));
+                                 }
+
+                                 // Check the current state of the swiper instance
+                                 if (swiper) {
+                                     console.log('Swiper instance:', {
+                                         activeIndex: swiper.activeIndex,
+                                         isBeginning: swiper.isBeginning,
+                                         isEnd: swiper.isEnd,
+                                         params: {
+                                             cssMode: swiper.params.cssMode,
+                                             freeMode: swiper.params.freeMode,
+                                             slidesPerView: swiper.params.slidesPerView
+                                         }
+                                     });
+                                 }
+
+                                 if (!isDragging) {
+                                     isZoomed ? onTapClose(e) : onTapOpen(e);
+                                 } else {
+                                     console.log('Ignoring touch end because isDragging is true');
+                                 }
+                             }}
                         >
 
                             <div className="swiper-wrapper">
