@@ -1,0 +1,259 @@
+[
+    {
+        "image": "1.jpg",
+        "width": 1200,
+        "height": 2118,
+        "video": [],
+        "html_elements": [
+            {
+                "css": {
+                    "left": "271.271px",
+                    "top": "513.235px",
+                    "width": "164.333px",
+                    "height": "182.436px",
+                    "position": "absolute",
+                    "background": "url(/pdf/meso.gif) no-repeat",
+                    "backgroundSize": "contain"
+                }
+            }
+        ]
+    },
+    {
+        "image": "2.jpg",
+        "width": 1080,
+        "height": 1906,
+        "html_elements": [
+            {
+                "css": {
+                    "left": "0px",
+                    "top": "0px",
+                    "width": "1200px",
+                    "height": "2118px",
+                    "position": "absolute",
+                    "background": "none",
+                    "backgroundSize": "contain"
+                },
+                "video": {
+                    "url": "/pdf/video1.mp4",
+                    "type": "video/mp4",
+                    "attributes": "autoPlay loop muted"
+                }
+            }
+        ]
+    },
+    {
+        "image": "3.jpg",
+        "width": 1200,
+        "height": 2118,
+        "video": [],
+        "html_elements": [
+            {
+                "css": {
+                    "left": "780.271px",
+                    "top": "567.235px",
+                    "width": "336.917px",
+                    "height": "316.045px",
+                    "position": "absolute",
+                    "background": "url(/pdf/naj-naj.gif) no-repeat",
+                    "backgroundSize": "contain"
+                }
+            },
+            {
+                "css": {
+                    "left": "776.674px",
+                    "top": "1513.711px",
+                    "width": "329.578px",
+                    "height": "256.145px",
+                    "position": "absolute",
+                    "background": "url(/pdf/100-domace-meso.gif) no-repeat",
+                    "backgroundSize": "contain"
+                }
+            }
+        ]
+    },
+    {
+        "image": "5.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": [
+            {
+                "css": {
+                    "left": "60.271px",
+                    "top": "500px",
+                    "width": "400px",
+                    "height": "105px",
+                    "position": "absolute",
+                    "backgroundSize": "contain"
+                },
+                "button": {
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "url(/pdf/recipe_btn.gif) no-repeat",
+                        "backgroundSize": "contain",
+                        "border": "none"
+                    },
+                    "type": "popup",
+                    "popup": {
+                        "images": [
+                            "/pdf/popup1.jpg"
+                        ],
+                        "title": "Drpano prase u domaćoj lepinji",
+                        "button": {
+                            "url": "https://google.com",
+                            "label": "POGLEDAJTE RECEPT",
+                            "css": {
+                                "display": "block",
+                                "padding": "20px 30px",
+                                "textAlign": "center",
+                                "background": "#EE2F36",
+                                "width": "80%",
+                                "margin": "auto",
+                                "borderRadius": "35px",
+                                "color": "#fff",
+                                "textDecoration": "none",
+                                "fontSize": "17px",
+                                "fontFamily": "robotoCondensedBold"
+                            }
+                        },
+                        "content": "<p>Ako do sada niste imali priliku da napravite drpano prase ili cepaknu prasetinu, preporučujemo vam da isprobate ovaj sjajan recept.</p><b>Sastojci za svinjetinu:</b><ul><li>1 kg 800 g svinjske plećke bez kostiju</li><li>3 kašike smeđeg šećera</li><li>1 kašike soli</li><li>1 kašike začinske paprike</li><li>1 kašičica belog luka u prahu</li><li>1 kašičica crnog luka u prahu</li><li>1 kašičica mlevenog kumina</li><li>sveže mleveni crni biber po ukusu</li><li>2 kašike ulja 355 ml piva (lager)</li></ul><b>Sastojci za BBQ sos:</b><ul><li>1 1/2 šolja kečapa</li><li>1/3 šolje jabukovog sirćeta</li><li>1/2 šolje Dižon senfa</li><li>1/4 šolje braon šećera</li><li>2 kašike vorčester sosa</li></ul><b>Dodatni sastojci za služenje:</b><ul><li>Lepinje</li</ul>",
+                        "logo": "/pdf/popupLogo.png"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "image": "6.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "7.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "8.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "9.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "10.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "11.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "12.jpg",
+        "width": 1200,
+        "height": 2118,
+        "html_elements": [
+            {
+                "css": {
+                    "left": "35px",
+                    "top": "0px",
+                    "width": "1128px",
+                    "height": "658px",
+                    "position": "absolute",
+                    "background": "none",
+                    "backgroundSize": "contain",
+                    "borderEndEndRadius": "14px",
+                    "borderEndStartRadius": "14px",
+                    "overflow": "hidden"
+                },
+                "video": {
+                    "url": "/pdf/video2.mp4",
+                    "type": "video/mp4",
+                    "attributes": "autoPlay muted"
+                }
+            }
+        ]
+    },
+    {
+        "image": "13.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "14.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "15.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": []
+    },
+    {
+        "image": "16.jpg",
+        "video": [],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": [
+            {
+                "css": {
+                    "left": "600px",
+                    "top": "370px",
+                    "width": "302px",
+                    "height": "302px",
+                    "position": "absolute",
+                    "background": "url(/pdf/meso.gif) no-repeat",
+                    "backgroundSize": "100%",
+                    "zIndex": "1"
+                }
+            },
+            {
+                "css": {
+                    "left": "428px",
+                    "top": "423px",
+                    "width": "213px",
+                    "height": "165px",
+                    "position": "absolute",
+                    "background": "url(/pdf/100-domace-meso.gif) no-repeat",
+                    "backgroundSize": "contain",
+                    "zIndex": "2"
+                }
+            },
+            {
+                "css": {
+                    "left": "83px",
+                    "top": "397px",
+                    "width": "1077px",
+                    "height": "571px",
+                    "position": "absolute",
+                    "zIndex": "3"
+                },
+                "link": "https://google.rs/"
+            }
+        ]
+    }
+]

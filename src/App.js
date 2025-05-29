@@ -7,322 +7,12 @@ import {FreeMode, Navigation, Pagination, Keyboard, Mousewheel} from 'swiper/mod
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 // import {getDevice} from "react-native-device-info";
+import pages from './assets/pages.json'
+
 
 
 gsap.registerPlugin(Draggable);
 
-const pages = [
-    {
-        'image': '1.jpg',
-        'width': 1200,
-        'height': 2118,
-        'video': [],
-        'html_elements': [
-            {
-                'css': {
-                    left: '271.271px',
-                    top: '513.235px',
-                    width: '164.333px',
-                    height: '182.436px',
-                    position: "absolute",
-                    background: 'url(/pdf/meso.gif) no-repeat',
-                    backgroundSize: 'contain'
-                }
-            },
-            // {
-            //     left: '1060px',
-            //     top: '403px',
-            //     width: '140px',
-            //     height: '49px',
-            //     position: "absolute",
-            //     // background: 'black',
-            // },
-            // {
-            //     top: '529px',
-            //     left: '56px',
-            //     width: '319px',
-            //     height: '319px',
-            //     position: "absolute",
-            //     background: 'url(/pdf/idea-krug3.gif)',
-            //     backgroundSize: 'contain',
-            // },
-            // {
-            //     top: '1597px',
-            //     left: '0',
-            //     width: '1172px',
-            //     height: '118px',
-            //     position: "absolute",
-            //     background: 'url(/pdf/brojcanik.gif) no-repeat',
-            //     backgroundSize: 'contain',
-            // }
-        ]
-    },
-    {
-        'image': '2.jpg',
-        'width': 1080,
-        'height': 1906,
-        'html_elements': [
-            {
-                'css': {
-                    left: '0px',
-                    top: '0px',
-                    width: '1200px',
-                    height: '2118px',
-                    position: "absolute",
-                    background: 'none',
-                    backgroundSize: 'contain',
-                },
-                'video': {
-                    'url': '/pdf/video1.mp4',
-                    'type': 'video/mp4',
-                    'attributes': 'autoPlay loop muted'
-                },
-            }
-
-        ]
-    },
-    {
-        'image': '3.jpg',
-        'width': 1200,
-        'height': 2118,
-        'video': [],
-        'html_elements': [
-            {
-                'css': {
-                    left: '780.271px',
-                    top: '567.235px',
-                    width: '336.917px',
-                    height: '316.045px',
-                    position: "absolute",
-                    background: 'url(/pdf/naj-naj.gif) no-repeat',
-                    backgroundSize: 'contain'
-                }
-            },
-            {
-                'css': {
-                    left: '776.674px',
-                    top: '1513.711px',
-                    width: '329.578px',
-                    height: '256.145px',
-                    position: "absolute",
-                    background: 'url(/pdf/100-domace-meso.gif) no-repeat',
-                    backgroundSize: 'contain'
-                }
-            },
-        ]
-    },
-    {
-        'image': '5.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': [
-            {
-                'css': {
-                    left: '60.271px',
-                    top: '500px',
-                    width: '400px',
-                    height: '105px',
-                    position: "absolute",
-                    backgroundSize: 'contain',
-                },
-                'button': {
-                    'css': {
-                        width: '100%',
-                        height: '100%',
-                        background: 'url(/pdf/recipe_btn.gif) no-repeat',
-                        backgroundSize: 'contain',
-                        border: 'none',
-                    },
-                    'type': 'popup',
-                    'popup': {
-                        'images': [
-                            '/pdf/popup1.jpg'
-                        ],
-                        'title': 'Drpano prase u domaćoj lepinji',
-                        'button': {
-                            'url': 'https://google.com',
-                            'label': 'POGLEDAJTE RECEPT',
-                            'css': {
-                                display: 'block',
-                                padding: '20px 30px',
-                                textAlign: 'center',
-                                background: '#EE2F36',
-                                width: '80%',
-                                margin: 'auto',
-                                borderRadius: '35px',
-                                color: '#fff',
-                                textDecoration: 'none',
-                                fontSize: '17px',
-                                fontFamily: 'robotoCondensedBold'
-                            }
-                        },
-                        'content':
-                            '<p>Ako do sada niste imali priliku da napravite drpano prase ili cepaknu prasetinu, preporučujemo vam da isprobate ovaj sjajan recept.</p>'+
-                            '<b>Sastojci za svinjetinu:</b>'+
-                            '<ul>'+
-                            '<li>1 kg 800 g svinjske plećke bez kostiju</li>'+
-                            '<li>3 kašike smeđeg šećera</li>'+
-                            '<li>1 kašike soli</li>'+
-                            '<li>1 kašike začinske paprike</li>'+
-                            '<li>1 kašičica belog luka u prahu</li>'+
-                            '<li>1 kašičica crnog luka u prahu</li>'+
-                            '<li>1 kašičica mlevenog kumina</li>' +
-                            '<li>sveže mleveni crni biber po ukusu</li>'+
-                            '<li>2 kašike ulja 355 ml piva (lager)</li>'+
-                            '</ul>'+
-                            '<b>Sastojci za BBQ sos:</b>'+
-                            '<ul>'+
-                            '<li>1 1/2 šolja kečapa</li>'+
-                            '<li>1/3 šolje jabukovog sirćeta</li>'+
-                            '<li>1/2 šolje Dižon senfa</li>'+
-                            '<li>1/4 šolje braon šećera</li>'+
-                            '<li>2 kašike vorčester sosa</li>'+
-                            '</ul>'+
-                            '<b>Dodatni sastojci za služenje:</b>'+
-                            '<ul>'+
-                            '<li>Lepinje</li'+
-                            '</ul>',
-                        'logo': '/pdf/popupLogo.png'
-                    }
-                }
-            },
-        ]
-    },
-    {
-        'image': '6.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '7.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '8.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '9.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '10.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '11.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '12.jpg',
-
-        'width': 1200,
-        'height': 2118,
-        'html_elements': [
-            {
-                'css': {
-                    left: '35px',
-                    top: '0px',
-                    width: '1128px',
-                    height: '658px',
-                    position: "absolute",
-                    background: 'none',
-                    backgroundSize: 'contain',
-                    borderEndEndRadius: '14px',
-                    borderEndStartRadius: '14px',
-                    overflow: 'hidden',
-                },
-                'video': {
-                    'url': '/pdf/video2.mp4',
-                    'type': 'video/mp4',
-                    'attributes': 'autoPlay muted'
-                },
-            }
-        ]
-    },
-    {
-        'image': '13.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '14.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '15.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': []
-    },
-    {
-        'image': '16.jpg',
-        'video': [],
-        'width': 1200,
-        'height': 2118,
-        'html_elements': [
-            {
-                'css': {
-                    left: '600px',
-                    top: '370px',
-                    width: '302px',
-                    height: '302px',
-                    position: "absolute",
-                    background: 'url(/pdf/meso.gif) no-repeat',
-                    backgroundSize: '100%',
-                    zIndex: '1',
-                },
-            },
-            {
-                'css': {
-                    left: '428px',
-                    top: '423px',
-                    width: '213px',
-                    height: '165px',
-                    position: "absolute",
-                    background: 'url(/pdf/100-domace-meso.gif) no-repeat',
-                    backgroundSize: 'contain',
-                    zIndex: '2'
-                }
-            },
-            {
-                'css': {
-                    left: '83px',
-                    top: '397px',
-                    width: '1077px',
-                    height: '571px',
-                    position: "absolute",
-                    zIndex: '3'
-                },
-                'link': 'https://google.rs/'
-            },
-        ]
-    }
-]
 
 export default function App() {
 
@@ -402,6 +92,8 @@ export default function App() {
 function MobileL({windowSize, device}) {
 
     const divRef = useRef(null); // Referenca na `div` element
+    const swiperRef = useRef(null); // Reference to the Swiper instance
+    const draggableRef = useRef(null); // Reference to the Draggable instance
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [isZoomed, setIsZoomed] = useState(false);
     const [isZoomTransitioning, setIsZoomTransitioning] = useState(false);
@@ -571,88 +263,101 @@ function MobileL({windowSize, device}) {
         return {};
     }
 
-    const swiperContainer = document.querySelector('.swiper');
+    // Initialize Swiper in a useEffect hook to ensure it's only initialized once
+    useEffect(() => {
+        const swiperContainer = document.querySelector('.swiper');
+        if (!swiperContainer) return;
 
-    const swiper = new Swiper('.swiper', {
-        // configure Swiper to use modules
-        modules: [Pagination, Navigation, Keyboard, FreeMode, Mousewheel],
-        cssMode: false, // Disable CSS Mode to allow mouse dragging
-        freeMode: {
-            enabled: false, // Disable freeMode to respect slidesPerGroup during dragging
-            momentum: true,
-            momentumRatio: 0.8,
-            momentumBounce: true,
-            momentumBounceRatio: 0.8,
-            minimumVelocity: 0.02,
-        }, // Disable free mode to respect slidesPerGroup during dragging
-        threshold: 5, // Minimum distance for a swipe (in px) - reduced to make slider more sensitive to small drags
-        touchReleaseOnEdges: true, // Release touch events on slider edge
-        followFinger: true, // Slider will follow the finger during swipes
-        longSwipes: true, // Enable long swipes
-        longSwipesRatio: 0.1, // Reduced ratio to trigger long swipe (only 10% of slider width needed)
-        touchRatio: 1.5, // Increased touch ratio for more responsive slides
-        slidesPerView: 2,
-        spaceBetween: 0,
-        slideToClickedSlide: true,
-        centeredSlides: false,
-        slidesPerGroup: 2,
-        grabCursor: true, // Show grab cursor when hovering over the slider
-        resistance: true, // Add resistance when reaching the end of the slider
-        resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
-        mousewheel: {
-            enabled: true,
-            sensitivity: 1,
-            forceToAxis: true,
-        }, // Enable mouse wheel navigation
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        keyboard: {
-            enabled: true,
-        },
-        watchSlidesVisibility: true,
-        breakpoints: {
-            '@0.25': {
-                slidesPerView: 1,
-                spaceBetween: 0,
-                slidesPerGroup: 2,
+        // Initialize Swiper and store the instance in the ref
+        swiperRef.current = new Swiper('.swiper', {
+            // configure Swiper to use modules
+            modules: [Pagination, Navigation, Keyboard, FreeMode, Mousewheel],
+            cssMode: false, // Disable CSS Mode to allow mouse dragging
+            freeMode: {
+                enabled: false, // Disable freeMode to respect slidesPerGroup during dragging
+                momentum: true,
+                momentumRatio: 0.8,
+                momentumBounce: true,
+                momentumBounceRatio: 0.8,
+                minimumVelocity: 0.02,
+            }, // Disable free mode to respect slidesPerGroup during dragging
+            threshold: 5, // Minimum distance for a swipe (in px) - reduced to make slider more sensitive to small drags
+            touchReleaseOnEdges: true, // Release touch events on slider edge
+            followFinger: true, // Slider will follow the finger during swipes
+            longSwipes: true, // Enable long swipes
+            longSwipesRatio: 0.1, // Reduced ratio to trigger long swipe (only 10% of slider width needed)
+            touchRatio: 1.5, // Increased touch ratio for more responsive slides
+            slidesPerView: 2,
+            spaceBetween: 0,
+            slideToClickedSlide: true,
+            centeredSlides: false,
+            slidesPerGroup: 2,
+            grabCursor: true, // Show grab cursor when hovering over the slider
+            resistance: true, // Add resistance when reaching the end of the slider
+            resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
+            mousewheel: {
+                enabled: true,
+                sensitivity: 1,
+                forceToAxis: true,
+            }, // Enable mouse wheel navigation
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
             },
-            '@0.75': {
-                slidesPerView: 2,
-                spaceBetween: 0,
-                slidesPerGroup: 2,
+            keyboard: {
+                enabled: true,
             },
-            '@1.00': {
-                slidesPerView: 2,
-                spaceBetween: 0,
-                slidesPerGroup: 2,
+            watchSlidesVisibility: true,
+            breakpoints: {
+                '@0.25': {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    slidesPerGroup: 2,
+                },
+                '@0.75': {
+                    slidesPerView: 2,
+                    spaceBetween: 0,
+                    slidesPerGroup: 2,
+                },
+                '@1.00': {
+                    slidesPerView: 2,
+                    spaceBetween: 0,
+                    slidesPerGroup: 2,
+                },
+                '@1.50': {
+                    slidesPerView: 2,
+                    spaceBetween: 0,
+                    slidesPerGroup: 2,
+                }
             },
-            '@1.50': {
-                slidesPerView: 2,
-                spaceBetween: 0,
-                slidesPerGroup: 2,
+            on: {
+                init: function (swiper) {
+                    adjustSlideWidths();
+                    adjustAllOverlayPositions();
+
+                    const activeSlide = parseInt(window.location.hash.split('_')[1]) || 0;
+                    swiper.slideTo(activeSlide, 0, false);
+
+                },
+                resize: function () {
+                    adjustSlideWidths();
+                    adjustAllOverlayPositions();
+
+                },
+                slideChange: function (swiper, index) {
+                    window.location.hash = 'page_'+swiper.activeIndex;
+                }
+            },
+        });
+
+        // Clean up Swiper instance when component unmounts
+        return () => {
+            if (swiperRef.current) {
+                swiperRef.current.destroy(true, true);
+                swiperRef.current = null;
             }
-        },
-        on: {
-            init: function (swiper) {
-                adjustSlideWidths();
-                adjustAllOverlayPositions();
-
-                const activeSlide = parseInt(window.location.hash.split('_')[1]) || 0;
-                swiper.slideTo(activeSlide, 0, false);
-
-            },
-            resize: function () {
-                adjustSlideWidths();
-                adjustAllOverlayPositions();
-
-            },
-            slideChange: function (swiper, index) {
-                window.location.hash = 'page_'+swiper.activeIndex;
-            }
-        },
-    });
+        };
+    }, []);
 
     function adjustAllOverlayPositions() {
         // Skip this function if a zoom transition is in progress
@@ -715,6 +420,9 @@ function MobileL({windowSize, device}) {
             return;
         }
 
+        const swiperContainer = document.querySelector('.swiper');
+        const isCurrentlyZoomed = swiperContainer.classList.contains('zoomed');
+
         const slides = document.querySelectorAll('.swiper-slide img');
         let totalWidth = 0;
         let visibleWidth = 0;
@@ -730,7 +438,10 @@ function MobileL({windowSize, device}) {
 
             const renderedWidth = (renderedHeight * realWidth) / realHeight;
 
-            slide.style.width = `${renderedWidth}px`;
+            // Only set slide width if not in zoomed state to prevent interference with dragging
+            if (!isCurrentlyZoomed) {
+                slide.style.width = `${renderedWidth}px`;
+            }
 
             // Calculate total width of all slides
             totalWidth += renderedWidth;
@@ -748,13 +459,23 @@ function MobileL({windowSize, device}) {
             const spaceBetween = 0; // This should match the spaceBetween value in swiper config
             const wrapperWidth = totalWidth + (spaceBetween * (slides.length - 1));
 
-            // Set the swiper wrapper width to accommodate all slides
-            document.querySelector('.swiper-wrapper').style.width = `${wrapperWidth}px`;
+            const swiperWrapper = document.querySelector('.swiper-wrapper');
+
+            // Only set wrapper width if not in zoomed state
+            if (!isCurrentlyZoomed && swiperWrapper) {
+                swiperWrapper.style.width = `${wrapperWidth}px`;
+            }
 
             // Set the swiper container width to show exactly 2 slides
-            if (slideCount === 2) {
-                document.querySelector('.swiper').style.width = `${visibleWidth + spaceBetween}px`;
+            // Only do this if not in zoomed state
+            if (slideCount === 2 && !isCurrentlyZoomed) {
+                swiperContainer.style.width = `${visibleWidth + spaceBetween}px`;
             }
+        }
+
+        // If we have a Swiper instance, update it to reflect the new dimensions
+        if (swiperRef.current && !isCurrentlyZoomed) {
+            swiperRef.current.update();
         }
     }
 
@@ -780,39 +501,151 @@ function MobileL({windowSize, device}) {
         // Store the original position and dimensions of the swiper container
         const originalRect = swiperContainer.getBoundingClientRect();
 
-        // Store the scroll position
-        const scrollX = window.scrollX || window.pageXOffset;
-        const scrollY = window.scrollY || window.pageYOffset;
-
-        // Temporarily remove the CSS transition to avoid conflict with GSAP
-        swiperContainer.style.transition = 'none';
-
-        // Add active class to show the zoomed state
-        swiperContainer.classList.add('zoomed');
-        setIsZoomed(true);
+        // Disable Swiper functionality when zoomed in
+        if (swiperRef.current) {
+            swiperRef.current.allowTouchMove = false;
+            swiperRef.current.allowSlideNext = false;
+            swiperRef.current.allowSlidePrev = false;
+            swiperRef.current.mousewheel.disable();
+            swiperRef.current.keyboard.disable();
+        }
 
         // Calculate the position that will center the clicked point
-        // We use the click position relative to the container
         const relativeX = clickX - originalRect.left;
         const relativeY = clickY - originalRect.top;
 
-        // Set the transform origin to the clicked point
+        // Temporarily remove the CSS transition and set transform origin
+        swiperContainer.style.transition = 'none';
         swiperContainer.style.transformOrigin = `${relativeX}px ${relativeY}px`;
 
-        // Calculate the scale factor (1.5 is the zoom scale for 1.5x magnification)
-        const scale = 1.5;
+        // Add zoomed class and update state
+        swiperContainer.classList.add('zoomed');
+        setIsZoomed(true);
 
-        // Apply the transformation
-        // We keep the container in its original position and just scale it
+        // Force a reflow to ensure style changes take effect
+        swiperContainer.getBoundingClientRect();
+
+        // Store the scale factor for consistent calculations
+        const scaleFactor = 1.8;
+
+        // Apply the zoom-in animation
         gsap.to(swiperContainer, {
-            scale: 1.5,
+            scale: scaleFactor,
             duration: 0.5,
-            ease: "power1.inOut",
+            ease: "power2.out",
             onComplete: function() {
-                // Use requestAnimationFrame for consistency with closeZoomedWindow
+                // Use requestAnimationFrame to ensure all style changes happen in a single paint cycle
                 requestAnimationFrame(() => {
                     // Restore the CSS transition
                     swiperContainer.style.transition = '';
+
+                    // Calculate bounds based on the scaled size to ensure we can reach the edges
+                    // Add a small margin (5%) to ensure content can fully reach the edges
+                    const scaledBoundsX = originalRect.width * (scaleFactor - 1) / 2 * 1.05;
+                    const scaledBoundsY = originalRect.height * (scaleFactor - 1) / 2 * 1.05;
+
+                    // Kill any existing draggable instance
+                    if (draggableRef.current) {
+                        draggableRef.current.kill();
+                    }
+
+                    const elementZoom = document.querySelector('.swiper');
+                    const rectZoom = elementZoom.getBoundingClientRect();
+                    const xPositionZoom = (rectZoom.left + window.scrollX)*2;
+                    const yPositionZoom = rectZoom.top + window.scrollY;
+                    const yPositionZoomBottom = rectZoom.bottom + window.scrollY;
+
+                    const element = document.querySelector('.swiperMainHolder');
+                    const rect = element.getBoundingClientRect();
+                    const xPosition = rect.left + window.scrollX;
+                    const yPosition = rect.top + window.scrollX;
+                    const yPositionBottom = rect.bottom + window.scrollX;
+
+                    // Create a draggable instance for the zoomed container
+                    draggableRef.current = Draggable.create(swiperContainer, {
+                        type: "x,y",
+                        bounds: {
+                            minX: -scaledBoundsX,
+                            maxX: scaledBoundsX,
+                            // minY: yPositionBottom-yPositionZoomBottom, // UKLONJENO - kontrolisaćemo ručno
+                            // maxY: yPosition-yPositionZoom           // UKLONJENO - kontrolisaćemo ručno
+                        },
+                        edgeResistance: 0.2,
+                        throwProps: true,
+                        inertia: true,
+                        duration: 0.4, // Trajanje "bacanja", ne snap animacije
+                        ease: "power3.out",
+
+                        onThrowComplete: function() {
+                            gsap.killTweensOf(swiperContainer);
+
+                            const x = this.x; // Pozicija gde se "bacanje" završilo
+                            const y = this.y; // Pozicija gde se "bacanje" završilo
+
+                            let targetX = xPositionZoom - x; // Vaša postojeća logika za X
+                            let targetY = y;                 // Početna targetY je trenutna Y
+
+                            // Definišite vaše Y granice (iste vrednosti koje su bile u Draggable.bounds)
+                            const minYValue = yPositionBottom - yPositionZoomBottom;
+                            const maxYValue = yPosition - yPositionZoom;
+
+                            // Provera i korekcija Y pozicije ako je van granica
+                            if (y < minYValue) {
+                                targetY = minYValue;
+                            } else if (y > maxYValue) {
+                                targetY = maxYValue;
+                            } else {
+                                // Ako je unutar granica nakon bacanja, originalni kod je animirao na maxYValue.
+                                // Možete zadržati to, ili animirati na this.y (gde je sleteo) ako je unutar granica.
+                                // Ovde ostavljam originalnu logiku da se uvek vrati na gornju granicu (ili specificnu poziciju)
+                                targetY = maxYValue; // yPosition - yPositionZoom
+                            }
+
+                            gsap.to(swiperContainer, {
+                                x: targetX,
+                                y: targetY, // Animiraj na korigovanu Y poziciju
+                                duration: 0.4, // Trajanje animacije vraćanja
+                                ease: "power3.out"
+                            });
+                        },
+
+                        onDragEnd: function() {
+                            // Ova funkcija se poziva samo ako nije bilo "bacanja" (inertia: false ili vrlo kratak drag)
+                            // Ako je throwProps: true, onThrowComplete će se generalno češće pozivati nakon otpuštanja.
+                            gsap.killTweensOf(swiperContainer);
+
+                            const x = this.x; // Trenutna pozicija nakon otpuštanja
+                            const y = this.y; // Trenutna pozicija nakon otpuštanja
+
+                            // Vaša postojeća X logika
+                            // const element = document.querySelector('.swiperMainHolder'); // Ovo je verovatno već definisano negde gore
+                            // const rect = element.getBoundingClientRect();
+                            // const xPosition = rect.left + window.scrollX; // Pazite na scrollX, možda je window.pageXOffset ili document.documentElement.scrollLeft
+                            // const yPositionCurrent = rect.top + window.scrollY; // Slično za scrollY
+
+                            let targetX = -(xPositionZoom / 2); // Vaša postojeća logika za X
+                            let targetY = y;                   // Početna targetY je trenutna Y
+
+                            // Definišite vaše Y granice
+                            const minYValue = yPositionBottom - yPositionZoomBottom;
+                            const maxYValue = yPosition - yPositionZoom;
+
+                            // Provera i korekcija Y pozicije ako je van granica
+                            if (y < minYValue) {
+                                targetY = minYValue;
+                            } else if (y > maxYValue) {
+                                targetY = maxYValue;
+                            }
+                            // Ako je unutar granica, targetY ostaje this.y, što je u redu.
+
+                            gsap.to(swiperContainer, {
+                                x: targetX,
+                                y: targetY, // Animiraj na korigovanu Y poziciju
+                                duration: 0.4, // Trajanje animacije vraćanja
+                                ease: "power3.out"
+                            });
+                        }
+                    })[0];
 
                     // Reset the flag to indicate that the zoom transition is complete
                     setIsZoomTransitioning(false);
@@ -827,50 +660,93 @@ function MobileL({windowSize, device}) {
         // Set the flag to indicate that a zoom transition is in progress
         setIsZoomTransitioning(true);
 
-        // Temporarily remove the CSS transition to avoid conflict with GSAP
+        // Kill the draggable instance if it exists
+        if (draggableRef.current) {
+            draggableRef.current.kill();
+            draggableRef.current = null;
+        }
+
+        // Stop any ongoing animations to prevent conflicts
+        gsap.killTweensOf(swiperContainer);
+
+        // First, remove the zoomed class and reset isZoomed state
+        // This ensures that adjustSlideWidths will work correctly when called later
+        swiperContainer.classList.remove('zoomed');
+        setIsZoomed(false);
+
+        // Store the original transform for smooth transition
+        const originalTransform = window.getComputedStyle(swiperContainer).transform;
+
+        // Store the original dimensions and positions before zooming out
+        const originalWidth = swiperContainer.style.width;
+        const originalHeight = swiperContainer.style.height;
+        const originalX = swiperContainer.style.x;
+        const originalY = swiperContainer.style.y;
+
+        // Reset all inline styles that might interfere with the animation
         swiperContainer.style.transition = 'none';
+        swiperContainer.style.x = '0px';
+        swiperContainer.style.y = '0px';
+
+        // Force a reflow to ensure style changes take effect
+        swiperContainer.getBoundingClientRect();
 
         // Apply the zoom-out animation
-        // Just scale back to 1 without changing position or dimensions
-        gsap.to(swiperContainer, {
-            scale: 1,
-            duration: 0.5,
-            ease: "power1.inOut",
-            onComplete: function() {
-                // Reset all styles in a single animation frame to prevent flickering
-                requestAnimationFrame(() => {
-                    // First restore the CSS transition
-                    swiperContainer.style.transition = '';
+        gsap.fromTo(swiperContainer, 
+            { 
+                transform: originalTransform 
+            },
+            {
+                transform: 'scale(1)',
+                duration: 0.5,
+                ease: "power2.out",
+                clearProps: "transform,transformOrigin", // Automatically clear these properties after animation
+                onComplete: function() {
+                    // Use requestAnimationFrame to ensure all style changes happen in a single paint cycle
+                    requestAnimationFrame(() => {
+                        // Reset all remaining inline styles
+                       // swiperContainer.style.transition = '';
+                        swiperContainer.style.width = originalWidth;
+                        swiperContainer.style.height = originalHeight;
+                        swiperContainer.style.x = originalX;
+                        swiperContainer.style.y = originalY;
 
-                    // Reset the state
-                    setIsZoomed(false);
-                    swiperContainer.classList.remove('zoomed');
+                        // Don't reset the swiper-wrapper width to empty string
+                        // Instead, we'll let adjustSlideWidths calculate the proper width
 
-                    // // Reset all inline styles in one go
-                    // swiperContainer.style.width = '';
-                    // swiperContainer.style.height = '';
-                    // swiperContainer.style.transform = '';
-                    // swiperContainer.style.transformOrigin = '';
-                    // swiperContainer.style.x = '';
-                    // swiperContainer.style.y = '';
-                    //
-                    // // Also reset the swiper-wrapper width to prevent jumping
-                    // const swiperWrapper = document.querySelector('.swiper-wrapper');
-                    // if (swiperWrapper) {
-                    //     swiperWrapper.style.width = '';
-                    // }
-                    //
-                    // // Reset the transition flag after all styles are reset
-                    // setIsZoomTransitioning(false);
-                    //
-                    // // Recalculate slide widths after the transition is complete
-                    // // We need to temporarily set isZoomTransitioning to false to allow adjustSlideWidths to run
-                    // setTimeout(() => {
-                    //     adjustSlideWidths();
-                    // }, 0);
-                });
+                        // Re-enable Swiper functionality
+                        if (swiperRef.current) {
+                            swiperRef.current.allowTouchMove = true;
+                            swiperRef.current.allowSlideNext = true;
+                            swiperRef.current.allowSlidePrev = true;
+                            swiperRef.current.mousewheel.enable();
+                            swiperRef.current.keyboard.enable();
+
+                            // Update swiper to reflect new dimensions
+                            swiperRef.current.update();
+                        }
+
+                        // Reset the transition flag
+                        setIsZoomTransitioning(false);
+
+                        // Use a longer delay for adjustSlideWidths to ensure all style changes have taken effect
+                        // This is crucial for preventing the slider from jumping
+                        setTimeout(() => {
+                            // Force another reflow before adjusting slide widths
+                            swiperContainer.getBoundingClientRect();
+
+                            // Adjust slide widths to ensure all slides are properly visible
+                            adjustSlideWidths();
+
+                            // Update swiper again after adjusting slide widths
+                            if (swiperRef.current) {
+                                swiperRef.current.update();
+                            }
+                        }, 100);
+                    });
+                }
             }
-        });
+        );
     }
 
 
@@ -1021,15 +897,15 @@ function MobileL({windowSize, device}) {
                                  }
 
                                  // Check the current state of the swiper instance
-                                 if (swiper) {
+                                 if (swiperRef.current) {
                                      console.log('Swiper instance:', {
-                                         activeIndex: swiper.activeIndex,
-                                         isBeginning: swiper.isBeginning,
-                                         isEnd: swiper.isEnd,
+                                         activeIndex: swiperRef.current.activeIndex,
+                                         isBeginning: swiperRef.current.isBeginning,
+                                         isEnd: swiperRef.current.isEnd,
                                          params: {
-                                             cssMode: swiper.params.cssMode,
-                                             freeMode: swiper.params.freeMode,
-                                             slidesPerView: swiper.params.slidesPerView
+                                             cssMode: swiperRef.current.params.cssMode,
+                                             freeMode: swiperRef.current.params.freeMode,
+                                             slidesPerView: swiperRef.current.params.slidesPerView
                                          }
                                      });
                                  }
@@ -1080,15 +956,15 @@ function MobileL({windowSize, device}) {
                                  }
 
                                  // Check the current state of the swiper instance
-                                 if (swiper) {
+                                 if (swiperRef.current) {
                                      console.log('Swiper instance:', {
-                                         activeIndex: swiper.activeIndex,
-                                         isBeginning: swiper.isBeginning,
-                                         isEnd: swiper.isEnd,
+                                         activeIndex: swiperRef.current.activeIndex,
+                                         isBeginning: swiperRef.current.isBeginning,
+                                         isEnd: swiperRef.current.isEnd,
                                          params: {
-                                             cssMode: swiper.params.cssMode,
-                                             freeMode: swiper.params.freeMode,
-                                             slidesPerView: swiper.params.slidesPerView
+                                             cssMode: swiperRef.current.params.cssMode,
+                                             freeMode: swiperRef.current.params.freeMode,
+                                             slidesPerView: swiperRef.current.params.slidesPerView
                                          }
                                      });
                                  }
