@@ -20,32 +20,34 @@ export default function App() {
         width: window.innerWidth,
         height: window.innerHeight
     });
-    const [device, setDevice] = useState(getDevice())
 
-    function getDevice(set=false) {
+    // Function to get device type based on direct window dimensions
+    function getDeviceType() {
+        const width = window.innerWidth;
+
         let dev = null;
-        if(windowSize.width <= 320) {
+        if(width <= 320) {
             dev = 'mobile-s';
-        } else if(windowSize.width > 320 && windowSize.width <= 375) {
+        } else if(width > 320 && width <= 375) {
             dev = 'mobile-m';
-        } else if(windowSize.width > 375 && windowSize.width <= 425) {
+        } else if(width > 375 && width <= 425) {
             dev = 'mobile-l';
-        } else if(windowSize.width > 425 && windowSize.width <= 768) {
+        } else if(width > 425 && width <= 768) {
             dev = 'tablet';
-        } else if(windowSize.width > 768 && windowSize.width <= 1024) {
+        } else if(width > 768 && width <= 1024) {
             dev = 'laptop'
-        } else if(windowSize.width > 1024 && windowSize.width <= 1440) {
+        } else if(width > 1024 && width <= 1440) {
            dev = 'laptop-l'
-        } else if(windowSize.width > 1440 ) {
+        } else if(width > 1440 ) {
            dev = 'desktop'
         }
 
-        if(set) {
-            setDevice(dev);
-        }
-
-        return dev
+        return dev;
     }
+
+    const [device, setDevice] = useState(getDeviceType())
+
+    // Old getDevice function removed as it's replaced by getDeviceType
 
     useEffect(() => {
         const updateHeaderHeight = () => {
@@ -61,9 +63,13 @@ export default function App() {
                 width: window.innerWidth,
                 height: window.innerHeight
             });
-            setWindowSize({width: window.innerWidth, height: window.innerHeight});
 
-            getDevice(true);
+            // Update device type using the direct window dimensions
+            const newDevice = getDeviceType();
+
+            if (newDevice !== device) {
+                setDevice(newDevice);
+            }
 
             // Update header height when window is resized
             updateHeaderHeight();
@@ -77,7 +83,6 @@ export default function App() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // console.log(windowSize, device)
 
 
 
@@ -257,9 +262,13 @@ function MobileL({windowSize, device}) {
     }, []);
 
     function getStyle(image) {
-        // We don't need to set the height here anymore as it's handled by CSS
-        // The swiperMainHolder height is dynamically calculated as calc(100% - var(--header-height))
-        // where --header-height is updated by JavaScript to match the actual header height
+        // For tablet devices, set the height to 100vh minus header height to extend to bottom edge
+        // For other devices, height is handled by CSS through calc(100% - var(--header-height))
+        if (device === 'tablet') {
+            return {
+                height: 'calc(100vh - var(--header-height))'
+            };
+        }
         return {};
     }
 
@@ -274,13 +283,14 @@ function MobileL({windowSize, device}) {
             modules: [Pagination, Navigation, Keyboard, FreeMode, Mousewheel],
             cssMode: false, // Disable CSS Mode to allow mouse dragging
             freeMode: {
-                enabled: false, // Disable freeMode to respect slidesPerGroup during dragging
+                enabled: device === 'tablet', // Enable freeMode for tablet devices
                 momentum: true,
                 momentumRatio: 0.8,
                 momentumBounce: true,
                 momentumBounceRatio: 0.8,
                 minimumVelocity: 0.02,
-            }, // Disable free mode to respect slidesPerGroup during dragging
+            }, // Enable free mode for tablet devices
+
             threshold: 5, // Minimum distance for a swipe (in px) - reduced to make slider more sensitive to small drags
             touchReleaseOnEdges: true, // Release touch events on slider edge
             followFinger: true, // Slider will follow the finger during swipes
@@ -291,7 +301,7 @@ function MobileL({windowSize, device}) {
             spaceBetween: 0,
             slideToClickedSlide: true,
             centeredSlides: false,
-            slidesPerGroup: 2,
+            slidesPerGroup: device === 'tablet' ? 1 : 2, // Use slidesPerGroup 1 for tablets to allow free dragging
             grabCursor: true, // Show grab cursor when hovering over the slider
             resistance: true, // Add resistance when reaching the end of the slider
             resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
@@ -305,19 +315,19 @@ function MobileL({windowSize, device}) {
                 prevEl: '.swiper-button-prev',
             },
             keyboard: {
-                enabled: true,
+                enabled: device !== 'tablet', // Disable keyboard navigation for tablet devices
             },
             watchSlidesVisibility: true,
             breakpoints: {
                 '@0.25': {
                     slidesPerView: 1,
                     spaceBetween: 0,
-                    slidesPerGroup: 2,
+                    slidesPerGroup: device === 'tablet' ? 1 : 2,
                 },
                 '@0.75': {
                     slidesPerView: 2,
                     spaceBetween: 0,
-                    slidesPerGroup: 2,
+                    slidesPerGroup: device === 'tablet' ? 1 : 2,
                 },
                 '@1.00': {
                     slidesPerView: 2,
@@ -357,7 +367,7 @@ function MobileL({windowSize, device}) {
                 swiperRef.current = null;
             }
         };
-    }, []);
+    }, [device]); // Add device as a dependency so Swiper reinitializes when device changes
 
     function adjustAllOverlayPositions() {
         // Skip this function if a zoom transition is in progress
