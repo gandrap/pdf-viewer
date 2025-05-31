@@ -240,7 +240,7 @@ body {
   background: rgba(255,255,255,0.85);
   left: 0;
   top: 0;
-  z-index: 999;
+  z-index: 1001;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -251,16 +251,23 @@ body {
   visibility: visible;
 }
 
+.popupMask.active .popup {
+  width: 60%;
+  height: 600px;
+}
+
 .popup {
   background: #fff;
   padding: 00px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
-  height: 600px;
-  width: 60%;
+  height: 0;
+  width: 0;
   max-height: 90%;
   position: relative;
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  overflow: hidden;
 }
 
 .popupLeft {
