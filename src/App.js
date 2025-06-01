@@ -32,10 +32,8 @@ export default function App() {
             dev = 'mobile-m';
         } else if(width > 375 && width <= 425) {
             dev = 'mobile-l';
-        } else if(width > 425 && width <= 768) {
+        } else if(width > 425 && width <= 1024) {
             dev = 'tablet';
-        } else if(width > 768 && width <= 1024) {
-            dev = 'laptop'
         } else if(width > 1024 && width <= 1440) {
            dev = 'laptop-l'
         } else if(width > 1440 ) {
@@ -283,13 +281,13 @@ function MobileL({windowSize, device}) {
             modules: [Pagination, Navigation, Keyboard, FreeMode, Mousewheel],
             cssMode: false, // Disable CSS Mode to allow mouse dragging
             freeMode: {
-                enabled: device === 'tablet', // Enable freeMode for tablet devices
+                enabled: device === 'tablet', // Enable freeMode only for tablet devices
                 momentum: true,
                 momentumRatio: 0.8,
                 momentumBounce: true,
                 momentumBounceRatio: 0.8,
                 minimumVelocity: 0.02,
-            }, // Enable free mode for tablet devices
+            }, // Enable free mode only for tablet devices
 
             threshold: 5, // Minimum distance for a swipe (in px) - reduced to make slider more sensitive to small drags
             touchReleaseOnEdges: true, // Release touch events on slider edge
@@ -301,7 +299,7 @@ function MobileL({windowSize, device}) {
             spaceBetween: 0,
             slideToClickedSlide: true,
             centeredSlides: false,
-            slidesPerGroup: device === 'tablet' ? 1 : 2, // Use slidesPerGroup 1 for tablets to allow free dragging
+            slidesPerGroup: device === 'tablet' ? 1 : 2, // Use slidesPerGroup 1 for tablets and 2 for desktop to allow free dragging only on tablets
             grabCursor: true, // Show grab cursor when hovering over the slider
             resistance: true, // Add resistance when reaching the end of the slider
             resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
@@ -332,12 +330,12 @@ function MobileL({windowSize, device}) {
                 '@1.00': {
                     slidesPerView: 2,
                     spaceBetween: 0,
-                    slidesPerGroup: 2,
+                    slidesPerGroup: device === 'tablet' ? 1 : 2,
                 },
                 '@1.50': {
                     slidesPerView: 2,
                     spaceBetween: 0,
-                    slidesPerGroup: 2,
+                    slidesPerGroup: device === 'tablet' ? 1 : 2,
                 }
             },
             on: {
