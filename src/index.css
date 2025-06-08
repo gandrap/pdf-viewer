@@ -397,10 +397,18 @@ body {
 @media (max-width: 425px) {
   .swiper {
     width: 100%;
-    height: 100%;
+    height: auto; /* Set height to auto for mobile devices */
     overflow: hidden;
     position: relative; /* Ensure absolute positioning works relative to this container */
     scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
+  }
+
+  .swiper-slide {
+    height: auto !important; /* Force auto height for slides on mobile */
+  }
+
+  .swiper-slide img {
+    height: auto !important; /* Force auto height for images on mobile */
   }
 
   .popup {

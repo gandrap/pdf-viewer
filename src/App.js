@@ -299,7 +299,7 @@ function MobileL({windowSize, device}) {
             spaceBetween: 0,
             slideToClickedSlide: true,
             centeredSlides: false,
-            slidesPerGroup: device === 'tablet' ? 1 : 2, // Use slidesPerGroup 1 for tablets and 2 for desktop to allow free dragging only on tablets
+            slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2, // Use slidesPerGroup 1 for tablets and mobile devices, and 2 for desktop
             grabCursor: true, // Show grab cursor when hovering over the slider
             resistance: true, // Add resistance when reaching the end of the slider
             resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
@@ -320,22 +320,22 @@ function MobileL({windowSize, device}) {
                 '@0.25': {
                     slidesPerView: 1,
                     spaceBetween: 0,
-                    slidesPerGroup: device === 'tablet' ? 1 : 2,
+                    slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
                 },
                 '@0.75': {
                     slidesPerView: 2,
                     spaceBetween: 0,
-                    slidesPerGroup: device === 'tablet' ? 1 : 2,
+                    slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
                 },
                 '@1.00': {
                     slidesPerView: 2,
                     spaceBetween: 0,
-                    slidesPerGroup: device === 'tablet' ? 1 : 2,
+                    slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
                 },
                 '@1.50': {
                     slidesPerView: 2,
                     spaceBetween: 0,
-                    slidesPerGroup: device === 'tablet' ? 1 : 2,
+                    slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
                 }
             },
             on: {
@@ -436,6 +436,12 @@ function MobileL({windowSize, device}) {
         let visibleWidth = 0;
         let slideCount = 0;
 
+        // Check if current device is mobile
+        const isMobileDevice = device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l';
+
+        // Get the current window width for mobile devices
+        const windowWidth = window.innerWidth;
+
         slides.forEach((img) => {
             const slide = img.closest('.swiper-slide');
 
@@ -448,15 +454,22 @@ function MobileL({windowSize, device}) {
 
             // Only set slide width if not in zoomed state to prevent interference with dragging
             if (!isCurrentlyZoomed) {
-                slide.style.width = `${renderedWidth}px`;
+                if (isMobileDevice) {
+                    // For mobile devices, set width to exactly match the device width and height to auto
+                    // Apply styles with !important to override any CSS rules
+                    slide.setAttribute('style', `width: ${windowWidth}px !important; height: auto !important;`);
+                    img.setAttribute('style', `width: ${windowWidth}px !important; height: auto !important;`);
+                } else {
+                    slide.style.width = `${renderedWidth}px`;
+                }
             }
 
             // Calculate total width of all slides
-            totalWidth += renderedWidth;
+            totalWidth += isMobileDevice ? windowWidth : renderedWidth;
 
             // Only count the first two slides for visible width calculation
             if (slideCount < 2) {
-                visibleWidth += renderedWidth;
+                visibleWidth += isMobileDevice ? windowWidth : renderedWidth;
                 slideCount++;
             }
         });
@@ -474,10 +487,13 @@ function MobileL({windowSize, device}) {
                 swiperWrapper.style.width = `${wrapperWidth}px`;
             }
 
-            // Set the swiper container width to show exactly 2 slides
-            // Only do this if not in zoomed state
-            if (slideCount === 2 && !isCurrentlyZoomed) {
-                swiperContainer.style.width = `${visibleWidth + spaceBetween}px`;
+            // Set the swiper container width to match device width for mobile or show exactly 2 slides for desktop
+            if (!isCurrentlyZoomed) {
+                if (isMobileDevice) {
+                    swiperContainer.style.width = `${windowWidth}px`;
+                } else if (slideCount === 2) {
+                    swiperContainer.style.width = `${visibleWidth + spaceBetween}px`;
+                }
             }
         }
 
