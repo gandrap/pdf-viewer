@@ -856,6 +856,7 @@ function MobileL({windowSize, device}) {
             <div className="mainHolder">
                 <div className="header">
                     <img className="logo" src={require('./assets/images/logo.jpg')} alt="Logo" />
+                    <span className="device-info">{device}</span>
                 </div>
                 <div style={getStyle(pages[0])} className="swiperMainHolder"
                 >
