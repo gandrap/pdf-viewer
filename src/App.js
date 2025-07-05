@@ -825,27 +825,33 @@ function MobileL({windowSize, device}) {
 
     function handleClickButton(e, buttonContent) {
        e.stopPropagation();
-       const buttonType = buttonContent.type
-        if(buttonType === 'popup') {
-            document.querySelector('.popupMask').classList.add('active');
-            const img = document.createElement('img');
-            img.src = buttonContent.popup.images[0];
-            document.querySelector('.popupImage').replaceChildren(img);
-            const logo = document.createElement('img');
-            logo.src = buttonContent.popup.logo;
-            document.querySelector('.popupLogo').replaceChildren(logo);
-            document.querySelector('.popupTitle').innerHTML = buttonContent.popup.title;
-            document.querySelector('.popupContent').innerHTML = buttonContent.popup.content;
-            document.querySelector('.popupLink').href = buttonContent.popup.button.url;
-            document.querySelector('.popupLink').innerHTML =  buttonContent.popup.button.label;
+       // Check if the button has a direct URL
+       if(buttonContent.url) {
+           // Open the URL in a new tab/window
+           window.open(buttonContent.url, '_blank');
+       } else {
+           // Handle popup type buttons as before
+           const buttonType = buttonContent.type
+           if(buttonType === 'popup') {
+               document.querySelector('.popupMask').classList.add('active');
+               const img = document.createElement('img');
+               img.src = buttonContent.popup.images[0];
+               document.querySelector('.popupImage').replaceChildren(img);
+               const logo = document.createElement('img');
+               logo.src = buttonContent.popup.logo;
+               document.querySelector('.popupLogo').replaceChildren(logo);
+               document.querySelector('.popupTitle').innerHTML = buttonContent.popup.title;
+               document.querySelector('.popupContent').innerHTML = buttonContent.popup.content;
+               document.querySelector('.popupLink').href = buttonContent.popup.button.url;
+               document.querySelector('.popupLink').innerHTML =  buttonContent.popup.button.label;
 
-            const popupLink = document.querySelector('.popupLink');
+               const popupLink = document.querySelector('.popupLink');
 
-            Object.entries(buttonContent.popup.button.css).forEach(([key, value]) => {
-                popupLink.style[key] = value;
-            });
-        }
-
+               Object.entries(buttonContent.popup.button.css).forEach(([key, value]) => {
+                   popupLink.style[key] = value;
+               });
+           }
+       }
     }
 
     function closePopup(e) {
