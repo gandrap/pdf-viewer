@@ -102,6 +102,7 @@ function MobileL({windowSize, device}) {
     const [isZoomTransitioning, setIsZoomTransitioning] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
     const [lastInteractionTime, setLastInteractionTime] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // Funkcija za ažuriranje dimenzija
@@ -272,90 +273,132 @@ function MobileL({windowSize, device}) {
 
     // Initialize Swiper in a useEffect hook to ensure it's only initialized once
     useEffect(() => {
+        // Reset loading state when device changes
+        setIsLoading(true);
+
         const swiperContainer = document.querySelector('.swiper');
         if (!swiperContainer) return;
 
-        // Initialize Swiper and store the instance in the ref
-        swiperRef.current = new Swiper('.swiper', {
-            // configure Swiper to use modules
-            modules: [Pagination, Navigation, Keyboard, FreeMode, Mousewheel],
-            cssMode: false, // Disable CSS Mode to allow mouse dragging
-            freeMode: {
-                enabled: device === 'tablet', // Enable freeMode only for tablet devices
-                momentum: true,
-                momentumRatio: 0.8,
-                momentumBounce: true,
-                momentumBounceRatio: 0.8,
-                minimumVelocity: 0.02,
-            }, // Enable free mode only for tablet devices
+        // Function to initialize Swiper
+        const initializeSwiper = () => {
+            // Initialize Swiper and store the instance in the ref
+            swiperRef.current = new Swiper('.swiper', {
+                // configure Swiper to use modules
+                modules: [Pagination, Navigation, Keyboard, FreeMode, Mousewheel],
+                cssMode: false, // Disable CSS Mode to allow mouse dragging
+                freeMode: {
+                    enabled: device === 'tablet', // Enable freeMode only for tablet devices
+                    momentum: true,
+                    momentumRatio: 0.8,
+                    momentumBounce: true,
+                    momentumBounceRatio: 0.8,
+                    minimumVelocity: 0.02,
+                }, // Enable free mode only for tablet devices
 
-            threshold: 5, // Minimum distance for a swipe (in px) - reduced to make slider more sensitive to small drags
-            touchReleaseOnEdges: true, // Release touch events on slider edge
-            followFinger: true, // Slider will follow the finger during swipes
-            longSwipes: true, // Enable long swipes
-            longSwipesRatio: 0.1, // Reduced ratio to trigger long swipe (only 10% of slider width needed)
-            touchRatio: 1.5, // Increased touch ratio for more responsive slides
-            slidesPerView: 2,
-            spaceBetween: 0,
-            slideToClickedSlide: true,
-            centeredSlides: false,
-            slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2, // Use slidesPerGroup 1 for tablets and mobile devices, and 2 for desktop
-            grabCursor: true, // Show grab cursor when hovering over the slider
-            resistance: true, // Add resistance when reaching the end of the slider
-            resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
-            mousewheel: {
-                enabled: true,
-                sensitivity: 1,
-                forceToAxis: true,
-            }, // Enable mouse wheel navigation
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            keyboard: {
-                enabled: device !== 'tablet', // Disable keyboard navigation for tablet devices
-            },
-            watchSlidesVisibility: true,
-            breakpoints: {
-                '@0.25': {
-                    slidesPerView: 1,
-                    spaceBetween: 0,
-                    slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                threshold: 5, // Minimum distance for a swipe (in px) - reduced to make slider more sensitive to small drags
+                touchReleaseOnEdges: true, // Release touch events on slider edge
+                followFinger: true, // Slider will follow the finger during swipes
+                longSwipes: true, // Enable long swipes
+                longSwipesRatio: 0.1, // Reduced ratio to trigger long swipe (only 10% of slider width needed)
+                touchRatio: 1.5, // Increased touch ratio for more responsive slides
+                slidesPerView: 2,
+                spaceBetween: 0,
+                slideToClickedSlide: true,
+                centeredSlides: false,
+                slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2, // Use slidesPerGroup 1 for tablets and mobile devices, and 2 for desktop
+                grabCursor: true, // Show grab cursor when hovering over the slider
+                resistance: true, // Add resistance when reaching the end of the slider
+                resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
+                mousewheel: {
+                    enabled: true,
+                    sensitivity: 1,
+                    forceToAxis: true,
+                }, // Enable mouse wheel navigation
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
                 },
-                '@0.75': {
-                    slidesPerView: 2,
-                    spaceBetween: 0,
-                    slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                keyboard: {
+                    enabled: device !== 'tablet', // Disable keyboard navigation for tablet devices
                 },
-                '@1.00': {
-                    slidesPerView: 2,
-                    spaceBetween: 0,
-                    slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                watchSlidesVisibility: true,
+                breakpoints: {
+                    '@0.25': {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                        slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                    },
+                    '@0.75': {
+                        slidesPerView: 2,
+                        spaceBetween: 0,
+                        slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                    },
+                    '@1.00': {
+                        slidesPerView: 2,
+                        spaceBetween: 0,
+                        slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                    },
+                    '@1.50': {
+                        slidesPerView: 2,
+                        spaceBetween: 0,
+                        slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                    }
                 },
-                '@1.50': {
-                    slidesPerView: 2,
-                    spaceBetween: 0,
-                    slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
-                }
-            },
-            on: {
-                init: function (swiper) {
-                    adjustSlideWidths();
-                    adjustAllOverlayPositions();
+                on: {
+                    init: function (swiper) {
+                        adjustSlideWidths();
+                        adjustAllOverlayPositions();
 
-                    const activeSlide = parseInt(window.location.hash.split('_')[1]) || 0;
-                    swiper.slideTo(activeSlide, 0, false);
-
+                        const activeSlide = parseInt(window.location.hash.split('_')[1]) || 0;
+                        swiper.slideTo(activeSlide, 0, false);
+                    },
+                    resize: function () {
+                        adjustSlideWidths();
+                        adjustAllOverlayPositions();
+                    },
+                    slideChange: function (swiper, index) {
+                        window.location.hash = 'page_'+swiper.activeIndex;
+                    }
                 },
-                resize: function () {
-                    adjustSlideWidths();
-                    adjustAllOverlayPositions();
+            });
+        };
 
-                },
-                slideChange: function (swiper, index) {
-                    window.location.hash = 'page_'+swiper.activeIndex;
-                }
-            },
+        // Wait for all images to load before initializing Swiper
+        const images = document.querySelectorAll('.swiper-slide img');
+        let loadedImages = 0;
+        const totalImages = images.length;
+
+        // If there are no images, initialize Swiper immediately
+        if (totalImages === 0) {
+            initializeSwiper();
+            return;
+        }
+
+        // Function to check if all images are loaded
+        const checkAllImagesLoaded = () => {
+            loadedImages++;
+            if (loadedImages === totalImages) {
+                // All images are loaded, initialize Swiper
+                initializeSwiper();
+
+                // Set loading state to false with a slight delay to ensure smooth transition
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 300);
+            }
+        };
+
+        // Add load event listeners to all images
+        images.forEach(img => {
+            if (img.complete) {
+                // Image is already loaded (from cache)
+                checkAllImagesLoaded();
+            } else {
+                // Image is not yet loaded, add event listener
+                img.addEventListener('load', checkAllImagesLoaded);
+                // Also handle error case to avoid getting stuck
+                img.addEventListener('error', checkAllImagesLoaded);
+            }
         });
 
         // Clean up Swiper instance when component unmounts
@@ -364,6 +407,11 @@ function MobileL({windowSize, device}) {
                 swiperRef.current.destroy(true, true);
                 swiperRef.current = null;
             }
+            // Remove event listeners
+            images.forEach(img => {
+                img.removeEventListener('load', checkAllImagesLoaded);
+                img.removeEventListener('error', checkAllImagesLoaded);
+            });
         };
     }, [device]); // Add device as a dependency so Swiper reinitializes when device changes
 
@@ -827,8 +875,22 @@ function MobileL({windowSize, device}) {
        e.stopPropagation();
        // Check if the button has a direct URL
        if(buttonContent.url) {
-           // Open the URL in a new tab/window
-           window.open(buttonContent.url, '_blank');
+           // Check if it's a slide type button with a hash URL
+           if(buttonContent.type === 'slide' && buttonContent.url.startsWith('#page_')) {
+               // Extract the slide number from the URL (after the underscore)
+               const slideNumber = parseInt(buttonContent.url.split('_')[1]);
+
+               // Navigate to that slide using the Swiper instance
+               if(swiperRef.current && !isNaN(slideNumber)) {
+                   swiperRef.current.slideTo(slideNumber, 300);
+
+                   // Update the URL hash
+                   window.location.hash = buttonContent.url.substring(1); // Remove the # from the beginning
+               }
+           } else {
+               // Open the URL in a new tab/window for regular URL buttons
+               window.open(buttonContent.url, '_blank');
+           }
        } else {
            // Handle popup type buttons as before
            const buttonType = buttonContent.type
@@ -861,6 +923,11 @@ function MobileL({windowSize, device}) {
 
     return (
         <>
+            {/* Loading overlay with blur effect */}
+            <div className={`loading-overlay ${isLoading ? 'active' : ''}`}>
+                <img className="loading-logo" src="/static/media/logo.c3312f23b8388861be03.jpg" alt="Logo" />
+            </div>
+
             <div className="popupMask" onClick={(e) => closePopup(e)}>
                 <div className="popup">
                     <button className="closeBtn" onClick={(e) => closePopup(e)}></button>
@@ -1014,7 +1081,7 @@ function MobileL({windowSize, device}) {
                                         <img ref={divRef} src={`/pdf/${page.image}`}/>
                                         <div className="htmlContent">
                                             {page['html_elements'].map((htmlContent, index2) =>
-                                                <div data-style={JSON.stringify(htmlContent.css)} className={'overlay element_'+index2} style={htmlContent.css} >
+                                                <div key={index2} data-style={JSON.stringify(htmlContent.css)} className={'overlay element_'+index2} style={htmlContent.css} >
                                                     {htmlContent.video && (
                                                         <video {...parseAttributes(htmlContent.video.attributes)}>
                                                             <source src={htmlContent.video.url} type={htmlContent.video.type} />
