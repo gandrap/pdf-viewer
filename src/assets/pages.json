@@ -318,7 +318,19 @@
         "video": [],
         "width": 1200,
         "height": 2118,
-        "html_elements": []
+        "html_elements": [
+            {
+                "css": {
+                    "left": "90px",
+                    "top": "69px",
+                    "width": "590px",
+                    "height": "431px",
+                    "position": "absolute",
+                    "background": "url(/pdf/99.gif) no-repeat ",
+                    "backgroundSize": "contain"
+                }
+            }
+        ]
     },
     {
         "image": "7.jpg",
