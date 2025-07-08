@@ -240,6 +240,27 @@ body {
   cursor: grabbing;
 }
 
+/* Ensure navigation buttons are visible and clickable when zoomed */
+.swiper-button-next, .swiper-button-prev {
+  z-index: 1010; /* Higher than the zoomed swiper (1000) */
+  position: fixed; /* Fixed position to stay visible when zoomed */
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.swiper-button-next:after, .swiper-button-prev:after {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
 .popupMask {
   position: absolute;
   width: 100%;
@@ -472,4 +493,3 @@ body {
   font-weight: bold;
   color: #333;
 }
-

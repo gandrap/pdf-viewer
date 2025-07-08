@@ -43,6 +43,166 @@
                         "cursor": "pointer"
                     }
                 }
+            },
+            {
+                "css": {
+                    "left": "434px",
+                    "top": "543px",
+                    "width": "323px",
+                    "height": "411px",
+                    "position": "absolute"
+                },
+                "button": {
+                    "type": "slide",
+                    "url": "#page_3",
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "none",
+                        "border": "none",
+                        "cursor": "pointer"
+                    }
+                }
+            },
+            {
+                "css": {
+                    "left": "749px",
+                    "top": "543px",
+                    "width": "323px",
+                    "height": "411px",
+                    "position": "absolute"
+                },
+                "button": {
+                    "type": "slide",
+                    "url": "#page_12",
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "none",
+                        "border": "none",
+                        "cursor": "pointer"
+                    }
+                }
+            },
+            {
+                "css": {
+                    "left": "93px",
+                    "top": "1010px",
+                    "width": "323px",
+                    "height": "411px",
+                    "position": "absolute"
+                },
+                "button": {
+                    "type": "slide",
+                    "url": "#page_5",
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "none",
+                        "border": "none",
+                        "cursor": "pointer"
+                    }
+                }
+            },
+            {
+                "css": {
+                    "left": "434px",
+                    "top": "1010px",
+                    "width": "323px",
+                    "height": "411px",
+                    "position": "absolute"
+                },
+                "button": {
+                    "type": "slide",
+                    "url": "#page_7",
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "none",
+                        "border": "none",
+                        "cursor": "pointer"
+                    }
+                }
+            },
+            {
+                "css": {
+                    "left": "749px",
+                    "top": "1010px",
+                    "width": "323px",
+                    "height": "411px",
+                    "position": "absolute"
+                },
+                "button": {
+                    "type": "slide",
+                    "url": "#page_8",
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "none",
+                        "border": "none",
+                        "cursor": "pointer"
+                    }
+                }
+            },
+            {
+                "css": {
+                    "left": "93px",
+                    "top": "1485px",
+                    "width": "323px",
+                    "height": "411px",
+                    "position": "absolute"
+                },
+                "button": {
+                    "type": "slide",
+                    "url": "#page_8",
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "none",
+                        "border": "none",
+                        "cursor": "pointer"
+                    }
+                }
+            },
+            {
+                "css": {
+                    "left": "434px",
+                    "top": "1458px",
+                    "width": "323px",
+                    "height": "411px",
+                    "position": "absolute"
+                },
+                "button": {
+                    "type": "slide",
+                    "url": "#page_13",
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "none",
+                        "border": "none",
+                        "cursor": "pointer"
+                    }
+                }
+            },
+            {
+                "css": {
+                    "left": "749px",
+                    "top": "1458px",
+                    "width": "323px",
+                    "height": "411px",
+                    "position": "absolute"
+                },
+                "button": {
+                    "type": "slide",
+                    "url": "#page_15",
+                    "css": {
+                        "width": "100%",
+                        "height": "100%",
+                        "background": "none",
+                        "border": "none",
+                        "cursor": "pointer"
+                    }
+                }
             }
         ]
     },

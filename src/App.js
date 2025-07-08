@@ -573,11 +573,12 @@ function MobileL({windowSize, device}) {
         // Store the original position and dimensions of the swiper container
         const originalRect = swiperContainer.getBoundingClientRect();
 
-        // Disable Swiper functionality when zoomed in
+        // Disable some Swiper functionality when zoomed in, but keep navigation buttons working
         if (swiperRef.current) {
             swiperRef.current.allowTouchMove = false;
-            swiperRef.current.allowSlideNext = false;
-            swiperRef.current.allowSlidePrev = false;
+            // Keep slide navigation enabled for buttons to work
+            // swiperRef.current.allowSlideNext = false;
+            // swiperRef.current.allowSlidePrev = false;
             swiperRef.current.mousewheel.disable();
             swiperRef.current.keyboard.disable();
         }
@@ -1102,8 +1103,24 @@ function MobileL({windowSize, device}) {
 
                             <div className="swiper-pagination"></div>
 
-                            <div className="swiper-button-prev"></div>
-                            <div className="swiper-button-next"></div>
+                            <div 
+                                className="swiper-button-prev" 
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevent zoom toggle
+                                    if (swiperRef.current) {
+                                        swiperRef.current.slidePrev();
+                                    }
+                                }}
+                            ></div>
+                            <div 
+                                className="swiper-button-next" 
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevent zoom toggle
+                                    if (swiperRef.current) {
+                                        swiperRef.current.slideNext();
+                                    }
+                                }}
+                            ></div>
 
 
                             <div className="swiper-scrollbar"></div>
