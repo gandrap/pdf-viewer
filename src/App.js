@@ -840,6 +840,7 @@ function MobileL({windowSize, device}) {
            const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
            if (tapInterval < doubleTapDelay && tapInterval > 0) {
+               // Double tap detected, activate zoom
                zoomWindow(e);
            }
 
@@ -853,6 +854,7 @@ function MobileL({windowSize, device}) {
             const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
             if (tapInterval < doubleTapDelay && tapInterval > 0) {
+                // Double tap detected, deactivate zoom
                 closeZoomedWindow(e);
             }
 
@@ -952,69 +954,78 @@ function MobileL({windowSize, device}) {
                 >
                         <div className="swiper"
                              onClick={(e) => {
-                                 // Only handle click if not dragging
-                                 console.log('onClick handler called, isDragging:', isDragging, 'isZoomed:', isZoomed);
+                                // Only handle click if not dragging and not on mobile device
+                                // For mobile devices, we use onTouchEnd with double tap detection
+                                const isMobileDevice = device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l';
+                                console.log('onClick handler called, isDragging:', isDragging, 'isZoomed:', isZoomed, 'isMobile:', isMobileDevice);
 
-                                 // Check the event object
-                                 console.log('Click event:', {
-                                     type: e.type,
-                                     target: e.target.tagName,
-                                     currentTarget: e.currentTarget.tagName,
-                                     clientX: e.clientX,
-                                     clientY: e.clientY,
-                                     buttons: e.buttons,
-                                     detail: e.detail,
-                                     isTrusted: e.isTrusted
-                                 });
+                                // If on mobile device, ignore click events (we'll use touch events instead)
+                                if (isMobileDevice) {
+                                    console.log('Ignoring click on mobile device - using touch events instead');
+                                    return;
+                                }
 
-                                 // Check the time elapsed since the last mouse down event
-                                 const timeElapsed = Date.now() - lastInteractionTime;
-                                 console.log('Time elapsed since last interaction:', timeElapsed, 'ms');
+                                // Check the event object
+                                console.log('Click event:', {
+                                    type: e.type,
+                                    target: e.target.tagName,
+                                    currentTarget: e.currentTarget.tagName,
+                                    clientX: e.clientX,
+                                    clientY: e.clientY,
+                                    buttons: e.buttons,
+                                    detail: e.detail,
+                                    isTrusted: e.isTrusted
+                                });
 
-                                 // If the time elapsed is very short, it might be a drag operation
-                                 if (timeElapsed < 50) {
-                                     console.log('Click happened too quickly after mouse down, might be a drag');
-                                     setIsDragging(true);
-                                 }
+                                // Check the time elapsed since the last mouse down event
+                                const timeElapsed = Date.now() - lastInteractionTime;
+                                console.log('Time elapsed since last interaction:', timeElapsed, 'ms');
 
-                                 // Check if the click is on a slide element
-                                 const isSlideClick = e.target.closest('.swiper-slide') !== null;
-                                 console.log('Click is on a slide:', isSlideClick);
+                                // If the time elapsed is very short, it might be a drag operation
+                                if (timeElapsed < 50) {
+                                    console.log('Click happened too quickly after mouse down, might be a drag');
+                                    setIsDragging(true);
+                                }
 
-                                 // Check if the wrapper has scrolled
-                                 const swiperWrapper = document.querySelector('.swiper-wrapper');
-                                 if (swiperWrapper) {
-                                     console.log('Wrapper scroll position:', swiperWrapper.scrollLeft);
-                                 }
+                                // Check if the click is on a slide element
+                                const isSlideClick = e.target.closest('.swiper-slide') !== null;
+                                console.log('Click is on a slide:', isSlideClick);
 
-                                 // Check the current state of the swiper container
-                                 const swiperContainer = document.querySelector('.swiper');
-                                 if (swiperContainer) {
-                                     console.log('Swiper container classes:', swiperContainer.className);
-                                     console.log('Swiper container has zoomed class:', swiperContainer.classList.contains('zoomed'));
-                                     console.log('Swiper container style:', swiperContainer.getAttribute('style'));
-                                 }
+                                // Check if the wrapper has scrolled
+                                const swiperWrapper = document.querySelector('.swiper-wrapper');
+                                if (swiperWrapper) {
+                                    console.log('Wrapper scroll position:', swiperWrapper.scrollLeft);
+                                }
 
-                                 // Check the current state of the swiper instance
-                                 if (swiperRef.current) {
-                                     console.log('Swiper instance:', {
-                                         activeIndex: swiperRef.current.activeIndex,
-                                         isBeginning: swiperRef.current.isBeginning,
-                                         isEnd: swiperRef.current.isEnd,
-                                         params: {
-                                             cssMode: swiperRef.current.params.cssMode,
-                                             freeMode: swiperRef.current.params.freeMode,
-                                             slidesPerView: swiperRef.current.params.slidesPerView
-                                         }
-                                     });
-                                 }
+                                // Check the current state of the swiper container
+                                const swiperContainer = document.querySelector('.swiper');
+                                if (swiperContainer) {
+                                    console.log('Swiper container classes:', swiperContainer.className);
+                                    console.log('Swiper container has zoomed class:', swiperContainer.classList.contains('zoomed'));
+                                    console.log('Swiper container style:', swiperContainer.getAttribute('style'));
+                                }
 
-                                 if (!isDragging) {
-                                     isZoomed ? onClickClose(e) : onClickOpen(e);
-                                 } else {
-                                     console.log('Ignoring click because isDragging is true');
-                                 }
-                             }}
+                                // Check the current state of the swiper instance
+                                if (swiperRef.current) {
+                                    console.log('Swiper instance:', {
+                                        activeIndex: swiperRef.current.activeIndex,
+                                        isBeginning: swiperRef.current.isBeginning,
+                                        isEnd: swiperRef.current.isEnd,
+                                        params: {
+                                            cssMode: swiperRef.current.params.cssMode,
+                                            freeMode: swiperRef.current.params.freeMode,
+                                            slidesPerView: swiperRef.current.params.slidesPerView
+                                        }
+                                    });
+                                }
+
+                                // Only handle click for desktop devices
+                                if (!isDragging) {
+                                    isZoomed ? onClickClose(e) : onClickOpen(e);
+                                } else {
+                                    console.log('Ignoring click because isDragging is true');
+                                }
+                            }}
                              onTouchEnd={(e) => {
                                  // Only handle touch end if not dragging
                                  console.log('onTouchEnd handler called, isDragging:', isDragging, 'isZoomed:', isZoomed);
