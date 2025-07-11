@@ -305,7 +305,8 @@ function MobileL({windowSize, device}) {
                 spaceBetween: 0,
                 slideToClickedSlide: true,
                 centeredSlides: false,
-                slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2, // Use slidesPerGroup 1 for tablets and mobile devices, and 2 for desktop
+                slideActiveClass: 'swiper-slide-active',
+                slidesPerGroup: 1, // Always use slidesPerGroup 1 to ensure proper navigation
                 grabCursor: true, // Show grab cursor when hovering over the slider
                 resistance: true, // Add resistance when reaching the end of the slider
                 resistanceRatio: 0.5, // Reduced resistance ratio for more responsive dragging
@@ -326,22 +327,22 @@ function MobileL({windowSize, device}) {
                     '@0.25': {
                         slidesPerView: 1,
                         spaceBetween: 0,
-                        slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                        slidesPerGroup: 1,
                     },
                     '@0.75': {
                         slidesPerView: 2,
                         spaceBetween: 0,
-                        slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                        slidesPerGroup: 1,
                     },
                     '@1.00': {
                         slidesPerView: 2,
                         spaceBetween: 0,
-                        slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                        slidesPerGroup: 1,
                     },
                     '@1.50': {
                         slidesPerView: 2,
                         spaceBetween: 0,
-                        slidesPerGroup: device === 'tablet' || device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l' ? 1 : 2,
+                        slidesPerGroup: 1,
                     }
                 },
                 on: {
@@ -832,19 +833,27 @@ function MobileL({windowSize, device}) {
     }
 
     let lastTap = 0; // Vreme poslednjeg tap-a
-    const doubleTapDelay = 300; // Maksimalni interval između dva tap-a (u milisekundama)
+    const doubleTapDelay = 500; // Maksimalni interval između dva tap-a (u milisekundama) - increased for better detection on Android
 
    function onTapOpen(e) {
        if (device == 'mobile-s' || device == 'mobile-l' || device == 'mobile-m') {
            const currentTime = new Date().getTime(); // Trenutno vreme
            const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
+           console.log('onTapOpen - Mobile device detected:', device);
+           console.log('onTapOpen - Tap interval:', tapInterval, 'ms (threshold:', doubleTapDelay, 'ms)');
+
            if (tapInterval < doubleTapDelay && tapInterval > 0) {
                // Double tap detected, activate zoom
+               console.log('onTapOpen - Double tap detected! Activating zoom');
                zoomWindow(e);
+           } else {
+               console.log('onTapOpen - Not a double tap, waiting for second tap');
            }
 
            lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
+       } else {
+           console.log('onTapOpen - Not a mobile device, ignoring tap');
        }
     }
 
@@ -853,12 +862,20 @@ function MobileL({windowSize, device}) {
             const currentTime = new Date().getTime(); // Trenutno vreme
             const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
 
+            console.log('onTapClose - Mobile device detected:', device);
+            console.log('onTapClose - Tap interval:', tapInterval, 'ms (threshold:', doubleTapDelay, 'ms)');
+
             if (tapInterval < doubleTapDelay && tapInterval > 0) {
                 // Double tap detected, deactivate zoom
+                console.log('onTapClose - Double tap detected! Deactivating zoom');
                 closeZoomedWindow(e);
+            } else {
+                console.log('onTapClose - Not a double tap, waiting for second tap');
             }
 
             lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
+        } else {
+            console.log('onTapClose - Not a mobile device, ignoring tap');
         }
     }
 
@@ -885,7 +902,9 @@ function MobileL({windowSize, device}) {
 
                // Navigate to that slide using the Swiper instance
                if(swiperRef.current && !isNaN(slideNumber)) {
-                   swiperRef.current.slideTo(slideNumber, 300);
+                   // Ensure the clicked slide is positioned on the left
+                   // We need to set the slide index directly to the clicked slide number
+                   swiperRef.current.slideTo(slideNumber, 300, false);
 
                    // Update the URL hash
                    window.location.hash = buttonContent.url.substring(1); // Remove the # from the beginning
@@ -1079,10 +1098,14 @@ function MobileL({windowSize, device}) {
                                      });
                                  }
 
-                                 if (!isDragging) {
+                                 // For mobile devices, always call onTap functions regardless of isDragging state
+                                 // This ensures double tap detection works even if there's slight movement
+                                 const isMobileDevice = device === 'mobile-s' || device === 'mobile-m' || device === 'mobile-l';
+
+                                 if (isMobileDevice || !isDragging) {
                                      isZoomed ? onTapClose(e) : onTapOpen(e);
                                  } else {
-                                     console.log('Ignoring touch end because isDragging is true');
+                                     console.log('Ignoring touch end because isDragging is true and not on mobile');
                                  }
                              }}
                         >
