@@ -326,7 +326,7 @@
                     "width": "590px",
                     "height": "431px",
                     "position": "absolute",
-                    "background": "url(/pdf/99.gif) no-repeat ",
+                    "background": "url(/pdf/99-2.gif) no-repeat ",
                     "backgroundSize": "contain"
                 }
             }
@@ -360,10 +360,48 @@
     },
     {
         "image": "9.jpg",
-        "video": [],
+        "video": [
+        ],
         "width": 1200,
         "height": 2118,
-        "html_elements": []
+        "html_elements": [
+            {
+                "css": {
+                    "left": "479px",
+                    "top": "87px",
+                    "width": "613px",
+                    "height": "370px",
+                    "position": "absolute",
+                    "background": "url(/pdf/299.gif) no-repeat ",
+                    "backgroundSize": "contain"
+                }
+            }
+        ]
+    },
+    {
+        "image": "9.jpg",
+        "video": [
+        ],
+        "width": 1200,
+        "height": 2118,
+        "html_elements": [
+            {
+                "css": {
+                    "left": "0px",
+                    "top": "0px",
+                    "width": "1200px",
+                    "height": "2118px",
+                    "position": "absolute",
+                    "background": "none",
+                    "backgroundSize": "contain"
+                },
+                "video": {
+                    "url": "/pdf/coca cola reel.mp4",
+                    "type": "video/mp4",
+                    "attributes": "autoPlay loop muted"
+                }
+            }
+        ]
     },
     {
         "image": "10.jpg",
