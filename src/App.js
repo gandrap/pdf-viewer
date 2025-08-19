@@ -303,7 +303,7 @@ function MobileL({windowSize, device}) {
                 touchRatio: 1.5, // Increased touch ratio for more responsive slides
                 slidesPerView: 2,
                 spaceBetween: 0,
-                slideToClickedSlide: true,
+                slideToClickedSlide: false,
                 centeredSlides: false,
                 slideActiveClass: 'swiper-slide-active',
                 slidesPerGroup: 1, // Always use slidesPerGroup 1 to ensure proper navigation
