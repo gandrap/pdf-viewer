@@ -832,13 +832,13 @@ function MobileL({windowSize, device}) {
         }, {});
     }
 
-    let lastTap = 0; // Vreme poslednjeg tap-a
+    const lastTapRef = useRef(0); // Persist last tap time across renders
     const doubleTapDelay = 500; // Maksimalni interval između dva tap-a (u milisekundama) - increased for better detection on Android
 
    function onTapOpen(e) {
        if (device == 'mobile-s' || device == 'mobile-l' || device == 'mobile-m') {
            const currentTime = new Date().getTime(); // Trenutno vreme
-           const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
+           const tapInterval = currentTime - lastTapRef.current; // Razlika između trenutnih i poslednjih tapova
 
            console.log('onTapOpen - Mobile device detected:', device);
            console.log('onTapOpen - Tap interval:', tapInterval, 'ms (threshold:', doubleTapDelay, 'ms)');
@@ -851,7 +851,7 @@ function MobileL({windowSize, device}) {
                console.log('onTapOpen - Not a double tap, waiting for second tap');
            }
 
-           lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
+           lastTapRef.current = currentTime; // Ažurirajte vreme poslednjeg tap-a
        } else {
            console.log('onTapOpen - Not a mobile device, ignoring tap');
        }
@@ -860,7 +860,7 @@ function MobileL({windowSize, device}) {
     function onTapClose(e) {
         if (device == 'mobile-s' || device == 'mobile-l' || device == 'mobile-m') {
             const currentTime = new Date().getTime(); // Trenutno vreme
-            const tapInterval = currentTime - lastTap; // Razlika između trenutnih i poslednjih tapova
+            const tapInterval = currentTime - lastTapRef.current; // Razlika između trenutnih i poslednjih tapova
 
             console.log('onTapClose - Mobile device detected:', device);
             console.log('onTapClose - Tap interval:', tapInterval, 'ms (threshold:', doubleTapDelay, 'ms)');
@@ -873,7 +873,7 @@ function MobileL({windowSize, device}) {
                 console.log('onTapClose - Not a double tap, waiting for second tap');
             }
 
-            lastTap = currentTime; // Ažurirajte vreme poslednjeg tap-a
+            lastTapRef.current = currentTime; // Ažurirajte vreme poslednjeg tap-a
         } else {
             console.log('onTapClose - Not a mobile device, ignoring tap');
         }
