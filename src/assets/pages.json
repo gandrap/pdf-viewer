@@ -420,7 +420,30 @@
         "video": [],
         "width": 1200,
         "height": 2118,
-        "html_elements": []
+        "html_elements": [
+          {
+            "css": {
+              "left": "600px",
+              "top": "1250px",
+              "width": "300px",
+              "height": "150px",
+              "position": "absolute",
+              "background": "url(/pdf/lupa.gif) no-repeat ",
+              "backgroundSize": "contain"
+            }
+          },
+          {
+            "css": {
+              "left": "70px",
+              "top": "837px",
+              "width": "680px",
+              "height": "581px",
+              "position": "absolute",
+              "zIndex": "3"
+            },
+            "link": "https://google.rs/"
+          }
+        ]
     },
     {
         "image": "11.jpg",
