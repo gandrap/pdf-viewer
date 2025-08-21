@@ -337,7 +337,19 @@
         "video": [],
         "width": 1200,
         "height": 2118,
-        "html_elements": []
+        "html_elements": [
+          {
+            "css": {
+              "left": "530px",
+              "top": "73px",
+              "width": "600px",
+              "height": "431px",
+              "position": "absolute",
+              "background": "url(/pdf/99.gif) no-repeat ",
+              "backgroundSize": "contain"
+            }
+          }
+        ]
     },
     {
         "image": "8.jpg",
@@ -367,9 +379,9 @@
         "html_elements": [
             {
                 "css": {
-                    "left": "479px",
-                    "top": "87px",
-                    "width": "613px",
+                    "left": "519px",
+                    "top": "80px",
+                    "width": "630px",
                     "height": "370px",
                     "position": "absolute",
                     "background": "url(/pdf/299.gif) no-repeat ",
@@ -455,14 +467,38 @@
         "video": [],
         "width": 1200,
         "height": 2118,
-        "html_elements": []
+        "html_elements": [
+          {
+            "css": {
+              "left": "70px",
+              "top": "80px",
+              "width": "640px",
+              "height": "470px",
+              "position": "absolute",
+              "background": "url(/pdf/najbolja-cena.gif) no-repeat ",
+              "backgroundSize": "contain"
+            }
+          }
+        ]
     },
     {
         "image": "15.jpg",
         "video": [],
         "width": 1200,
         "height": 2118,
-        "html_elements": []
+        "html_elements": [
+          {
+            "css": {
+              "left": "460px",
+              "top": "100px",
+              "width": "640px",
+              "height": "470px",
+              "position": "absolute",
+              "background": "url(/pdf/najbolja-cena.gif) no-repeat ",
+              "backgroundSize": "contain"
+            }
+          }
+        ]
     },
     {
         "image": "16.jpg",
