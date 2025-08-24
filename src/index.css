@@ -93,6 +93,9 @@ body {
     position: relative; /* Ensure absolute positioning works relative to this container */
     scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
+  /* Position arrows in the 5% side gutters when swiper is 90% width */
+  .swiper-button-prev { left: calc(5% - 66px); }
+  .swiper-button-next { right: calc(5% - 66px); }
 }
 
 
@@ -193,7 +196,7 @@ body {
 
 .header {
   width: 100%;
-  padding: 10px;
+  padding: 10px 60px;
   display: flex;
   align-items: center;
 }
@@ -210,6 +213,12 @@ body {
   font-weight: bold;
 }
 
+/* Place the download button to the far right, opposite the logo */
+.downloadCatalogBtn {
+  margin-left: auto;
+  display: inline-block;
+}
+
 .swiperMainHolder {
   display: flex;
   align-items: center; /* Vertikalno centriranje */
@@ -218,6 +227,7 @@ body {
   max-width: 100%;
   overflow: hidden;
   position: relative; /* Ensure absolute positioning works relative to this container */
+    background: #f6f6f6;
 }
 
 .swiper.zoomed {
@@ -240,25 +250,53 @@ body {
   cursor: grabbing;
 }
 
-/* Ensure navigation buttons are visible and clickable when zoomed */
+/* Ensure navigation buttons are visible and clickable and positioned relative to the slider */
 .swiper-button-next, .swiper-button-prev {
   z-index: 1010; /* Higher than the zoomed swiper (1000) */
-  position: fixed; /* Fixed position to stay visible when zoomed */
-  width: 44px;
-  height: 44px;
-  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute; /* Position relative to .swiper container */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 132px;
+  height: 132px;
+  /* Remove white circular background; color now paints the arrow via mask */
+  background-color: #BFBFBF; /* default arrow color */
   border-radius: 50%;
-  transition: background-color 0.3s;
+  transition: background-color 0.4s, transform 0.35s; /* animate color and nudge (slower) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-image: none; /* ensure no background image interferes */
+  /* Center the masked arrow and size it */
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 72px 72px;
+  mask-size: 72px 72px;
+}
+
+/* Use SVG masks for slider arrows to allow color control */
+.swiper-button-prev { -webkit-mask-image: url('../src/assets/images/leftArrow.svg'); mask-image: url('../src/assets/images/leftArrow.svg'); }
+.swiper-button-next { -webkit-mask-image: url('../src/assets/images/rightArrow.svg'); mask-image: url('../src/assets/images/rightArrow.svg'); }
+
+.swiper-button-prev {
+    left: calc(18% - 66px);
+}
+
+.swiper-button-next {
+    right: calc(18% - 66px);
 }
 
 .swiper-button-next:hover, .swiper-button-prev:hover {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #62bb46; /* arrow turns green on hover */
 }
+/* Subtle horizontal nudge on hover */
+.swiper-button-prev:hover { transform: translate(-5px, -50%); }
+.swiper-button-next:hover { transform: translate(5px, -50%); }
 
 .swiper-button-next:after, .swiper-button-prev:after {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
+  content: '';
 }
 
 .popupMask {
@@ -387,6 +425,10 @@ body {
     scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
 
+  /* Position arrows in the 2.5% side gutters when swiper is 95% width */
+  .swiper-button-prev { left: calc(2.5% - 66px); }
+  .swiper-button-next { right: calc(2.5% - 66px); }
+
   .swiperMainHolder {
     height: calc(100% - var(--header-height)) !important;
   }
@@ -410,6 +452,10 @@ body {
     scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
 
+  /* Position arrows in the 2.5% side gutters when swiper is 95% width */
+  .swiper-button-prev { left: calc(2.5% - 66px); }
+  .swiper-button-next { right: calc(2.5% - 66px); }
+
   .popup {
     width: 90%;
   }
@@ -423,6 +469,10 @@ body {
     position: relative; /* Ensure absolute positioning works relative to this container */
     scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
+
+  /* No side gutters on mobile; keep arrows near edges */
+  .swiper-button-prev { left: 8px; }
+  .swiper-button-next { right: 8px; }
 
   .swiper-slide {
     height: auto !important; /* Force auto height for slides on mobile */

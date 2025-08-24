@@ -966,8 +966,9 @@ function MobileL({windowSize, device}) {
             </div>
             <div className="mainHolder">
                 <div className="header">
-                    <img className="logo" src={require('./assets/images/logo.jpg')} alt="Logo" />
+                    <img className="logo" src="/logo.png" alt="Logo" />
                     <span className="device-info">{device}</span>
+                    <a href="/katalog.pdf" className="downloadCatalogBtn" aria-label="Preuzmi katalog" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', width: '191px', height: '43px', backgroundImage: 'url(/download.svg)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: '100% 100%' }}></a>
                 </div>
                 <div style={getStyle(pages[0])} className="swiperMainHolder"
                 >
@@ -1137,28 +1138,29 @@ function MobileL({windowSize, device}) {
 
                             <div className="swiper-pagination"></div>
 
-                            <div 
-                                className="swiper-button-prev" 
-                                onClick={(e) => {
-                                    e.stopPropagation(); // Prevent zoom toggle
-                                    if (swiperRef.current) {
-                                        swiperRef.current.slidePrev();
-                                    }
-                                }}
-                            ></div>
-                            <div 
-                                className="swiper-button-next" 
-                                onClick={(e) => {
-                                    e.stopPropagation(); // Prevent zoom toggle
-                                    if (swiperRef.current) {
-                                        swiperRef.current.slideNext();
-                                    }
-                                }}
-                            ></div>
 
 
                             <div className="swiper-scrollbar"></div>
                         </div>
+
+                        <div 
+                            className="swiper-button-prev" 
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevent zoom toggle
+                                if (swiperRef.current) {
+                                    swiperRef.current.slidePrev();
+                                }
+                            }}
+                        ></div>
+                        <div 
+                            className="swiper-button-next" 
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevent zoom toggle
+                                if (swiperRef.current) {
+                                    swiperRef.current.slideNext();
+                                }
+                            }}
+                        ></div>
 
                 </div>
             </div>

@@ -450,7 +450,19 @@
         "video": [],
         "width": 1200,
         "height": 2118,
-        "html_elements": []
+        "html_elements": [
+          {
+            "css": {
+              "left": "210px",
+              "top": "250px",
+              "width": "500px",
+              "height": "550px",
+              "position": "absolute",
+              "background": "url(/pdf/smile.gif) no-repeat ",
+              "backgroundSize": "contain"
+            }
+          }
+        ]
     },
     {
         "image": "12.jpg",
