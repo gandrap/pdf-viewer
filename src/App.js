@@ -967,8 +967,7 @@ function MobileL({windowSize, device}) {
             <div className="mainHolder">
                 <div className="header">
                     <img className="logo" src="/logo.png" alt="Logo" />
-                    <span className="device-info">{device}</span>
-                    <a href="/katalog.pdf" className="downloadCatalogBtn" aria-label="Preuzmi katalog" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', width: '191px', height: '43px', backgroundImage: 'url(/download.svg)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: '100% 100%' }}></a>
+                    <a href="/katalog.pdf" className="downloadCatalogBtn" aria-label="Preuzmi katalog" target="_blank" rel="noopener noreferrer" style={{ backgroundImage: 'url(/download.svg)' }}></a>
                 </div>
                 <div style={getStyle(pages[0])} className="swiperMainHolder"
                 >

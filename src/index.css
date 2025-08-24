@@ -22,6 +22,8 @@
   --header-height: 60px; /* Default value, will be updated dynamically */
 }
 
+:root { --logo-height: 40px; }
+
 html {
   margin: 0;
   padding: 0;
@@ -201,8 +203,8 @@ body {
   align-items: center;
 }
 
-.logo {
-  height: 40px;
+ .logo {
+  height: var(--logo-height);
   width: auto;
 }
 
@@ -217,6 +219,11 @@ body {
 .downloadCatalogBtn {
   margin-left: auto;
   display: inline-block;
+  height: var(--logo-height);
+  aspect-ratio: 191 / 43;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
 }
 
 .swiperMainHolder {
@@ -470,9 +477,10 @@ body {
     scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
   }
 
-  /* No side gutters on mobile; keep arrows near edges */
-  .swiper-button-prev { left: 8px; }
-  .swiper-button-next { right: 8px; }
+  /* Hide slider arrows on mobile */
+  .swiper-button-prev, .swiper-button-next { display: none !important; }
+
+  .header { padding: 10px; --logo-height: 20px; }
 
   .swiper-slide {
     height: auto !important; /* Force auto height for slides on mobile */
