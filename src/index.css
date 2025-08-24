@@ -22,7 +22,7 @@
   --header-height: 60px; /* Default value, will be updated dynamically */
 }
 
-:root { --logo-height: 40px; }
+:root { --logo-height: 48px; }
 
 html {
   margin: 0;
@@ -480,7 +480,7 @@ body {
   /* Hide slider arrows on mobile */
   .swiper-button-prev, .swiper-button-next { display: none !important; }
 
-  .header { padding: 10px; --logo-height: 20px; }
+  .header { padding: 10px; --logo-height: 24px; }
 
   .swiper-slide {
     height: auto !important; /* Force auto height for slides on mobile */
