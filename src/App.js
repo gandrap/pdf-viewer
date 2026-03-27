@@ -210,6 +210,14 @@ function MobileL({windowSize, device}) {
                 const dragDistanceX = Math.abs(e.touches[0].clientX - dragStartX);
                 const dragDistanceY = Math.abs(e.touches[0].clientY - dragStartY);
 
+                // On mobile and when not zoomed, prevent vertical panning of the slider
+                const isMobileWidth = window.innerWidth <= 425;
+                const isZoomedNow = swiperContainer.classList.contains('zoomed');
+                if (isMobileWidth && !isZoomedNow && dragDistanceY > dragDistanceX) {
+                    // Block vertical movement to keep slider fixed vertically
+                    if (typeof e.preventDefault === 'function') e.preventDefault();
+                }
+
                 // Consider it a drag if the touch has moved enough
                 if (dragDistanceX > dragThreshold || dragDistanceY > dragThreshold) {
                     console.log('Touch drag detected, distances:', { dragDistanceX, dragDistanceY });

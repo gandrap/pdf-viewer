@@ -59,6 +59,8 @@ body {
   overflow: hidden; /* Keep overflow hidden on the container */
   position: relative; /* Ensure absolute positioning works relative to this container */
   scroll-snap-type: x mandatory; /* Enable horizontal snap points for CSS Mode */
+  /* Restrict vertical panning by default; allow only horizontal gestures when not zoomed */
+  touch-action: pan-x;
 }
 
 .swiper-wrapper {
@@ -251,6 +253,8 @@ body {
   max-height: 100%;
   width: 100%; /* Ensure it takes full width of parent */
   height: 100%; /* Ensure it takes full height of parent */
+  /* In zoom mode, let custom drag control pan; disable browser default gesture handling */
+  touch-action: none;
 }
 
 .swiper.zoomed:active {
